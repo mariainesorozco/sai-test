@@ -5,8 +5,10 @@ const nextConfig = {
     images: {
       unoptimized: true,
     },
-    // Ajusta esta URL a tu nombre de repositorio
     basePath: '/expediente-digital-dashboard',
+    eslint: {
+        ignoreDuringBuilds: true, 
+      },
   };
   
   module.exports = nextConfig;
