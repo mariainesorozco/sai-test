@@ -45,12 +45,6 @@ const DatosLaboralesContent = () => {
               <InfoItem icon={Briefcase} label="Puesto" value="Nombre del puesto" />
               <InfoItem icon={Clock} label="Horario" value="Tiempo Completo/Medio Tiempo/etc." />
               <InfoItem icon={Database} label="Categoría tabulador" value="Nivel correspondiente" />
-              
-              <div className="mt-4">
-                <h4 className="text-sm font-medium mb-2">Estructura Nominal</h4>
-                <Progress value={60} className="h-2 mt-2" />
-                <p className="text-xs text-muted-foreground mt-1">Actualización adscripción: 60% completado</p>
-              </div>
             </div>
           </CardContent>
         </Card>
