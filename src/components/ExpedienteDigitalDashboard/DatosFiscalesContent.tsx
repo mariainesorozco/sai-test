@@ -3,19 +3,19 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Database, Calendar, CreditCard, DollarSign } from 'lucide-react';
+import { Database, Calendar, CreditCard } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import InfoItem from './InfoItem';
 
 const DatosFiscalesContent = () => {
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-4 md:gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Datos Fiscales</h2>
+        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Datos Fiscales</h2>
         <Button size="sm">Editar</Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Información Fiscal</CardTitle>

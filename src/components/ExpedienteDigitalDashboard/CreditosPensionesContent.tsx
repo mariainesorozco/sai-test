@@ -10,45 +10,47 @@ import InfoItem from './InfoItem';
 
 const CreditosPensionesContent = () => {
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-4 md:gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Créditos y Pensiones</h2>
+        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Créditos y Pensiones</h2>
         <Button size="sm">Agregar</Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-1">
+      <div className="grid gap-4 md:gap-6 grid-cols-1">
         <Card>
           <CardHeader>
             <CardTitle>Créditos INFONAVIT</CardTitle>
             <CardDescription>Información de créditos vigentes con INFONAVIT</CardDescription>
           </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Número de crédito</TableHead>
-                  <TableHead>Importe</TableHead>
-                  <TableHead>Fecha inicio</TableHead>
-                  <TableHead>Fecha término</TableHead>
-                  <TableHead>Documento</TableHead>
-                  <TableHead>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="font-medium">0000000000</TableCell>
-                  <TableCell>$000,000.00</TableCell>
-                  <TableCell>01/01/2020</TableCell>
-                  <TableCell>01/01/2030</TableCell>
-                  <TableCell>
-                    <Button variant="ghost" size="sm">Ver</Button>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="ghost" size="sm">Editar</Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+          <CardContent className="overflow-auto">
+            <div className="min-w-[600px]">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Número de crédito</TableHead>
+                    <TableHead>Importe</TableHead>
+                    <TableHead>Fecha inicio</TableHead>
+                    <TableHead>Fecha término</TableHead>
+                    <TableHead>Documento</TableHead>
+                    <TableHead>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-medium">0000000000</TableCell>
+                    <TableCell>$000,000.00</TableCell>
+                    <TableCell>01/01/2020</TableCell>
+                    <TableCell>01/01/2030</TableCell>
+                    <TableCell>
+                      <Button variant="ghost" size="sm">Ver</Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="ghost" size="sm">Editar</Button>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
           <CardFooter className="justify-center">
             <Button variant="outline" size="sm">
@@ -62,26 +64,28 @@ const CreditosPensionesContent = () => {
             <CardTitle>Créditos FONACOT</CardTitle>
             <CardDescription>Información de créditos vigentes con FONACOT</CardDescription>
           </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Número de crédito</TableHead>
-                  <TableHead>Importe</TableHead>
-                  <TableHead>Fecha inicio</TableHead>
-                  <TableHead>Fecha término</TableHead>
-                  <TableHead>Documento</TableHead>
-                  <TableHead>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center py-4 text-muted-foreground">
-                    No hay créditos FONACOT registrados
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+          <CardContent className="overflow-auto">
+            <div className="min-w-[600px]">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Número de crédito</TableHead>
+                    <TableHead>Importe</TableHead>
+                    <TableHead>Fecha inicio</TableHead>
+                    <TableHead>Fecha término</TableHead>
+                    <TableHead>Documento</TableHead>
+                    <TableHead>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-4 text-muted-foreground">
+                      No hay créditos FONACOT registrados
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
           <CardFooter className="justify-center">
             <Button variant="outline" size="sm">
@@ -95,27 +99,29 @@ const CreditosPensionesContent = () => {
             <CardTitle>Pensiones Alimenticias</CardTitle>
             <CardDescription>Información de pensiones alimenticias registradas</CardDescription>
           </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Beneficiario</TableHead>
-                  <TableHead>Juzgado</TableHead>
-                  <TableHead>Número oficio</TableHead>
-                  <TableHead>Importe</TableHead>
-                  <TableHead>Periodo</TableHead>
-                  <TableHead>Documento</TableHead>
-                  <TableHead>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan={7} className="text-center py-4 text-muted-foreground">
-                    No hay pensiones alimenticias registradas
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+          <CardContent className="overflow-auto">
+            <div className="min-w-[700px]">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Beneficiario</TableHead>
+                    <TableHead>Juzgado</TableHead>
+                    <TableHead>Número oficio</TableHead>
+                    <TableHead>Importe</TableHead>
+                    <TableHead>Periodo</TableHead>
+                    <TableHead>Documento</TableHead>
+                    <TableHead>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-4 text-muted-foreground">
+                      No hay pensiones alimenticias registradas
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
           <CardFooter className="justify-center">
             <Button variant="outline" size="sm">
@@ -130,7 +136,7 @@ const CreditosPensionesContent = () => {
             <CardDescription>Información de afiliación sindical</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <InfoItem icon={Users} label="Sindicato" value="SETUAN/SPAUAN" />
                 <InfoItem icon={Calendar} label="Fecha de afiliación" value="DD/MM/AAAA" />

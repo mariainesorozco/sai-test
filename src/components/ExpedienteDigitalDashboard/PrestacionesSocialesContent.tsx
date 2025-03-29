@@ -10,13 +10,13 @@ import InfoItem from './InfoItem';
 
 const PrestacionesSocialesContent = () => {
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-4 md:gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Prestaciones Sociales</h2>
+        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Prestaciones Sociales</h2>
         <Button size="sm">Editar</Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Información Laboral UAN</CardTitle>
@@ -57,32 +57,34 @@ const PrestacionesSocialesContent = () => {
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-1">
+      <div className="grid gap-4 md:gap-6 grid-cols-1">
         <Card>
           <CardHeader>
             <CardTitle>Resoluciones por Invalidez</CardTitle>
             <CardDescription>Información de resoluciones por invalidez del IMSS</CardDescription>
           </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Tipo</TableHead>
-                  <TableHead>Fecha dictamen</TableHead>
-                  <TableHead>Folio</TableHead>
-                  <TableHead>Importe</TableHead>
-                  <TableHead>Período</TableHead>
-                  <TableHead>Documento</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan={6} className="text-center py-4 text-muted-foreground">
-                    No hay resoluciones por invalidez registradas
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+          <CardContent className="overflow-auto">
+            <div className="min-w-[600px]">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Tipo</TableHead>
+                    <TableHead>Fecha dictamen</TableHead>
+                    <TableHead>Folio</TableHead>
+                    <TableHead>Importe</TableHead>
+                    <TableHead>Período</TableHead>
+                    <TableHead>Documento</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-4 text-muted-foreground">
+                      No hay resoluciones por invalidez registradas
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
           <CardFooter className="justify-center">
             <Button variant="outline" size="sm">

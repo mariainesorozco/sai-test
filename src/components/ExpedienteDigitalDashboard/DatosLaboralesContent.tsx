@@ -11,14 +11,14 @@ import InfoItem from './InfoItem';
 
 const DatosLaboralesContent = () => {
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-4 md:gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Datos Laborales</h2>
+        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Datos Laborales</h2>
         <Button size="sm">Editar</Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
+      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="col-span-1">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Información Básica</CardTitle>
           </CardHeader>
@@ -35,7 +35,7 @@ const DatosLaboralesContent = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="col-span-1">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Adscripción y Puesto</CardTitle>
           </CardHeader>
@@ -55,7 +55,7 @@ const DatosLaboralesContent = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="col-span-1">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Datos para pago</CardTitle>
           </CardHeader>
@@ -68,35 +68,37 @@ const DatosLaboralesContent = () => {
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2 lg:col-span-3">
+        <Card className="col-span-1 md:col-span-3">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Historial de Plazas</CardTitle>
           </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Plaza</TableHead>
-                  <TableHead>Puesto</TableHead>
-                  <TableHead>Adscripción</TableHead>
-                  <TableHead>Tipo</TableHead>
-                  <TableHead>Período</TableHead>
-                  <TableHead>Estatus</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="font-medium">00000</TableCell>
-                  <TableCell>Nombre del puesto</TableCell>
-                  <TableCell>Nombre de la adscripción</TableCell>
-                  <TableCell>Administrativo</TableCell>
-                  <TableCell>01/01/2020 - Actual</TableCell>
-                  <TableCell>
-                    <Badge className="bg-green-500">Activo</Badge>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+          <CardContent className="overflow-auto">
+            <div className="min-w-[600px]">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Plaza</TableHead>
+                    <TableHead>Puesto</TableHead>
+                    <TableHead>Adscripción</TableHead>
+                    <TableHead>Tipo</TableHead>
+                    <TableHead>Período</TableHead>
+                    <TableHead>Estatus</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-medium">00000</TableCell>
+                    <TableCell>Nombre del puesto</TableCell>
+                    <TableCell>Nombre de la adscripción</TableCell>
+                    <TableCell>Administrativo</TableCell>
+                    <TableCell>01/01/2020 - Actual</TableCell>
+                    <TableCell>
+                      <Badge className="bg-green-500">Activo</Badge>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       </div>

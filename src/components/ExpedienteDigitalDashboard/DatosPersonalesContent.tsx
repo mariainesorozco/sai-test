@@ -11,32 +11,32 @@ import InfoItem from './InfoItem';
 
 const DatosPersonalesContent = () => {
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-4 md:gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Datos Personales</h2>
+        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Datos Personales</h2>
         <Button size="sm">Editar</Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
+      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="col-span-1">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Información Básica</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col space-y-4">
               <div className="flex justify-center mb-2">
-                <Avatar className="h-24 w-24">
+                <Avatar className="h-20 w-20 md:h-24 md:w-24">
                   <AvatarImage src="/api/placeholder/180/180" alt="Foto empleado" />
                   <AvatarFallback className="text-lg">ET</AvatarFallback>
                 </Avatar>
               </div>
               <InfoItem icon={User} label="Nombre completo" value="Apellido Paterno Apellido Materno Nombre(s)" />
               <InfoItem icon={Calendar} label="Fecha de nacimiento" value="DD/MM/AAAA" />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InfoItem icon={Database} label="RFC" value="XXXX000000XXX" />
                 <InfoItem icon={Database} label="CURP" value="XXXX000000XXXXXX00" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InfoItem icon={Database} label="NSS" value="00000000000" />
                 <InfoItem icon={Shield} label="Sexo" value="H/M" />
               </div>
@@ -44,7 +44,7 @@ const DatosPersonalesContent = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="col-span-1">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Contacto</CardTitle>
           </CardHeader>
@@ -58,7 +58,7 @@ const DatosPersonalesContent = () => {
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2 lg:col-span-1">
+        <Card className="col-span-1 md:col-span-2 lg:col-span-1">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Domicilios</CardTitle>
           </CardHeader>
@@ -81,15 +81,15 @@ const DatosPersonalesContent = () => {
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2 lg:col-span-3">
+        <Card className="col-span-1 md:col-span-2 lg:col-span-3">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Experiencia Laboral</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Empresa/Institución</TableHead>
+                  <TableHead className="w-[180px]">Empresa/Institución</TableHead>
                   <TableHead>Sector</TableHead>
                   <TableHead>Puesto</TableHead>
                   <TableHead>Período</TableHead>

@@ -10,13 +10,13 @@ import InfoItem from './InfoItem';
 
 const SeguridadSocialContent = () => {
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-4 md:gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Seguridad Social</h2>
+        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Seguridad Social</h2>
         <Button size="sm">Editar</Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Información del IMSS</CardTitle>
@@ -50,7 +50,7 @@ const SeguridadSocialContent = () => {
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-1">
+      <div className="grid gap-4 md:gap-6 grid-cols-1">
         <Card>
           <CardHeader>
             <CardTitle>Servicio Médico Universitario</CardTitle>
