@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
   Sheet,
   SheetContent,
   SheetTrigger,
-  SheetTitle
+  SheetTitle,
+  SheetClose
 } from '@/components/ui/sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
@@ -18,9 +19,11 @@ import {
   CreditCard, 
   Heart, 
   LifeBuoy, 
-  Menu
+  Menu,
+  ChevronLeft
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 // Importa los componentes de contenido
 import DatosPersonalesContent from './DatosPersonalesContent';
@@ -32,37 +35,108 @@ import SeguridadSocialContent from './SeguridadSocialContent';
 import PrestacionesSocialesContent from './PrestacionesSocialesContent';
 import CreditosPensionesContent from './CreditosPensionesContent';
 
+// Definición de tipos para las secciones
+type SectionType = {
+  id: string;
+  label: string;
+  icon: React.ElementType;
+  component: React.ReactNode;
+};
+
 const ExpedienteDigitalDashboard = () => {
   const [activeTab, setActiveTab] = useState('datos-personales');
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Detectar si el usuario está en un dispositivo móvil
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Verificar al cargar y cuando cambia el tamaño de la ventana
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
+    };
+  }, []);
 
-  // Función para renderizar el contenido según la pestaña activa
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'datos-personales':
-        return <DatosPersonalesContent />;
-      case 'datos-laborales':
-        return <DatosLaboralesContent />;
-      case 'datos-fiscales':
-        return <DatosFiscalesContent />;
-      case 'formacion-academica':
-        return <FormacionAcademicaContent />;
-      case 'datos-familiares':
-        return <DatosFamiliaresContent />;
-      case 'seguridad-social':
-        return <SeguridadSocialContent />;
-      case 'prestaciones-sociales':
-        return <PrestacionesSocialesContent />;
-      case 'creditos-pensiones':
-        return <CreditosPensionesContent />;
-      default:
-        return <div className="p-4">Seleccione una sección</div>;
+  // Definir todas las secciones disponibles
+  const sections: SectionType[] = [
+    {
+      id: 'datos-personales',
+      label: 'Datos Personales',
+      icon: User,
+      component: <DatosPersonalesContent />
+    },
+    {
+      id: 'datos-laborales',
+      label: 'Datos Laborales',
+      icon: Briefcase,
+      component: <DatosLaboralesContent />
+    },
+    {
+      id: 'datos-fiscales',
+      label: 'Datos Fiscales',
+      icon: FileText,
+      component: <DatosFiscalesContent />
+    },
+    {
+      id: 'formacion-academica',
+      label: 'Formación Académica',
+      icon: GraduationCap,
+      component: <FormacionAcademicaContent />
+    },
+    {
+      id: 'datos-familiares',
+      label: 'Datos Familiares',
+      icon: Users,
+      component: <DatosFamiliaresContent />
+    },
+    {
+      id: 'seguridad-social',
+      label: 'Seguridad Social',
+      icon: LifeBuoy,
+      component: <SeguridadSocialContent />
+    },
+    {
+      id: 'prestaciones-sociales',
+      label: 'Prestaciones Sociales',
+      icon: Heart,
+      component: <PrestacionesSocialesContent />
+    },
+    {
+      id: 'creditos-pensiones',
+      label: 'Créditos y Pensiones',
+      icon: CreditCard,
+      component: <CreditosPensionesContent />
     }
-  };
+  ];
+
+  // Encontrar la sección activa
+  const activeSection = sections.find(section => section.id === activeTab) || sections[0];
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     setIsOpen(false); // Cierra el menú móvil al seleccionar una opción
+  };
+
+  // Función para navegar a la sección anterior (solo en móvil)
+  const handlePrevSection = () => {
+    const currentIndex = sections.findIndex(section => section.id === activeTab);
+    if (currentIndex > 0) {
+      setActiveTab(sections[currentIndex - 1].id);
+    }
+  };
+
+  // Función para navegar a la sección siguiente (solo en móvil)
+  const handleNextSection = () => {
+    const currentIndex = sections.findIndex(section => section.id === activeTab);
+    if (currentIndex < sections.length - 1) {
+      setActiveTab(sections[currentIndex + 1].id);
+    }
   };
 
   return (
@@ -75,54 +149,15 @@ const ExpedienteDigitalDashboard = () => {
         <nav className="flex-1 overflow-auto py-2">
           <div className="px-3 py-2">
             <h3 className="mb-2 text-xs font-medium text-muted-foreground">INFORMACIÓN</h3>
-            <SidebarItem
-              icon={User}
-              label="Datos Personales"
-              active={activeTab === 'datos-personales'}
-              onClick={() => handleTabChange('datos-personales')}
-            />
-            <SidebarItem
-              icon={Briefcase}
-              label="Datos Laborales"
-              active={activeTab === 'datos-laborales'}
-              onClick={() => handleTabChange('datos-laborales')}
-            />
-            <SidebarItem
-              icon={FileText}
-              label="Datos Fiscales"
-              active={activeTab === 'datos-fiscales'}
-              onClick={() => handleTabChange('datos-fiscales')}
-            />
-            <SidebarItem
-              icon={GraduationCap}
-              label="Formación Académica"
-              active={activeTab === 'formacion-academica'}
-              onClick={() => handleTabChange('formacion-academica')}
-            />
-            <SidebarItem
-              icon={Users}
-              label="Datos Familiares"
-              active={activeTab === 'datos-familiares'}
-              onClick={() => handleTabChange('datos-familiares')}
-            />
-            <SidebarItem
-              icon={LifeBuoy}
-              label="Seguridad Social"
-              active={activeTab === 'seguridad-social'}
-              onClick={() => handleTabChange('seguridad-social')}
-            />
-            <SidebarItem
-              icon={Heart}
-              label="Prestaciones Sociales"
-              active={activeTab === 'prestaciones-sociales'}
-              onClick={() => handleTabChange('prestaciones-sociales')}
-            />
-            <SidebarItem
-              icon={CreditCard}
-              label="Créditos y Pensiones"
-              active={activeTab === 'creditos-pensiones'}
-              onClick={() => handleTabChange('creditos-pensiones')}
-            />
+            {sections.map(section => (
+              <SidebarItem
+                key={section.id}
+                icon={section.icon}
+                label={section.label}
+                active={activeTab === section.id}
+                onClick={() => handleTabChange(section.id)}
+              />
+            ))}
           </div>
         </nav>
         <div className="mt-auto p-4 border-t">
@@ -151,7 +186,7 @@ const ExpedienteDigitalDashboard = () => {
                   <span className="sr-only">Menú</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[240px] sm:w-[300px] p-0">
+              <SheetContent side="left" className="w-[85vw] max-w-[300px] p-0">
                 <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
                 <div className="flex h-14 items-center border-b px-4">
                   <h2 className="text-lg font-semibold">Expediente Digital</h2>
@@ -159,54 +194,16 @@ const ExpedienteDigitalDashboard = () => {
                 <nav className="flex-1 overflow-auto py-2">
                   <div className="px-3 py-2">
                     <h3 className="mb-2 text-xs font-medium text-muted-foreground">INFORMACIÓN</h3>
-                    <SidebarItem
-                      icon={User}
-                      label="Datos Personales"
-                      active={activeTab === 'datos-personales'}
-                      onClick={() => handleTabChange('datos-personales')}
-                    />
-                    <SidebarItem
-                      icon={Briefcase}
-                      label="Datos Laborales"
-                      active={activeTab === 'datos-laborales'}
-                      onClick={() => handleTabChange('datos-laborales')}
-                    />
-                    <SidebarItem
-                      icon={FileText}
-                      label="Datos Fiscales"
-                      active={activeTab === 'datos-fiscales'}
-                      onClick={() => handleTabChange('datos-fiscales')}
-                    />
-                    <SidebarItem
-                      icon={GraduationCap}
-                      label="Formación Académica"
-                      active={activeTab === 'formacion-academica'}
-                      onClick={() => handleTabChange('formacion-academica')}
-                    />
-                    <SidebarItem
-                      icon={Users}
-                      label="Datos Familiares"
-                      active={activeTab === 'datos-familiares'}
-                      onClick={() => handleTabChange('datos-familiares')}
-                    />
-                    <SidebarItem
-                      icon={LifeBuoy}
-                      label="Seguridad Social"
-                      active={activeTab === 'seguridad-social'}
-                      onClick={() => handleTabChange('seguridad-social')}
-                    />
-                    <SidebarItem
-                      icon={Heart}
-                      label="Prestaciones Sociales"
-                      active={activeTab === 'prestaciones-sociales'}
-                      onClick={() => handleTabChange('prestaciones-sociales')}
-                    />
-                    <SidebarItem
-                      icon={CreditCard}
-                      label="Créditos y Pensiones"
-                      active={activeTab === 'creditos-pensiones'}
-                      onClick={() => handleTabChange('creditos-pensiones')}
-                    />
+                    {sections.map(section => (
+                      <SheetClose key={section.id} asChild>
+                        <SidebarItem
+                          icon={section.icon}
+                          label={section.label}
+                          active={activeTab === section.id}
+                          onClick={() => handleTabChange(section.id)}
+                        />
+                      </SheetClose>
+                    ))}
                   </div>
                 </nav>
                 <div className="mt-auto p-4 border-t">
@@ -242,22 +239,70 @@ const ExpedienteDigitalDashboard = () => {
         </header>
 
         <main className="flex-1 overflow-auto p-2 sm:p-4 md:p-6">
-          {/* Título móvil para la sección actual */}
+          {/* Header para la sección actual en móvil */}
           <div className="md:hidden mb-4">
-            <h2 className="text-xl font-bold tracking-tight">
-              {activeTab === 'datos-personales' && 'Datos Personales'}
-              {activeTab === 'datos-laborales' && 'Datos Laborales'}
-              {activeTab === 'datos-fiscales' && 'Datos Fiscales'}
-              {activeTab === 'formacion-academica' && 'Formación Académica'}
-              {activeTab === 'datos-familiares' && 'Datos Familiares'}
-              {activeTab === 'seguridad-social' && 'Seguridad Social'}
-              {activeTab === 'prestaciones-sociales' && 'Prestaciones Sociales'}
-              {activeTab === 'creditos-pensiones' && 'Créditos y Pensiones'}
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold tracking-tight">
+                {activeSection.label}
+              </h2>
+            </div>
+            
+            {/* Navegación entre secciones para móvil */}
+            <div className="flex items-center justify-between mt-2">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={handlePrevSection}
+                disabled={sections.findIndex(s => s.id === activeTab) === 0}
+              >
+                <ChevronLeft className="h-4 w-4 mr-1" />
+                Anterior
+              </Button>
+              
+              <div className="text-sm text-muted-foreground">
+                {sections.findIndex(s => s.id === activeTab) + 1} / {sections.length}
+              </div>
+              
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={handleNextSection}
+                disabled={sections.findIndex(s => s.id === activeTab) === sections.length - 1}
+              >
+                Siguiente
+                <ChevronLeft className="h-4 w-4 ml-1 rotate-180" />
+              </Button>
+            </div>
+            
+            <Separator className="my-2" />
           </div>
           
           {/* Contenido de la sección activa */}
-          {renderContent()}
+          {activeSection.component}
+          
+          {/* Navegación entre páginas para móvil (floating - barra de iconos) */}
+          {isMobile && (
+            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-background border rounded-lg shadow-lg p-1.5 flex items-center space-x-1 z-10 overflow-x-auto max-w-[92vw]">
+              {sections.map((section) => {
+                const SectionIcon = section.icon;
+                return (
+                  <Button
+                    key={section.id}
+                    variant={activeTab === section.id ? "default" : "ghost"}
+                    size="sm"
+                    className={`min-w-9 h-9 p-0 rounded-md relative ${activeTab === section.id ? 'bg-primary' : ''}`}
+                    onClick={() => handleTabChange(section.id)}
+                    title={section.label}
+                  >
+                    <SectionIcon className={`h-4 w-4 ${activeTab === section.id ? 'text-primary-foreground' : ''}`} />
+                    {activeTab === section.id && (
+                      <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full bg-primary-foreground" />
+                    )}
+                  </Button>
+                );
+              })}
+            </div>
+          )}
         </main>
       </div>
     </div>
