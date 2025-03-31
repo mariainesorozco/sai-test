@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, Calendar, Database, Shield, Mail, Phone, MapPin, Plus } from 'lucide-react';
+import { User, Calendar, Database, Shield, Mail, Phone, MapPin, Plus, FileText, Heart, Globe } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 import InfoItem from './InfoItem';
 import {
   Dialog,
@@ -26,10 +27,47 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ExperienciaLaboralContent from './ExperienciaLaboralContent';
 
+// Componente para previsualizar documentos
+const DocumentPreview = ({ 
+  title, 
+  documentUrl,
+  onClose 
+}: { 
+  title: string; 
+  documentUrl: string;
+  onClose: () => void;
+}) => {
+  return (
+    <Dialog open={true} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl h-[85vh]">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
+        <div className="flex-1 overflow-auto">
+          <iframe
+            src={documentUrl}
+            className="w-full h-[calc(85vh-120px)]"
+            frameBorder="0"
+          />
+        </div>
+        <DialogFooter>
+          <Button onClick={onClose}>Cerrar</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 const DatosPersonalesContent = () => {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("informacion-basica");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date("1980-01-01"));
+  const [defuncionDate, setDefuncionDate] = useState<Date | undefined>(undefined);
+  const [showDocumentPreview, setShowDocumentPreview] = useState<{show: boolean, url: string, title: string}>({
+    show: false,
+    url: "",
+    title: ""
+  });
   
   // Estados para los datos del formulario (inicializados con datos de ejemplo)
   const [formData, setFormData] = useState({
@@ -41,6 +79,16 @@ const DatosPersonalesContent = () => {
     curp: "XXXX000000XXXXXX00",
     nss: "00000000000",
     sexo: "H",
+    estadoCivil: "SOLTERO",
+    paisNacimiento: "México",
+    estadoNacimiento: "Nayarit",
+    municipioNacimiento: "Tepic",
+    localidadNacimiento: "Tepic",
+    numeroActaNacimiento: "",
+    numeroActaDefuncion: "",
+    fallecido: false,
+    tieneActaNacimiento: false,
+    tieneActaDefuncion: false,
     
     // Contacto
     email: "correo@ejemplo.com",
@@ -74,6 +122,15 @@ const DatosPersonalesContent = () => {
     }));
   };
   
+  // Función para manejar cambios en los checkbox
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: checked
+    }));
+  };
+  
   // Función para manejar cambios en los selects
   const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({
@@ -87,6 +144,27 @@ const DatosPersonalesContent = () => {
     // Aquí iría la lógica para guardar los cambios en la base de datos
     console.log("Datos guardados:", formData);
     setOpen(false);
+  };
+
+  // Función para simular visualización de documentos
+  const handleViewDocument = (docType: string) => {
+    // En un escenario real, esta URL provendría de la API o del estado
+    const mockUrl = "/api/documents/preview/sample.pdf";
+    
+    setShowDocumentPreview({
+      show: true,
+      url: mockUrl,
+      title: docType === "nacimiento" ? "Acta de Nacimiento" : "Acta de Defunción"
+    });
+  };
+
+  // Función para cerrar la previsualización de documentos
+  const handleCloseDocumentPreview = () => {
+    setShowDocumentPreview({
+      show: false,
+      url: "",
+      title: ""
+    });
   };
   
   return (
@@ -148,26 +226,171 @@ const DatosPersonalesContent = () => {
                     />
                   </div>
                   <div className="space-y-2">
+                    <Label htmlFor="estadoCivil">Estado Civil</Label>
+                    <Select 
+                      value={formData.estadoCivil}
+                      onValueChange={(value: string) => handleSelectChange("estadoCivil", value)}
+                    >
+                      <SelectTrigger id="estadoCivil">
+                        <SelectValue placeholder="Seleccione" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="SOLTERO">Soltero(a)</SelectItem>
+                        <SelectItem value="CASADO">Casado(a)</SelectItem>
+                        <SelectItem value="DIVORCIADO">Divorciado(a)</SelectItem>
+                        <SelectItem value="VIUDO">Viudo(a)</SelectItem>
+                        <SelectItem value="UNION_LIBRE">Unión Libre</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
                     <Label htmlFor="fechaNacimiento">Fecha de Nacimiento</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className="w-full justify-start text-left font-normal"
-                        >
-                          <Calendar className="mr-2 h-4 w-4" />
-                          {selectedDate ? format(selectedDate, "dd/MM/yyyy") : "Seleccione una fecha"}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <CalendarComponent
-                          mode="single"
-                          selected={selectedDate}
-                          onSelect={setSelectedDate}
-                          initialFocus
+                    <Input 
+                      id="fechaNacimiento"
+                      type="date"
+                      value={selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""}
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          setSelectedDate(new Date(e.target.value));
+                        }
+                      }}
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="paisNacimiento">País de Nacimiento</Label>
+                    <Input 
+                      id="paisNacimiento" 
+                      name="paisNacimiento" 
+                      value={formData.paisNacimiento} 
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="estadoNacimiento">Estado de Nacimiento</Label>
+                    <Input 
+                      id="estadoNacimiento" 
+                      name="estadoNacimiento" 
+                      value={formData.estadoNacimiento} 
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="municipioNacimiento">Municipio de Nacimiento</Label>
+                    <Input 
+                      id="municipioNacimiento" 
+                      name="municipioNacimiento" 
+                      value={formData.municipioNacimiento} 
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="localidadNacimiento">Localidad de Nacimiento</Label>
+                    <Input 
+                      id="localidadNacimiento" 
+                      name="localidadNacimiento" 
+                      value={formData.localidadNacimiento} 
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="numeroActaNacimiento">Número de Acta Nacimiento</Label>
+                    <Input 
+                      id="numeroActaNacimiento" 
+                      name="numeroActaNacimiento" 
+                      value={formData.numeroActaNacimiento} 
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="space-y-2 flex items-center">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="tieneActaNacimiento"
+                        name="tieneActaNacimiento"
+                        checked={formData.tieneActaNacimiento}
+                        onChange={handleCheckboxChange}
+                        className="h-4 w-4"
+                      />
+                      <Label htmlFor="tieneActaNacimiento">Documento Acta de Nacimiento</Label>
+                    </div>
+                    <div className="ml-auto">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        disabled={!formData.tieneActaNacimiento}
+                      >
+                        Cargar Acta
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="col-span-2">
+                    <Separator className="my-4" />
+                    <div className="flex items-center space-x-2 mb-4">
+                      <input
+                        type="checkbox"
+                        id="fallecido"
+                        name="fallecido"
+                        checked={formData.fallecido}
+                        onChange={handleCheckboxChange}
+                        className="h-4 w-4"
+                      />
+                      <Label htmlFor="fallecido">Registrar defunción</Label>
+                    </div>
+                  </div>
+                  {formData.fallecido && (
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="fechaDefuncion">Fecha de Defunción</Label>
+                        <Input 
+                          id="fechaDefuncion"
+                          type="date"
+                          value={defuncionDate ? format(defuncionDate, "yyyy-MM-dd") : ""}
+                          onChange={(e) => {
+                            if (e.target.value) {
+                              setDefuncionDate(new Date(e.target.value));
+                            }
+                          }}
+                          className="w-full"
                         />
-                      </PopoverContent>
-                    </Popover>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="numeroActaDefuncion">Número de Acta Defunción</Label>
+                        <Input 
+                          id="numeroActaDefuncion" 
+                          name="numeroActaDefuncion" 
+                          value={formData.numeroActaDefuncion} 
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="space-y-2 flex items-center">
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            id="tieneActaDefuncion"
+                            name="tieneActaDefuncion"
+                            checked={formData.tieneActaDefuncion}
+                            onChange={handleCheckboxChange}
+                            className="h-4 w-4"
+                          />
+                          <Label htmlFor="tieneActaDefuncion">Documento Acta de Defunción</Label>
+                        </div>
+                        <div className="ml-auto">
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            size="sm"
+                            disabled={!formData.tieneActaDefuncion}
+                          >
+                            Cargar Acta
+                          </Button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  <div className="col-span-2">
+                    <Separator className="my-4" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="rfc">RFC</Label>
@@ -424,10 +647,69 @@ const DatosPersonalesContent = () => {
                 value={`${formData.apellidoPaterno} ${formData.apellidoMaterno} ${formData.nombres}`} 
               />
               <InfoItem 
+                icon={Heart} 
+                label="Estado civil" 
+                value={
+                  formData.estadoCivil === "SOLTERO" ? "Soltero(a)" :
+                  formData.estadoCivil === "CASADO" ? "Casado(a)" :
+                  formData.estadoCivil === "DIVORCIADO" ? "Divorciado(a)" :
+                  formData.estadoCivil === "VIUDO" ? "Viudo(a)" :
+                  "Unión Libre"
+                } 
+              />
+              <InfoItem 
                 icon={Calendar} 
                 label="Fecha de nacimiento" 
                 value={selectedDate ? format(selectedDate, "dd/MM/yyyy") : "No disponible"} 
               />
+              <InfoItem 
+                icon={Globe} 
+                label="Lugar de nacimiento" 
+                value={`${formData.localidadNacimiento}, ${formData.municipioNacimiento}, ${formData.estadoNacimiento}, ${formData.paisNacimiento}`} 
+              />
+              {formData.numeroActaNacimiento && (
+                <InfoItem 
+                  icon={FileText} 
+                  label="Acta de nacimiento" 
+                  value={formData.numeroActaNacimiento} 
+                />
+              )}
+              {formData.tieneActaNacimiento && (
+                <div className="flex items-center gap-2 mt-1">
+                  <Badge variant="outline" className="text-xs">Documento acta de nacimiento</Badge>
+                  <Button variant="ghost" size="sm" onClick={() => handleViewDocument("nacimiento")}>
+                    Ver
+                  </Button>
+                </div>
+              )}
+
+              {formData.fallecido && (
+                <>
+                  <Separator className="my-2" />
+                  <InfoItem 
+                    icon={Calendar} 
+                    label="Fecha de defunción" 
+                    value={defuncionDate ? format(defuncionDate, "dd/MM/yyyy") : "No disponible"} 
+                  />
+                  {formData.numeroActaDefuncion && (
+                    <InfoItem 
+                      icon={FileText} 
+                      label="Acta de defunción" 
+                      value={formData.numeroActaDefuncion} 
+                    />
+                  )}
+                  {formData.tieneActaDefuncion && (
+                    <div className="flex items-center gap-2 mt-1">
+                      <Badge variant="outline" className="text-xs">Documento acta de defunción</Badge>
+                      <Button variant="ghost" size="sm" onClick={() => handleViewDocument("defuncion")}>
+                        Ver
+                      </Button>
+                    </div>
+                  )}
+                </>
+              )}
+
+              <Separator className="my-2" />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InfoItem icon={Database} label="RFC" value={formData.rfc} />
                 <InfoItem icon={Database} label="CURP" value={formData.curp} />
@@ -502,6 +784,15 @@ const DatosPersonalesContent = () => {
             </CardContent>
         </Card>
       </div>
+
+      {/* Componente para previsualizar documentos */}
+      {showDocumentPreview.show && (
+        <DocumentPreview
+          title={showDocumentPreview.title}
+          documentUrl={showDocumentPreview.url}
+          onClose={handleCloseDocumentPreview}
+        />
+      )}
     </div>
   );
 };
