@@ -17,8 +17,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -253,42 +251,55 @@ const ExperienciaLaboralContent = () => {
               />
             </div>
             
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
                   <Label htmlFor="fechaInicio">Fecha de inicio</Label>
-                  <Input 
-                    id="fechaInicio"
-                    type="date"
-                    value={fechaInicio ? format(fechaInicio, "yyyy-MM-dd") : ""}
-                    onChange={(e) => {
-                      if (e.target.value) {
-                        setFechaInicio(new Date(e.target.value));
-                      }
-                    }}
-                    className="w-full"
-                  />
                 </div>
-                
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="fechaFin">Fecha de término</Label>
-                    <div className="flex items-center space-x-2">
-                    </div>
-                  </div>
-                  <Input 
-                    id="fechaFin"
-                    type="date"
-                    value={fechaFin && !trabajaActualmente ? format(fechaFin, "yyyy-MM-dd") : ""}
-                    onChange={(e) => {
-                      if (e.target.value) {
-                        setFechaFin(new Date(e.target.value));
-                      }
-                    }}
-                    disabled={trabajaActualmente}
-                    className="w-full"
-                  />
-                </div>
+                <Input 
+                  id="fechaInicio"
+                  type="date"
+                  value={fechaInicio ? format(fechaInicio, "yyyy-MM-dd") : ""}
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      setFechaInicio(new Date(e.target.value));
+                    }
+                  }}
+                  className="w-full"
+                />
               </div>
+              
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="fechaFin">Fecha de término</Label>
+                </div>
+                <Input 
+                  id="fechaFin"
+                  type="date"
+                  value={fechaFin && !trabajaActualmente ? format(fechaFin, "yyyy-MM-dd") : ""}
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      setFechaFin(new Date(e.target.value));
+                    }
+                  }}
+                  disabled={trabajaActualmente}
+                  className="w-full"
+                />
+              </div>
+            </div>
+            
+            <div className="flex items-center mt-1">
+              <input
+                type="checkbox"
+                id="trabajaActualmente"
+                checked={trabajaActualmente}
+                onChange={(e) => setTrabajaActualmente(e.target.checked)}
+                className="mr-2 h-4 w-4"
+              />
+              <Label htmlFor="trabajaActualmente" className="text-sm font-normal">
+                Trabaja actualmente
+              </Label>
+            </div>
             
             <div className="space-y-2">
               <Label htmlFor="horario">Horario (opcional)</Label>
