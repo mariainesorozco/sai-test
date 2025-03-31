@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Calendar, Briefcase, Clock } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -28,6 +29,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 interface ExperienciaLaboral {
   id: number;
@@ -139,72 +142,167 @@ const ExperienciaLaboralContent = () => {
     setExperiencias(experiencias.filter(exp => exp.id !== id));
   };
   
+  // Verificar si estamos en vista móvil
+  const isMobile = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  }
+
+  // Renderizar la vista móvil (tarjetas)
+  const renderMobileCards = () => {
+    if (experiencias.length === 0) {
+      return (
+        <div className="text-center py-4 text-muted-foreground">
+          No hay experiencias laborales registradas
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-4">
+        {experiencias.map((exp) => (
+          <Card key={exp.id} className="border-l-4 border-l-primary">
+            <CardContent className="pt-6 pb-4">
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <h3 className="font-medium text-base">{exp.puesto}</h3>
+                  <p className="text-sm text-muted-foreground">{exp.empresa}</p>
+                </div>
+                <Badge variant="outline">
+                  {exp.sector === "PRIVADO" ? "Privado" : exp.sector === "FEDERAL" ? "Federal" : "Estatal"}
+                </Badge>
+              </div>
+              
+              <div className="flex items-center text-sm text-muted-foreground mb-3">
+                <Calendar className="h-3.5 w-3.5 mr-1.5" />
+                <span>
+                  {format(exp.fechaInicio, "dd/MM/yyyy")} - {exp.fechaFin ? format(exp.fechaFin, "dd/MM/yyyy") : "Actual"}
+                </span>
+              </div>
+              
+              {exp.horario && (
+                <div className="flex items-center text-sm mb-3">
+                  <Clock className="h-3.5 w-3.5 mr-1.5 text-muted-foreground" />
+                  <span>{exp.horario}</span>
+                </div>
+              )}
+              
+              <Separator className="my-3" />
+              
+              <div className="flex justify-end space-x-1">
+                <Button variant="ghost" size="sm" onClick={() => handleEditExperiencia(exp.id)}>
+                  <Edit className="h-4 w-4" />
+                </Button>
+                
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="ghost" size="sm" className="text-destructive">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="w-[90%]">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>¿Eliminar experiencia?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Esta acción eliminará permanentemente el registro de experiencia laboral en {exp.empresa} y no se puede deshacer.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => handleDeleteExperiencia(exp.id)}>Eliminar</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[180px]">Empresa/Institución</TableHead>
-            <TableHead>Sector</TableHead>
-            <TableHead>Puesto</TableHead>
-            <TableHead>Período</TableHead>
-            <TableHead className="w-[120px]">Acciones</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {experiencias.length > 0 ? (
-            experiencias.map((exp) => (
-              <TableRow key={exp.id}>
-                <TableCell className="font-medium">{exp.empresa}</TableCell>
-                <TableCell>{exp.sector === "PRIVADO" ? "Privado" : exp.sector === "FEDERAL" ? "Federal" : "Estatal"}</TableCell>
-                <TableCell>{exp.puesto}</TableCell>
-                <TableCell>
-                  {format(exp.fechaInicio, "dd/MM/yyyy")} - {exp.fechaFin ? format(exp.fechaFin, "dd/MM/yyyy") : "Actual"}
-                </TableCell>
-                <TableCell>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm" onClick={() => handleEditExperiencia(exp.id)}>
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>¿Está seguro?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Esta acción eliminará el registro de experiencia laboral en {exp.empresa} y no se puede deshacer.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleDeleteExperiencia(exp.id)}>Eliminar</AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
+      {/* Vista móvil: Tarjetas */}
+      <div className="md:hidden">
+        {renderMobileCards()}
+        
+        <div className="mt-4 flex justify-center">
+          <Button variant="outline" size="sm" onClick={handleNewExperiencia}>
+            <Plus className="h-4 w-4 mr-2" /> Agregar experiencia
+          </Button>
+        </div>
+      </div>
+      
+      {/* Vista desktop: Tabla */}
+      <div className="hidden md:block">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[180px]">Empresa/Institución</TableHead>
+              <TableHead>Sector</TableHead>
+              <TableHead>Puesto</TableHead>
+              <TableHead>Período</TableHead>
+              <TableHead className="w-[120px]">Acciones</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {experiencias.length > 0 ? (
+              experiencias.map((exp) => (
+                <TableRow key={exp.id}>
+                  <TableCell className="font-medium">{exp.empresa}</TableCell>
+                  <TableCell>{exp.sector === "PRIVADO" ? "Privado" : exp.sector === "FEDERAL" ? "Federal" : "Estatal"}</TableCell>
+                  <TableCell>{exp.puesto}</TableCell>
+                  <TableCell>
+                    {format(exp.fechaInicio, "dd/MM/yyyy")} - {exp.fechaFin ? format(exp.fechaFin, "dd/MM/yyyy") : "Actual"}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      <Button variant="ghost" size="sm" onClick={() => handleEditExperiencia(exp.id)}>
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="ghost" size="sm">
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>¿Está seguro?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Esta acción eliminará el registro de experiencia laboral en {exp.empresa} y no se puede deshacer.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleDeleteExperiencia(exp.id)}>Eliminar</AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
+                  No hay experiencias laborales registradas
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
+            )}
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
-                No hay experiencias laborales registradas
+              <TableCell colSpan={5} className="text-center">
+                <Button variant="outline" size="sm" className="mt-2" onClick={handleNewExperiencia}>
+                  <Plus className="h-4 w-4 mr-2" /> Agregar experiencia
+                </Button>
               </TableCell>
             </TableRow>
-          )}
-          <TableRow>
-            <TableCell colSpan={5} className="text-center">
-              <Button variant="outline" size="sm" className="mt-2" onClick={handleNewExperiencia}>
-                <Plus className="h-4 w-4 mr-2" /> Agregar experiencia
-              </Button>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+          </TableBody>
+        </Table>
+      </div>
       
       {/* Diálogo para crear/editar experiencia */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>

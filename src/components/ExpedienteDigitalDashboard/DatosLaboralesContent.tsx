@@ -4,12 +4,35 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Database, Briefcase, Home, Clock, Calendar, Users, CreditCard, DollarSign } from 'lucide-react';
-import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import InfoItem from './InfoItem';
 
+// Interfaces para datos tipados
+interface PlazaItem {
+  id: number;
+  plaza: string;
+  puesto: string;
+  adscripcion: string;
+  tipo: string;
+  periodo: string;
+  estatus: 'Activo' | 'Inactivo' | 'Pendiente';
+}
+
 const DatosLaboralesContent = () => {
+  // Datos de ejemplo
+  const plazasHistorial: PlazaItem[] = [
+    {
+      id: 1,
+      plaza: "00000",
+      puesto: "Nombre del puesto",
+      adscripcion: "Nombre de la adscripción", 
+      tipo: "Administrativo",
+      periodo: "01/01/2020 - Actual",
+      estatus: "Activo"
+    }
+  ];
+
   return (
     <div className="grid gap-4 md:gap-6">
       <div className="flex items-center justify-between">
@@ -66,33 +89,73 @@ const DatosLaboralesContent = () => {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Historial de Plazas</CardTitle>
           </CardHeader>
-          <CardContent className="overflow-auto">
-            <div className="min-w-[600px]">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Plaza</TableHead>
-                    <TableHead>Puesto</TableHead>
-                    <TableHead>Adscripción</TableHead>
-                    <TableHead>Tipo</TableHead>
-                    <TableHead>Período</TableHead>
-                    <TableHead>Estatus</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium">00000</TableCell>
-                    <TableCell>Nombre del puesto</TableCell>
-                    <TableCell>Nombre de la adscripción</TableCell>
-                    <TableCell>Administrativo</TableCell>
-                    <TableCell>01/01/2020 - Actual</TableCell>
+          
+          {/* Vista móvil: Tarjetas */}
+          <div className="md:hidden">
+            <CardContent>
+              {plazasHistorial.length > 0 ? (
+                <div className="space-y-4">
+                  {plazasHistorial.map(plaza => (
+                    <Card key={plaza.id} className="border-l-4 border-l-primary">
+                      <CardContent className="py-4">
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm font-medium">Plaza: {plaza.plaza}</span>
+                            <Badge className="bg-green-500">{plaza.estatus}</Badge>
+                          </div>
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Puesto:</span> {plaza.puesto}
+                          </div>
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Adscripción:</span> {plaza.adscripcion}
+                          </div>
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Tipo:</span> {plaza.tipo}
+                          </div>
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Período:</span> {plaza.periodo}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-4 text-muted-foreground">
+                  No hay historial de plazas registrado
+                </div>
+              )}
+            </CardContent>
+          </div>
+          
+          {/* Vista desktop: Tabla */}
+          <CardContent className="hidden md:block">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Plaza</TableHead>
+                  <TableHead>Puesto</TableHead>
+                  <TableHead>Adscripción</TableHead>
+                  <TableHead>Tipo</TableHead>
+                  <TableHead>Período</TableHead>
+                  <TableHead>Estatus</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {plazasHistorial.map(plaza => (
+                  <TableRow key={plaza.id}>
+                    <TableCell className="font-medium">{plaza.plaza}</TableCell>
+                    <TableCell>{plaza.puesto}</TableCell>
+                    <TableCell>{plaza.adscripcion}</TableCell>
+                    <TableCell>{plaza.tipo}</TableCell>
+                    <TableCell>{plaza.periodo}</TableCell>
                     <TableCell>
-                      <Badge className="bg-green-500">Activo</Badge>
+                      <Badge className="bg-green-500">{plaza.estatus}</Badge>
                     </TableCell>
                   </TableRow>
-                </TableBody>
-              </Table>
-            </div>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </div>
