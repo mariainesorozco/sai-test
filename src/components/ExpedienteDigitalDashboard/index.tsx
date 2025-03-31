@@ -228,7 +228,7 @@ const ExpedienteDigitalDashboard = () => {
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8">
               <AvatarImage src="/api/placeholder/32/32" alt="Foto empleado" />
-              <AvatarFallback>EE</AvatarFallback>
+              <AvatarFallback>ET</AvatarFallback>
             </Avatar>
             <div>
               <h3 className="font-semibold text-sm md:text-base">Expediente Trabajador</h3>

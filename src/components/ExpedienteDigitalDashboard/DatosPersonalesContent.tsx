@@ -103,6 +103,9 @@ const DatosPersonalesContent = () => {
     estadoFiscal: "Estado",
     municipioFiscal: "Municipio",
     localidadFiscal: "Localidad",
+    tieneComprobanteFiscal: false,
+    tipoComprobanteFiscal: "AGUA",
+    fechaComprobanteFiscal: "",
     
     // Domicilio particular
     calleParticular: "Calle y número",
@@ -111,6 +114,9 @@ const DatosPersonalesContent = () => {
     estadoParticular: "Estado",
     municipioParticular: "Municipio",
     localidadParticular: "Localidad",
+    tieneComprobanteParticular: false,
+    tipoComprobanteParticular: "AGUA",
+    fechaComprobanteParticular: "",
   });
   
   // Función para manejar cambios en los inputs
@@ -151,10 +157,28 @@ const DatosPersonalesContent = () => {
     // En un escenario real, esta URL provendría de la API o del estado
     const mockUrl = "/api/documents/preview/sample.pdf";
     
+    let title = "";
+    switch(docType) {
+      case "nacimiento":
+        title = "Acta de Nacimiento";
+        break;
+      case "defuncion":
+        title = "Acta de Defunción";
+        break;
+      case "comprobanteFiscal":
+        title = `Comprobante de Domicilio Fiscal (${formData.tipoComprobanteFiscal})`;
+        break;
+      case "comprobanteParticular":
+        title = `Comprobante de Domicilio Particular (${formData.tipoComprobanteParticular})`;
+        break;
+      default:
+        title = "Documento";
+    }
+    
     setShowDocumentPreview({
       show: true,
       url: mockUrl,
-      title: docType === "nacimiento" ? "Acta de Nacimiento" : "Acta de Defunción"
+      title: title
     });
   };
 
@@ -549,6 +573,66 @@ const DatosPersonalesContent = () => {
                     />
                   </div>
                 </div>
+
+                <div className="space-y-2 col-span-2">
+                    <div className="flex items-center space-x-2 mb-2">
+                        <input
+                        type="checkbox"
+                        id="tieneComprobanteFiscal"
+                        name="tieneComprobanteFiscal"
+                        checked={formData.tieneComprobanteFiscal}
+                        onChange={handleCheckboxChange}
+                        className="h-4 w-4"
+                        />
+                        <Label htmlFor="tieneComprobanteFiscal">Documento de comprobante de domicilio</Label>
+                    </div>
+                    
+                    {formData.tieneComprobanteFiscal && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="tipoComprobanteFiscal">Tipo de comprobante</Label>
+                            <Select 
+                            value={formData.tipoComprobanteFiscal}
+                            onValueChange={(value: string) => handleSelectChange("tipoComprobanteFiscal", value)}
+                            >
+                            <SelectTrigger id="tipoComprobanteFiscal">
+                                <SelectValue placeholder="Seleccione tipo" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="CFE">CFE</SelectItem>
+                                <SelectItem value="AGUA">Agua</SelectItem>
+                                <SelectItem value="TELEFONO">Teléfono</SelectItem>
+                                <SelectItem value="PREDIAL">Predial</SelectItem>
+                                <SelectItem value="OTRO">Otro</SelectItem>
+                            </SelectContent>
+                            </Select>
+                        </div>
+                        
+                        <div className="space-y-2">
+                            <Label htmlFor="fechaComprobanteFiscal">Fecha del comprobante</Label>
+                            <Input 
+                            id="fechaComprobanteFiscal"
+                            type="date"
+                            name="fechaComprobanteFiscal"
+                            value={formData.fechaComprobanteFiscal}
+                            onChange={handleInputChange}
+                            className="w-full"
+                            />
+                        </div>
+                        
+                        <div className="space-y-2 col-span-2 flex items-center">
+                            <Label htmlFor="comprobanteFile" className="mr-auto">Subir comprobante</Label>
+                            <Button 
+                            type="button" 
+                            variant="outline" 
+                            size="sm"
+                            >
+                            Cargar archivo
+                            </Button>
+                        </div>
+                        </div>
+                    )}
+                </div>
                 
                 <Separator className="my-4" />
                 
@@ -616,6 +700,67 @@ const DatosPersonalesContent = () => {
                       onChange={handleInputChange}
                     />
                   </div>
+
+                  <div className="space-y-2 col-span-2">
+                    <div className="flex items-center space-x-2 mb-2">
+                        <input
+                        type="checkbox"
+                        id="tieneComprobanteParticular"
+                        name="tieneComprobanteParticular"
+                        checked={formData.tieneComprobanteParticular}
+                        onChange={handleCheckboxChange}
+                        className="h-4 w-4"
+                        />
+                        <Label htmlFor="tieneComprobanteParticular">Documento de comprobante de domicilio</Label>
+                    </div>
+                    
+                    {formData.tieneComprobanteParticular && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="tipoComprobanteParticular">Tipo de comprobante</Label>
+                            <Select 
+                            value={formData.tipoComprobanteParticular}
+                            onValueChange={(value: string) => handleSelectChange("tipoComprobanteParticular", value)}
+                            >
+                            <SelectTrigger id="tipoComprobanteParticular">
+                                <SelectValue placeholder="Seleccione tipo" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="CFE">CFE</SelectItem>
+                                <SelectItem value="AGUA">Agua</SelectItem>
+                                <SelectItem value="TELEFONO">Teléfono</SelectItem>
+                                <SelectItem value="PREDIAL">Predial</SelectItem>
+                                <SelectItem value="OTRO">Otro</SelectItem>
+                            </SelectContent>
+                            </Select>
+                        </div>
+                        
+                        <div className="space-y-2">
+                            <Label htmlFor="fechaComprobanteParticular">Fecha del comprobante</Label>
+                            <Input 
+                            id="fechaComprobanteParticular"
+                            type="date"
+                            name="fechaComprobanteParticular"
+                            value={formData.fechaComprobanteParticular}
+                            onChange={handleInputChange}
+                            className="w-full"
+                            />
+                        </div>
+                        
+                        <div className="space-y-2 col-span-2 flex items-center">
+                            <Label htmlFor="comprobanteParticularFile" className="mr-auto">Subir comprobante</Label>
+                            <Button 
+                            type="button" 
+                            variant="outline" 
+                            size="sm"
+                            >
+                            Cargar archivo
+                            </Button>
+                        </div>
+                        </div>
+                    )}
+                </div>
+
                 </div>
               </TabsContent>
             </Tabs>
@@ -755,6 +900,19 @@ const DatosPersonalesContent = () => {
                   label="Ubicación" 
                   value={`${formData.estadoFiscal}, ${formData.municipioFiscal}, ${formData.localidadFiscal}`} 
                 />
+                {formData.tieneComprobanteFiscal && (
+                    <div className="flex items-center gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">
+                        Comprobante {formData.tipoComprobanteFiscal === "CFE" ? "CFE" : 
+                                    formData.tipoComprobanteFiscal === "AGUA" ? "Agua" : 
+                                    formData.tipoComprobanteFiscal === "TELEFONO" ? "Teléfono" : 
+                                    formData.tipoComprobanteFiscal === "PREDIAL" ? "Predial" : "Otro"}
+                        </Badge>
+                        <Button variant="ghost" size="sm" onClick={() => handleViewDocument("comprobanteFiscal")}>
+                        Ver
+                        </Button>
+                    </div>
+                )}
               </div>
               <Separator />
               <div>
@@ -770,6 +928,19 @@ const DatosPersonalesContent = () => {
                   label="Ubicación" 
                   value={`${formData.estadoParticular}, ${formData.municipioParticular}, ${formData.localidadParticular}`} 
                 />
+                {formData.tieneComprobanteParticular && (
+                    <div className="flex items-center gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">
+                        Comprobante {formData.tipoComprobanteParticular === "CFE" ? "CFE" : 
+                                    formData.tipoComprobanteParticular === "AGUA" ? "Agua" : 
+                                    formData.tipoComprobanteParticular === "TELEFONO" ? "Teléfono" : 
+                                    formData.tipoComprobanteParticular === "PREDIAL" ? "Predial" : "Otro"}
+                        </Badge>
+                        <Button variant="ghost" size="sm" onClick={() => handleViewDocument("comprobanteParticular")}>
+                        Ver
+                        </Button>
+                    </div>
+                )}
               </div>
             </div>
           </CardContent>
