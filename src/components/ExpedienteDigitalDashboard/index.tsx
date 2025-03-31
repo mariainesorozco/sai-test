@@ -47,19 +47,30 @@ const ExpedienteDigitalDashboard = () => {
   const [activeTab, setActiveTab] = useState('datos-personales');
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   
-  // Detectar si el usuario está en un dispositivo móvil
+  // Detectar si estamos en un dispositivo móvil y controlar botón de scroll
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
     
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    
     // Verificar al cargar y cuando cambia el tamaño de la ventana
     checkIsMobile();
     window.addEventListener('resize', checkIsMobile);
+    window.addEventListener('scroll', handleScroll);
     
     return () => {
       window.removeEventListener('resize', checkIsMobile);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -139,6 +150,14 @@ const ExpedienteDigitalDashboard = () => {
     }
   };
 
+  // Función para desplazarse al inicio
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <div className="flex min-h-screen bg-background">
       {/* Sidebar para escritorio */}
@@ -164,7 +183,7 @@ const ExpedienteDigitalDashboard = () => {
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8">
               <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
-              <AvatarFallback>UN</AvatarFallback>
+              <AvatarFallback>UA</AvatarFallback>
             </Avatar>
             <div className="grid gap-0.5 text-xs">
               <div className="font-medium">Usuario Admin</div>
@@ -210,7 +229,7 @@ const ExpedienteDigitalDashboard = () => {
                   <div className="flex items-center gap-2">
                     <Avatar className="h-8 w-8">
                       <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
-                      <AvatarFallback>UN</AvatarFallback>
+                      <AvatarFallback>UA</AvatarFallback>
                     </Avatar>
                     <div className="grid gap-0.5 text-xs">
                       <div className="font-medium">Usuario Admin</div>
@@ -229,12 +248,15 @@ const ExpedienteDigitalDashboard = () => {
             </Avatar>
             <div>
               <h3 className="font-semibold text-sm md:text-base">Expediente Trabajador</h3>
-              <div className="text-xs text-muted-foreground">Universidad Autónoma de Nayarit</div>
+              <div className="text-xs text-muted-foreground">
+                <span className="hidden md:inline">Universidad Autónoma de Nayarit</span>
+                <span className="md:hidden">UAN</span>
+              </div>
             </div>
           </div>
           <div className="ml-auto flex items-center gap-2">
             <Badge variant="outline" className="text-xs">Administrativo</Badge>
-            <Badge variant="outline" className="text-xs hidden sm:inline-flex">Activo</Badge>
+            <Badge variant="outline" className="text-xs">Activo</Badge>
           </div>
         </header>
 
@@ -302,6 +324,18 @@ const ExpedienteDigitalDashboard = () => {
                 );
               })}
             </div>
+          )}
+          
+          {/* Botón para volver al inicio */}
+          {showScrollTop && (
+            <Button
+              className="fixed bottom-24 right-4 rounded-full shadow-lg z-10 w-10 h-10 p-0"
+              size="sm"
+              onClick={scrollToTop}
+              title="Volver al inicio"
+            >
+              <ChevronLeft className="h-5 w-5 rotate-90" />
+            </Button>
           )}
         </main>
       </div>
