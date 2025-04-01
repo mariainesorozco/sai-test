@@ -199,576 +199,623 @@ const DatosPersonalesContent = () => {
           <DialogTrigger asChild>
             <Button size="sm">Editar</Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl h-[80vh] overflow-y-auto">
-            <DialogHeader>
+          <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-hidden flex flex-col">
+            <DialogHeader className="px-6 pt-6 pb-2">
               <DialogTitle>Editar Datos Personales</DialogTitle>
               <DialogDescription>
                 Actualice la información personal del empleado en los campos correspondientes.
               </DialogDescription>
             </DialogHeader>
             
-            <Tabs defaultValue="informacion-basica" className="w-full" value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid grid-cols-3 mb-4">
-                <TabsTrigger value="informacion-basica">Información Básica</TabsTrigger>
-                <TabsTrigger value="contacto">Contacto</TabsTrigger>
-                <TabsTrigger value="domicilios">Domicilios</TabsTrigger>
-              </TabsList>
+            <Tabs defaultValue="informacion-basica" className="w-full flex flex-col flex-1 overflow-hidden"  value={activeTab} onValueChange={setActiveTab}>
+              <div className="px-6">
+                <TabsList className="w-full flex flex-wrap mb-4">
+                  <TabsTrigger className="flex-1 text-xs sm:text-sm" value="informacion-basica">
+                    Información Básica
+                  </TabsTrigger>
+                  <TabsTrigger className="flex-1 text-xs sm:text-sm" value="contacto">
+                    Contacto
+                  </TabsTrigger>
+                  <TabsTrigger className="flex-1 text-xs sm:text-sm" value="domicilios">
+                    Domicilios
+                  </TabsTrigger>
+                </TabsList>
+              </div>
               
-              <TabsContent value="informacion-basica" className="space-y-4">
-                <div className="flex justify-center mb-4">
-                  <Avatar className="h-24 w-24">
-                    <AvatarImage src="/api/placeholder/180/180" alt="Foto empleado" />
-                    <AvatarFallback className="text-lg">ET</AvatarFallback>
-                  </Avatar>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="nombres">Nombre(s)</Label>
-                    <Input 
-                      id="nombres" 
-                      name="nombres" 
-                      value={formData.nombres} 
-                      onChange={handleInputChange}
-                    />
+              {/* Contenedor con scroll */}
+              <div className="overflow-y-auto flex-1 px-6">
+                <TabsContent value="informacion-basica" className="space-y-6 py-4 mt-0">
+                  <div className="flex justify-center mb-6">
+                    <Avatar className="h-24 w-24">
+                      <AvatarImage src="/api/placeholder/180/180" alt="Foto empleado" />
+                      <AvatarFallback className="text-lg">ET</AvatarFallback>
+                    </Avatar>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="apellidoPaterno">Apellido Paterno</Label>
-                    <Input 
-                      id="apellidoPaterno" 
-                      name="apellidoPaterno" 
-                      value={formData.apellidoPaterno} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="apellidoMaterno">Apellido Materno</Label>
-                    <Input 
-                      id="apellidoMaterno" 
-                      name="apellidoMaterno" 
-                      value={formData.apellidoMaterno} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="estadoCivil">Estado Civil</Label>
-                    <Select 
-                      value={formData.estadoCivil}
-                      onValueChange={(value: string) => handleSelectChange("estadoCivil", value)}
-                    >
-                      <SelectTrigger id="estadoCivil">
-                        <SelectValue placeholder="Seleccione" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="SOLTERO">Soltero(a)</SelectItem>
-                        <SelectItem value="CASADO">Casado(a)</SelectItem>
-                        <SelectItem value="DIVORCIADO">Divorciado(a)</SelectItem>
-                        <SelectItem value="VIUDO">Viudo(a)</SelectItem>
-                        <SelectItem value="UNION_LIBRE">Unión Libre</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="fechaNacimiento">Fecha de Nacimiento</Label>
-                    <Input 
-                      id="fechaNacimiento"
-                      type="date"
-                      value={selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""}
-                      onChange={(e) => {
-                        if (e.target.value) {
-                          setSelectedDate(new Date(e.target.value));
-                        }
-                      }}
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="paisNacimiento">País de Nacimiento</Label>
-                    <Input 
-                      id="paisNacimiento" 
-                      name="paisNacimiento" 
-                      value={formData.paisNacimiento} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="estadoNacimiento">Estado de Nacimiento</Label>
-                    <Input 
-                      id="estadoNacimiento" 
-                      name="estadoNacimiento" 
-                      value={formData.estadoNacimiento} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="municipioNacimiento">Municipio de Nacimiento</Label>
-                    <Input 
-                      id="municipioNacimiento" 
-                      name="municipioNacimiento" 
-                      value={formData.municipioNacimiento} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="localidadNacimiento">Localidad de Nacimiento</Label>
-                    <Input 
-                      id="localidadNacimiento" 
-                      name="localidadNacimiento" 
-                      value={formData.localidadNacimiento} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="numeroActaNacimiento">Número de Acta Nacimiento</Label>
-                    <Input 
-                      id="numeroActaNacimiento" 
-                      name="numeroActaNacimiento" 
-                      value={formData.numeroActaNacimiento} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2 flex items-center">
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="tieneActaNacimiento"
-                        name="tieneActaNacimiento"
-                        checked={formData.tieneActaNacimiento}
-                        onChange={handleCheckboxChange}
-                        className="h-4 w-4"
-                      />
-                      <Label htmlFor="tieneActaNacimiento">Documento Acta de Nacimiento</Label>
-                    </div>
-                    <div className="ml-auto">
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        size="sm"
-                        disabled={!formData.tieneActaNacimiento}
-                      >
-                        Cargar Acta
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="col-span-2">
-                    <Separator className="my-4" />
-                    <div className="flex items-center space-x-2 mb-4">
-                      <input
-                        type="checkbox"
-                        id="fallecido"
-                        name="fallecido"
-                        checked={formData.fallecido}
-                        onChange={handleCheckboxChange}
-                        className="h-4 w-4"
-                      />
-                      <Label htmlFor="fallecido">Registrar defunción</Label>
-                    </div>
-                  </div>
-                  {formData.fallecido && (
-                    <>
-                      <div className="space-y-2">
-                        <Label htmlFor="fechaDefuncion">Fecha de Defunción</Label>
-                        <Input 
-                          id="fechaDefuncion"
-                          type="date"
-                          value={defuncionDate ? format(defuncionDate, "yyyy-MM-dd") : ""}
-                          onChange={(e) => {
-                            if (e.target.value) {
-                              setDefuncionDate(new Date(e.target.value));
-                            }
-                          }}
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="numeroActaDefuncion">Número de Acta Defunción</Label>
-                        <Input 
-                          id="numeroActaDefuncion" 
-                          name="numeroActaDefuncion" 
-                          value={formData.numeroActaDefuncion} 
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      <div className="space-y-2 flex items-center">
-                        <div className="flex items-center space-x-2">
-                          <input
-                            type="checkbox"
-                            id="tieneActaDefuncion"
-                            name="tieneActaDefuncion"
-                            checked={formData.tieneActaDefuncion}
-                            onChange={handleCheckboxChange}
-                            className="h-4 w-4"
+                  <div className="grid grid-cols-1 gap-6">
+                    {/* Sección de datos personales */}
+                    <div>
+                      <h3 className="text-sm font-medium mb-3">Datos de Identificación</h3>
+                      <div className="grid grid-cols-1 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="nombres">Nombre(s)</Label>
+                          <Input 
+                            id="nombres" 
+                            name="nombres" 
+                            value={formData.nombres} 
+                            onChange={handleInputChange}
                           />
-                          <Label htmlFor="tieneActaDefuncion">Documento Acta de Defunción</Label>
                         </div>
-                        <div className="ml-auto">
+                        <div className="space-y-2">
+                          <Label htmlFor="apellidoPaterno">Apellido Paterno</Label>
+                          <Input 
+                            id="apellidoPaterno" 
+                            name="apellidoPaterno" 
+                            value={formData.apellidoPaterno} 
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="apellidoMaterno">Apellido Materno</Label>
+                          <Input 
+                            id="apellidoMaterno" 
+                            name="apellidoMaterno" 
+                            value={formData.apellidoMaterno} 
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="estadoCivil">Estado Civil</Label>
+                          <Select 
+                            value={formData.estadoCivil}
+                            onValueChange={(value: string) => handleSelectChange("estadoCivil", value)}
+                          >
+                            <SelectTrigger id="estadoCivil">
+                              <SelectValue placeholder="Seleccione" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="SOLTERO">Soltero(a)</SelectItem>
+                              <SelectItem value="CASADO">Casado(a)</SelectItem>
+                              <SelectItem value="DIVORCIADO">Divorciado(a)</SelectItem>
+                              <SelectItem value="VIUDO">Viudo(a)</SelectItem>
+                              <SelectItem value="UNION_LIBRE">Unión Libre</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Sección de nacimiento */}
+                    <div>
+                      <h3 className="text-sm font-medium mb-3">Datos de Nacimiento</h3>
+                      <div className="grid grid-cols-1 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="fechaNacimiento">Fecha de Nacimiento</Label>
+                          <div className="relative">
+                            <Input 
+                              id="fechaNacimiento"
+                              type="date"
+                              value={selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""}
+                              onChange={(e) => {
+                                if (e.target.value) {
+                                  setSelectedDate(new Date(e.target.value));
+                                }
+                              }}
+                              className="w-full pr-10"
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="paisNacimiento">País de Nacimiento</Label>
+                          <Input 
+                            id="paisNacimiento" 
+                            name="paisNacimiento" 
+                            value={formData.paisNacimiento} 
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="estadoNacimiento">Estado de Nacimiento</Label>
+                          <Input 
+                            id="estadoNacimiento" 
+                            name="estadoNacimiento" 
+                            value={formData.estadoNacimiento} 
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="municipioNacimiento">Municipio de Nacimiento</Label>
+                          <Input 
+                            id="municipioNacimiento" 
+                            name="municipioNacimiento" 
+                            value={formData.municipioNacimiento} 
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="localidadNacimiento">Localidad de Nacimiento</Label>
+                          <Input 
+                            id="localidadNacimiento" 
+                            name="localidadNacimiento" 
+                            value={formData.localidadNacimiento} 
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Sección de acta de nacimiento */}
+                    <div>
+                      <h3 className="text-sm font-medium mb-3">Acta de Nacimiento</h3>
+                      <div className="grid grid-cols-1 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="numeroActaNacimiento">Número de Acta</Label>
+                          <Input 
+                            id="numeroActaNacimiento" 
+                            name="numeroActaNacimiento" 
+                            value={formData.numeroActaNacimiento} 
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              id="tieneActaNacimiento"
+                              name="tieneActaNacimiento"
+                              checked={formData.tieneActaNacimiento}
+                              onChange={handleCheckboxChange}
+                              className="h-4 w-4"
+                            />
+                            <Label htmlFor="tieneActaNacimiento">Documento Acta de Nacimiento</Label>
+                          </div>
                           <Button 
                             type="button" 
                             variant="outline" 
                             size="sm"
-                            disabled={!formData.tieneActaDefuncion}
+                            disabled={!formData.tieneActaNacimiento}
                           >
                             Cargar Acta
                           </Button>
                         </div>
                       </div>
-                    </>
-                  )}
-                  <div className="col-span-2">
-                    <Separator className="my-4" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="rfc">RFC</Label>
-                    <Input 
-                      id="rfc" 
-                      name="rfc" 
-                      value={formData.rfc} 
-                      onChange={handleInputChange}
-                      maxLength={13}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="curp">CURP</Label>
-                    <Input 
-                      id="curp" 
-                      name="curp" 
-                      value={formData.curp} 
-                      onChange={handleInputChange}
-                      maxLength={18}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="nss">NSS</Label>
-                    <Input 
-                      id="nss" 
-                      name="nss" 
-                      value={formData.nss} 
-                      onChange={handleInputChange}
-                      maxLength={11}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="sexo">Sexo</Label>
-                    <Select 
-                      value={formData.sexo}
-                      onValueChange={(value: string) => handleSelectChange("sexo", value)}
-                      >
-                      <SelectTrigger id="sexo">
-                        <SelectValue placeholder="Seleccione" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="H">Hombre</SelectItem>
-                        <SelectItem value="M">Mujer</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="contacto" className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Correo Electrónico</Label>
-                    <Input 
-                      id="email" 
-                      name="email" 
-                      type="email"
-                      value={formData.email} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="emailAlterno">Correo Electrónico Alterno</Label>
-                    <Input 
-                      id="emailAlterno" 
-                      name="emailAlterno" 
-                      type="email"
-                      value={formData.emailAlterno} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="telefono">Teléfono</Label>
-                    <Input 
-                      id="telefono" 
-                      name="telefono" 
-                      value={formData.telefono} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="telefonoEmergencia">Teléfono de Emergencia</Label>
-                    <Input 
-                      id="telefonoEmergencia" 
-                      name="telefonoEmergencia" 
-                      value={formData.telefonoEmergencia} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="domicilios" className="space-y-4">
-                <h4 className="text-sm font-medium mb-2">Domicilio Fiscal</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="calleFiscal">Calle y Número</Label>
-                    <Input 
-                      id="calleFiscal" 
-                      name="calleFiscal" 
-                      value={formData.calleFiscal} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="coloniaFiscal">Colonia</Label>
-                    <Input 
-                      id="coloniaFiscal" 
-                      name="coloniaFiscal" 
-                      value={formData.coloniaFiscal} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="cpFiscal">Código Postal</Label>
-                    <Input 
-                      id="cpFiscal" 
-                      name="cpFiscal" 
-                      value={formData.cpFiscal} 
-                      onChange={handleInputChange}
-                      maxLength={5}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="estadoFiscal">Estado</Label>
-                    <Select 
-                      defaultValue={formData.estadoFiscal}
-                      onValueChange={(value: string) => handleSelectChange("estadoFiscal", value)}
-                    >
-                      <SelectTrigger id="estadoFiscal">
-                        <SelectValue placeholder="Seleccione" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Nayarit">Nayarit</SelectItem>
-                        <SelectItem value="Jalisco">Jalisco</SelectItem>
-                        {/* Aquí se agregarían todos los estados */}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="municipioFiscal">Municipio</Label>
-                    <Input 
-                      id="municipioFiscal" 
-                      name="municipioFiscal" 
-                      value={formData.municipioFiscal} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="localidadFiscal">Localidad</Label>
-                    <Input 
-                      id="localidadFiscal" 
-                      name="localidadFiscal" 
-                      value={formData.localidadFiscal} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
+                    </div>
 
-                <div className="space-y-2 col-span-2">
-                    <div className="flex items-center space-x-2 mb-2">
+                    <Separator />
+
+                    {/* Sección de defunción (condicional) */}
+                    <div>
+                      <div className="flex items-center space-x-2 mb-4">
                         <input
+                          type="checkbox"
+                          id="fallecido"
+                          name="fallecido"
+                          checked={formData.fallecido}
+                          onChange={handleCheckboxChange}
+                          className="h-4 w-4"
+                        />
+                        <Label htmlFor="fallecido" className="font-medium">Registrar defunción</Label>
+                      </div>
+                      
+                      {formData.fallecido && (
+                        <div className="grid grid-cols-1 gap-4 mt-3">
+                          <div className="space-y-2">
+                            <Label htmlFor="fechaDefuncion">Fecha de Defunción</Label>
+                            <div className="relative">
+                              <Input 
+                                id="fechaDefuncion"
+                                type="date"
+                                value={defuncionDate ? format(defuncionDate, "yyyy-MM-dd") : ""}
+                                onChange={(e) => {
+                                  if (e.target.value) {
+                                    setDefuncionDate(new Date(e.target.value));
+                                  }
+                                }}
+                                className="w-full pr-10"
+                              />
+                              <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-muted-foreground h-4 w-4" />
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="numeroActaDefuncion">Número de Acta Defunción</Label>
+                            <Input 
+                              id="numeroActaDefuncion" 
+                              name="numeroActaDefuncion" 
+                              value={formData.numeroActaDefuncion} 
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <input
+                                type="checkbox"
+                                id="tieneActaDefuncion"
+                                name="tieneActaDefuncion"
+                                checked={formData.tieneActaDefuncion}
+                                onChange={handleCheckboxChange}
+                                className="h-4 w-4"
+                              />
+                              <Label htmlFor="tieneActaDefuncion">Documento Acta de Defunción</Label>
+                            </div>
+                            <Button 
+                              type="button" 
+                              variant="outline" 
+                              size="sm"
+                              disabled={!formData.tieneActaDefuncion}
+                            >
+                              Cargar Acta
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <Separator />
+
+                    {/* Sección de datos fiscales */}
+                    <div>
+                      <h3 className="text-sm font-medium mb-3">Datos Fiscales y Oficiales</h3>
+                      <div className="grid grid-cols-1 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="rfc">RFC</Label>
+                          <Input 
+                            id="rfc" 
+                            name="rfc" 
+                            value={formData.rfc} 
+                            onChange={handleInputChange}
+                            maxLength={13}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="curp">CURP</Label>
+                          <Input 
+                            id="curp" 
+                            name="curp" 
+                            value={formData.curp} 
+                            onChange={handleInputChange}
+                            maxLength={18}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="nss">NSS</Label>
+                          <Input 
+                            id="nss" 
+                            name="nss" 
+                            value={formData.nss} 
+                            onChange={handleInputChange}
+                            maxLength={11}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="sexo">Sexo</Label>
+                          <Select 
+                            value={formData.sexo}
+                            onValueChange={(value: string) => handleSelectChange("sexo", value)}
+                            >
+                            <SelectTrigger id="sexo">
+                              <SelectValue placeholder="Seleccione" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="H">Hombre</SelectItem>
+                              <SelectItem value="M">Mujer</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="contacto" className="space-y-4 py-4 mt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Correo Electrónico</Label>
+                      <Input 
+                        id="email" 
+                        name="email" 
+                        type="email"
+                        value={formData.email} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="emailAlterno">Correo Electrónico Alterno</Label>
+                      <Input 
+                        id="emailAlterno" 
+                        name="emailAlterno" 
+                        type="email"
+                        value={formData.emailAlterno} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="telefono">Teléfono</Label>
+                      <Input 
+                        id="telefono" 
+                        name="telefono" 
+                        value={formData.telefono} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="telefonoEmergencia">Teléfono de Emergencia</Label>
+                      <Input 
+                        id="telefonoEmergencia" 
+                        name="telefonoEmergencia" 
+                        value={formData.telefonoEmergencia} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="domicilios" className="space-y-4 py-4 mt-0">
+                  <h4 className="text-sm font-medium mb-2">Domicilio Fiscal</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="calleFiscal">Calle y Número</Label>
+                      <Input 
+                        id="calleFiscal" 
+                        name="calleFiscal" 
+                        value={formData.calleFiscal} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="coloniaFiscal">Colonia</Label>
+                      <Input 
+                        id="coloniaFiscal" 
+                        name="coloniaFiscal" 
+                        value={formData.coloniaFiscal} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="cpFiscal">Código Postal</Label>
+                      <Input 
+                        id="cpFiscal" 
+                        name="cpFiscal" 
+                        value={formData.cpFiscal} 
+                        onChange={handleInputChange}
+                        maxLength={5}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="estadoFiscal">Estado</Label>
+                      <Select 
+                        defaultValue={formData.estadoFiscal}
+                        onValueChange={(value: string) => handleSelectChange("estadoFiscal", value)}
+                      >
+                        <SelectTrigger id="estadoFiscal">
+                          <SelectValue placeholder="Seleccione" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Nayarit">Nayarit</SelectItem>
+                          <SelectItem value="Jalisco">Jalisco</SelectItem>
+                          {/* Aquí se agregarían todos los estados */}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="municipioFiscal">Municipio</Label>
+                      <Input 
+                        id="municipioFiscal" 
+                        name="municipioFiscal" 
+                        value={formData.municipioFiscal} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="localidadFiscal">Localidad</Label>
+                      <Input 
+                        id="localidadFiscal" 
+                        name="localidadFiscal" 
+                        value={formData.localidadFiscal} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 col-span-2">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <input
                         type="checkbox"
                         id="tieneComprobanteFiscal"
                         name="tieneComprobanteFiscal"
                         checked={formData.tieneComprobanteFiscal}
                         onChange={handleCheckboxChange}
                         className="h-4 w-4"
-                        />
-                        <Label htmlFor="tieneComprobanteFiscal">Documento de comprobante de domicilio</Label>
+                      />
+                      <Label htmlFor="tieneComprobanteFiscal">Documento de comprobante de domicilio</Label>
                     </div>
                     
                     {formData.tieneComprobanteFiscal && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="tipoComprobanteFiscal">Tipo de comprobante</Label>
-                            <Select 
+                          <Label htmlFor="tipoComprobanteFiscal">Tipo de comprobante</Label>
+                          <Select 
                             value={formData.tipoComprobanteFiscal}
                             onValueChange={(value: string) => handleSelectChange("tipoComprobanteFiscal", value)}
-                            >
+                          >
                             <SelectTrigger id="tipoComprobanteFiscal">
-                                <SelectValue placeholder="Seleccione tipo" />
+                              <SelectValue placeholder="Seleccione tipo" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="CFE">CFE</SelectItem>
-                                <SelectItem value="AGUA">Agua</SelectItem>
-                                <SelectItem value="TELEFONO">Teléfono</SelectItem>
-                                <SelectItem value="PREDIAL">Predial</SelectItem>
-                                <SelectItem value="OTRO">Otro</SelectItem>
+                              <SelectItem value="CFE">CFE</SelectItem>
+                              <SelectItem value="AGUA">Agua</SelectItem>
+                              <SelectItem value="TELEFONO">Teléfono</SelectItem>
+                              <SelectItem value="PREDIAL">Predial</SelectItem>
+                              <SelectItem value="OTRO">Otro</SelectItem>
                             </SelectContent>
-                            </Select>
+                          </Select>
                         </div>
                         
                         <div className="space-y-2">
-                            <Label htmlFor="fechaComprobanteFiscal">Fecha del comprobante</Label>
+                          <Label htmlFor="fechaComprobanteFiscal">Fecha del comprobante</Label>
+                          <div className="relative">
                             <Input 
-                            id="fechaComprobanteFiscal"
-                            type="date"
-                            name="fechaComprobanteFiscal"
-                            value={formData.fechaComprobanteFiscal}
-                            onChange={handleInputChange}
-                            className="w-full"
+                              id="fechaComprobanteFiscal"
+                              type="date"
+                              name="fechaComprobanteFiscal"
+                              value={formData.fechaComprobanteFiscal}
+                              onChange={handleInputChange}
+                              className="w-full pr-10"
                             />
+                            <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-muted-foreground h-4 w-4" />
+                          </div>
                         </div>
                         
                         <div className="space-y-2 col-span-2 flex items-center">
-                            <Label htmlFor="comprobanteFile" className="mr-auto">Subir comprobante</Label>
-                            <Button 
+                          <Label htmlFor="comprobanteFile" className="mr-auto">Subir comprobante</Label>
+                          <Button 
                             type="button" 
                             variant="outline" 
                             size="sm"
-                            >
+                          >
                             Cargar archivo
-                            </Button>
+                          </Button>
                         </div>
-                        </div>
+                      </div>
                     )}
-                </div>
-                
-                <Separator className="my-4" />
-                
-                <h4 className="text-sm font-medium mb-2">Domicilio Particular</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="calleParticular">Calle y Número</Label>
-                    <Input 
-                      id="calleParticular" 
-                      name="calleParticular" 
-                      value={formData.calleParticular} 
-                      onChange={handleInputChange}
-                    />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="coloniaParticular">Colonia</Label>
-                    <Input 
-                      id="coloniaParticular" 
-                      name="coloniaParticular" 
-                      value={formData.coloniaParticular} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="cpParticular">Código Postal</Label>
-                    <Input 
-                      id="cpParticular" 
-                      name="cpParticular" 
-                      value={formData.cpParticular} 
-                      onChange={handleInputChange}
-                      maxLength={5}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="estadoParticular">Estado</Label>
-                    <Select 
-                      defaultValue={formData.estadoParticular}
-                      onValueChange={(value: string) => handleSelectChange("estadoParticular", value)}
-                    >
-                      <SelectTrigger id="estadoParticular">
-                        <SelectValue placeholder="Seleccione" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Nayarit">Nayarit</SelectItem>
-                        <SelectItem value="Jalisco">Jalisco</SelectItem>
-                        {/* Aquí se agregarían todos los estados */}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="municipioParticular">Municipio</Label>
-                    <Input 
-                      id="municipioParticular" 
-                      name="municipioParticular" 
-                      value={formData.municipioParticular} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="localidadParticular">Localidad</Label>
-                    <Input 
-                      id="localidadParticular" 
-                      name="localidadParticular" 
-                      value={formData.localidadParticular} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
+                  
+                  <Separator className="my-4" />
+                  
+                  <h4 className="text-sm font-medium mb-2">Domicilio Particular</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="calleParticular">Calle y Número</Label>
+                      <Input 
+                        id="calleParticular" 
+                        name="calleParticular" 
+                        value={formData.calleParticular} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="coloniaParticular">Colonia</Label>
+                      <Input 
+                        id="coloniaParticular" 
+                        name="coloniaParticular" 
+                        value={formData.coloniaParticular} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="cpParticular">Código Postal</Label>
+                      <Input 
+                        id="cpParticular" 
+                        name="cpParticular" 
+                        value={formData.cpParticular} 
+                        onChange={handleInputChange}
+                        maxLength={5}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="estadoParticular">Estado</Label>
+                      <Select 
+                        defaultValue={formData.estadoParticular}
+                        onValueChange={(value: string) => handleSelectChange("estadoParticular", value)}
+                      >
+                        <SelectTrigger id="estadoParticular">
+                          <SelectValue placeholder="Seleccione" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Nayarit">Nayarit</SelectItem>
+                          <SelectItem value="Jalisco">Jalisco</SelectItem>
+                          {/* Aquí se agregarían todos los estados */}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="municipioParticular">Municipio</Label>
+                      <Input 
+                        id="municipioParticular" 
+                        name="municipioParticular" 
+                        value={formData.municipioParticular} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="localidadParticular">Localidad</Label>
+                      <Input 
+                        id="localidadParticular" 
+                        name="localidadParticular" 
+                        value={formData.localidadParticular} 
+                        onChange={handleInputChange}
+                      />
+                    </div>
 
-                  <div className="space-y-2 col-span-2">
-                    <div className="flex items-center space-x-2 mb-2">
+                    <div className="space-y-2 col-span-2">
+                      <div className="flex items-center space-x-2 mb-2">
                         <input
-                        type="checkbox"
-                        id="tieneComprobanteParticular"
-                        name="tieneComprobanteParticular"
-                        checked={formData.tieneComprobanteParticular}
-                        onChange={handleCheckboxChange}
-                        className="h-4 w-4"
+                          type="checkbox"
+                          id="tieneComprobanteParticular"
+                          name="tieneComprobanteParticular"
+                          checked={formData.tieneComprobanteParticular}
+                          onChange={handleCheckboxChange}
+                          className="h-4 w-4"
                         />
                         <Label htmlFor="tieneComprobanteParticular">Documento de comprobante de domicilio</Label>
-                    </div>
-                    
-                    {formData.tieneComprobanteParticular && (
+                      </div>
+                      
+                      {formData.tieneComprobanteParticular && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
+                          <div className="space-y-2">
                             <Label htmlFor="tipoComprobanteParticular">Tipo de comprobante</Label>
                             <Select 
-                            value={formData.tipoComprobanteParticular}
-                            onValueChange={(value: string) => handleSelectChange("tipoComprobanteParticular", value)}
+                              value={formData.tipoComprobanteParticular}
+                              onValueChange={(value: string) => handleSelectChange("tipoComprobanteParticular", value)}
                             >
-                            <SelectTrigger id="tipoComprobanteParticular">
+                              <SelectTrigger id="tipoComprobanteParticular">
                                 <SelectValue placeholder="Seleccione tipo" />
-                            </SelectTrigger>
-                            <SelectContent>
+                              </SelectTrigger>
+                              <SelectContent>
                                 <SelectItem value="CFE">CFE</SelectItem>
                                 <SelectItem value="AGUA">Agua</SelectItem>
                                 <SelectItem value="TELEFONO">Teléfono</SelectItem>
                                 <SelectItem value="PREDIAL">Predial</SelectItem>
                                 <SelectItem value="OTRO">Otro</SelectItem>
-                            </SelectContent>
+                              </SelectContent>
                             </Select>
-                        </div>
-                        
-                        <div className="space-y-2">
+                          </div>
+                          
+                          <div className="space-y-2">
                             <Label htmlFor="fechaComprobanteParticular">Fecha del comprobante</Label>
-                            <Input 
-                            id="fechaComprobanteParticular"
-                            type="date"
-                            name="fechaComprobanteParticular"
-                            value={formData.fechaComprobanteParticular}
-                            onChange={handleInputChange}
-                            className="w-full"
-                            />
-                        </div>
-                        
-                        <div className="space-y-2 col-span-2 flex items-center">
+                            <div className="relative">
+                              <Input 
+                                id="fechaComprobanteParticular"
+                                type="date"
+                                name="fechaComprobanteParticular"
+                                value={formData.fechaComprobanteParticular}
+                                onChange={handleInputChange}
+                                className="w-full pr-10"
+                              />
+                              <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-muted-foreground h-4 w-4" />
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-2 col-span-2 flex items-center">
                             <Label htmlFor="comprobanteParticularFile" className="mr-auto">Subir comprobante</Label>
                             <Button 
-                            type="button" 
-                            variant="outline" 
-                            size="sm"
+                              type="button" 
+                              variant="outline" 
+                              size="sm"
                             >
-                            Cargar archivo
+                              Cargar archivo
                             </Button>
+                          </div>
                         </div>
-                        </div>
-                    )}
-                </div>
-
-                </div>
-              </TabsContent>
+                      )}
+                    </div>
+                  </div>
+                </TabsContent>
+              </div>
+              
+              <DialogFooter className="px-6 py-4 border-t mt-auto">
+                <Button variant="outline" onClick={() => setOpen(false)}>Cancelar</Button>
+                <Button onClick={handleSave}>Guardar Cambios</Button>
+              </DialogFooter>
             </Tabs>
-            
-            <DialogFooter className="mt-4">
-              <Button variant="outline" onClick={() => setOpen(false)}>Cancelar</Button>
-              <Button onClick={handleSave}>Guardar Cambios</Button>
-            </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
