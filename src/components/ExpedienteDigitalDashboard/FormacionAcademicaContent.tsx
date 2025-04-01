@@ -970,148 +970,151 @@ const FormacionAcademicaContent = () => {
       
       {/* Diálogo para agregar/editar título académico */}
       <Dialog open={openTituloDialog} onOpenChange={setOpenTituloDialog}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader className="px-6 pt-6 pb-2">
             <DialogTitle>{editingTitulo ? "Editar Título Académico" : "Agregar Título Académico"}</DialogTitle>
             <DialogDescription>
               Complete la información del título académico obtenido.
             </DialogDescription>
           </DialogHeader>
           
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="grado">Grado Académico</Label>
-                <Select 
-                  name="grado"
-                  value={formTitulo.grado as string}
-                  onValueChange={(value) => setFormTitulo({...formTitulo, grado: value as any})}
-                >
-                  <SelectTrigger id="grado">
-                    <SelectValue placeholder="Seleccione grado" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="LICENCIATURA">Licenciatura</SelectItem>
-                    <SelectItem value="ESPECIALIDAD">Especialidad</SelectItem>
-                    <SelectItem value="CANDIDATO A MAESTRO">Candidato a Maestro</SelectItem>
-                    <SelectItem value="MAESTRÍA">Maestría</SelectItem>
-                    <SelectItem value="CANDIDATO A DOCTOR">Candidato a Doctor</SelectItem>
-                    <SelectItem value="DOCTORADO">Doctorado</SelectItem>
-                    <SelectItem value="SIN TÍTULO">Sin título</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="anioRegistro">Año de Registro</Label>
-                <Input
-                  id="anioRegistro"
-                  name="anioRegistro"
-                  type="number"
-                  min="1950"
-                  max={new Date().getFullYear()}
-                  value={formTitulo.anioRegistro}
-                  onChange={(e) => setFormTitulo({...formTitulo, anioRegistro: parseInt(e.target.value)})}
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="titulo">Título Obtenido</Label>
-              <Input
-                id="titulo"
-                name="titulo"
-                value={formTitulo.titulo}
-                onChange={(e) => setFormTitulo({...formTitulo, titulo: e.target.value})}
-                placeholder="Ej: Licenciatura en Administración de Empresas"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="institucion">Institución Educativa</Label>
-              <Input
-                id="institucion"
-                name="institucion"
-                value={formTitulo.institucion}
-                onChange={(e) => setFormTitulo({...formTitulo, institucion: e.target.value})}
-                placeholder="Ej: Universidad Autónoma de Nayarit"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="cedula">Número de Cédula Profesional</Label>
-              <Input
-                id="cedula"
-                name="cedula"
-                value={formTitulo.cedula}
-                onChange={(e) => setFormTitulo({...formTitulo, cedula: e.target.value})}
-                placeholder="Número de cédula profesional"
-              />
-            </div>
-            
-            <div className="flex flex-col space-y-2">
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="federal"
-                  name="federal"
-                  checked={formTitulo.federal}
-                  onChange={(e) => setFormTitulo({...formTitulo, federal: e.target.checked})}
-                  className="h-4 w-4"
-                />
-                <Label htmlFor="federal">Cédula Federal</Label>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="verificado"
-                  name="verificado"
-                  checked={formTitulo.verificado}
-                  onChange={(e) => setFormTitulo({...formTitulo, verificado: e.target.checked})}
-                  className="h-4 w-4"
-                />
-                <Label htmlFor="verificado">Título Verificado</Label>
-              </div>
-            </div>
-            
-            <Separator className="my-2" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Documento del Título</Label>
-                <div className="flex items-center gap-2">
-                  <Input type="file" id="fileTitulo" className="hidden" />
-                  <Label htmlFor="fileTitulo" className="cursor-pointer inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
-                    Seleccionar archivo
-                  </Label>
-                  <span className="text-sm text-muted-foreground">
-                    {formTitulo.fileTitulo || "No hay archivo seleccionado"}
-                  </span>
+          <div className="overflow-y-auto px-6 flex-1">
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="grado">Grado Académico</Label>
+                  <Select 
+                    name="grado"
+                    value={formTitulo.grado as string}
+                    onValueChange={(value) => setFormTitulo({...formTitulo, grado: value as any})}
+                  >
+                    <SelectTrigger id="grado">
+                      <SelectValue placeholder="Seleccione grado" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="LICENCIATURA">Licenciatura</SelectItem>
+                      <SelectItem value="ESPECIALIDAD">Especialidad</SelectItem>
+                      <SelectItem value="CANDIDATO A MAESTRO">Candidato a Maestro</SelectItem>
+                      <SelectItem value="MAESTRÍA">Maestría</SelectItem>
+                      <SelectItem value="CANDIDATO A DOCTOR">Candidato a Doctor</SelectItem>
+                      <SelectItem value="DOCTORADO">Doctorado</SelectItem>
+                      <SelectItem value="SIN TÍTULO">Sin título</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="anioRegistro">Año de Registro</Label>
+                  <Input
+                    id="anioRegistro"
+                    name="anioRegistro"
+                    type="number"
+                    min="1950"
+                    max={new Date().getFullYear()}
+                    value={formTitulo.anioRegistro}
+                    onChange={(e) => setFormTitulo({...formTitulo, anioRegistro: parseInt(e.target.value)})}
+                  />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <Label>Documento de la Cédula</Label>
-                <div className="flex items-center gap-2">
-                  <Input type="file" id="fileCedula" className="hidden" />
-                  <Label htmlFor="fileCedula" className="cursor-pointer inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
-                    Seleccionar archivo
-                  </Label>
-                  <span className="text-sm text-muted-foreground">
-                    {formTitulo.fileCedula || "No hay archivo seleccionado"}
-                  </span>
+                <Label htmlFor="titulo">Título Obtenido</Label>
+                <Input
+                  id="titulo"
+                  name="titulo"
+                  value={formTitulo.titulo}
+                  onChange={(e) => setFormTitulo({...formTitulo, titulo: e.target.value})}
+                  placeholder="Ej: Licenciatura en Administración de Empresas"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="institucion">Institución Educativa</Label>
+                <Input
+                  id="institucion"
+                  name="institucion"
+                  value={formTitulo.institucion}
+                  onChange={(e) => setFormTitulo({...formTitulo, institucion: e.target.value})}
+                  placeholder="Ej: Universidad Autónoma de Nayarit"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="cedula">Número de Cédula Profesional</Label>
+                <Input
+                  id="cedula"
+                  name="cedula"
+                  value={formTitulo.cedula}
+                  onChange={(e) => setFormTitulo({...formTitulo, cedula: e.target.value})}
+                  placeholder="Número de cédula profesional"
+                />
+              </div>
+              
+              <div className="flex flex-col space-y-2">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="federal"
+                    name="federal"
+                    checked={formTitulo.federal}
+                    onChange={(e) => setFormTitulo({...formTitulo, federal: e.target.checked})}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="federal">Cédula Federal</Label>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="verificado"
+                    name="verificado"
+                    checked={formTitulo.verificado}
+                    onChange={(e) => setFormTitulo({...formTitulo, verificado: e.target.checked})}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="verificado">Título Verificado</Label>
+                </div>
+              </div>
+              
+              <Separator className="my-2" />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Documento del Título</Label>
+                  <div className="flex items-center gap-2">
+                    <Input type="file" id="fileTitulo" className="hidden" />
+                    <Label htmlFor="fileTitulo" className="cursor-pointer inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                      Seleccionar archivo
+                    </Label>
+                    <span className="text-sm text-muted-foreground truncate max-w-[150px]">
+                      {formTitulo.fileTitulo || "No hay archivo seleccionado"}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label>Documento de la Cédula</Label>
+                  <div className="flex items-center gap-2">
+                    <Input type="file" id="fileCedula" className="hidden" />
+                    <Label htmlFor="fileCedula" className="cursor-pointer inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                      Seleccionar archivo
+                    </Label>
+                    <span className="text-sm text-muted-foreground truncate max-w-[150px]">
+                      {formTitulo.fileCedula || "No hay archivo seleccionado"}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           
-          <DialogFooter>
+          <DialogFooter className="px-6 py-4 border-t">
             <Button variant="outline" onClick={() => setOpenTituloDialog(false)}>Cancelar</Button>
             <Button onClick={handleSaveTitulo}>{editingTitulo ? "Actualizar" : "Guardar"}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
     </div>
   );
 };
