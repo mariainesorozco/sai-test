@@ -306,111 +306,114 @@ const ExperienciaLaboralContent = () => {
       
       {/* Diálogo para crear/editar experiencia */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-        <DialogContent className="sm:max-w-[550px]">
-          <DialogHeader>
+        <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader className="px-6 pt-6 pb-2">
             <DialogTitle>{isNewExperiencia ? "Agregar Experiencia Laboral" : "Editar Experiencia Laboral"}</DialogTitle>
             <DialogDescription>
               Complete los detalles de la experiencia laboral del empleado.
             </DialogDescription>
           </DialogHeader>
           
-          <div className="grid gap-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="empresa">Empresa/Institución</Label>
-              <Input 
-                id="empresa" 
-                value={empresa} 
-                onChange={(e) => setEmpresa(e.target.value)} 
-                placeholder="Nombre de la empresa" 
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="sector">Sector</Label>
-              <Select value={sector} onValueChange={(value) => setSector(value as 'PRIVADO' | 'FEDERAL' | 'ESTATAL')}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccione un sector" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="PRIVADO">Privado</SelectItem>
-                  <SelectItem value="FEDERAL">Federal</SelectItem>
-                  <SelectItem value="ESTATAL">Estatal</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="puesto">Puesto</Label>
-              <Input 
-                id="puesto" 
-                value={puesto} 
-                onChange={(e) => setPuesto(e.target.value)} 
-                placeholder="Nombre del puesto" 
-              />
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Contenedor con scroll */}
+          <div className="overflow-y-auto px-6 flex-1">
+            <div className="grid gap-4 py-4">
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="fechaInicio">Fecha de inicio</Label>
-                </div>
+                <Label htmlFor="empresa">Empresa/Institución</Label>
                 <Input 
-                  id="fechaInicio"
-                  type="date"
-                  value={fechaInicio ? format(fechaInicio, "yyyy-MM-dd") : ""}
-                  onChange={(e) => {
-                    if (e.target.value) {
-                      setFechaInicio(new Date(e.target.value));
-                    }
-                  }}
-                  className="w-full"
+                  id="empresa" 
+                  value={empresa} 
+                  onChange={(e) => setEmpresa(e.target.value)} 
+                  placeholder="Nombre de la empresa" 
                 />
               </div>
               
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="fechaFin">Fecha de término</Label>
-                </div>
+                <Label htmlFor="sector">Sector</Label>
+                <Select value={sector} onValueChange={(value) => setSector(value as 'PRIVADO' | 'FEDERAL' | 'ESTATAL')}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccione un sector" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="PRIVADO">Privado</SelectItem>
+                    <SelectItem value="FEDERAL">Federal</SelectItem>
+                    <SelectItem value="ESTATAL">Estatal</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="puesto">Puesto</Label>
                 <Input 
-                  id="fechaFin"
-                  type="date"
-                  value={fechaFin && !trabajaActualmente ? format(fechaFin, "yyyy-MM-dd") : ""}
-                  onChange={(e) => {
-                    if (e.target.value) {
-                      setFechaFin(new Date(e.target.value));
-                    }
-                  }}
-                  disabled={trabajaActualmente}
-                  className="w-full"
+                  id="puesto" 
+                  value={puesto} 
+                  onChange={(e) => setPuesto(e.target.value)} 
+                  placeholder="Nombre del puesto" 
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="fechaInicio">Fecha de inicio</Label>
+                  </div>
+                  <Input 
+                    id="fechaInicio"
+                    type="date"
+                    value={fechaInicio ? format(fechaInicio, "yyyy-MM-dd") : ""}
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        setFechaInicio(new Date(e.target.value));
+                      }
+                    }}
+                    className="w-full"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="fechaFin">Fecha de término</Label>
+                  </div>
+                  <Input 
+                    id="fechaFin"
+                    type="date"
+                    value={fechaFin && !trabajaActualmente ? format(fechaFin, "yyyy-MM-dd") : ""}
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        setFechaFin(new Date(e.target.value));
+                      }
+                    }}
+                    disabled={trabajaActualmente}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+              
+              <div className="flex items-center mt-1">
+                <input
+                  type="checkbox"
+                  id="trabajaActualmente"
+                  checked={trabajaActualmente}
+                  onChange={(e) => setTrabajaActualmente(e.target.checked)}
+                  className="mr-2 h-4 w-4"
+                />
+                <Label htmlFor="trabajaActualmente" className="text-sm font-normal">
+                  Trabaja actualmente
+                </Label>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="horario">Horario (opcional)</Label>
+                <Input 
+                  id="horario" 
+                  value={horario} 
+                  onChange={(e) => setHorario(e.target.value)} 
+                  placeholder="Ej: Lunes a Viernes 9:00 - 18:00" 
                 />
               </div>
             </div>
-            
-            <div className="flex items-center mt-1">
-              <input
-                type="checkbox"
-                id="trabajaActualmente"
-                checked={trabajaActualmente}
-                onChange={(e) => setTrabajaActualmente(e.target.checked)}
-                className="mr-2 h-4 w-4"
-              />
-              <Label htmlFor="trabajaActualmente" className="text-sm font-normal">
-                Trabaja actualmente
-              </Label>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="horario">Horario (opcional)</Label>
-              <Input 
-                id="horario" 
-                value={horario} 
-                onChange={(e) => setHorario(e.target.value)} 
-                placeholder="Ej: Lunes a Viernes 9:00 - 18:00" 
-              />
-            </div>
           </div>
           
-          <DialogFooter>
+          <DialogFooter className="px-6 py-4 border-t mt-auto">
             <Button variant="outline" onClick={() => setEditDialogOpen(false)}>Cancelar</Button>
             <Button onClick={handleSaveExperiencia}>Guardar</Button>
           </DialogFooter>
