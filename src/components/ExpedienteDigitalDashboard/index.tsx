@@ -301,6 +301,9 @@ const ExpedienteDigitalDashboard = () => {
           
           {/* Contenido de la sección activa */}
           {activeSection.component}
+
+          {/* Espacio adicional para evitar que la barra flotante tape el contenido */}
+          {isMobile && <div className="h-20 w-full mt-6"></div>}
           
           {/* Navegación entre páginas para móvil (floating - barra de iconos) */}
           {isMobile && (
