@@ -274,6 +274,12 @@ const DatosFamiliaresContent = () => {
                                 Acta
                               </Button>
                             )}
+                            {familiar.fileFormatoBeneficiario && (
+                              <Button variant="ghost" size="sm" className="h-8 px-2">
+                                <FileText className="h-3.5 w-3.5 mr-1" /> 
+                                Beneficiario
+                              </Button>
+                            )}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -321,101 +327,6 @@ const DatosFamiliaresContent = () => {
               </Button>
             </CardFooter>
           </div>
-        </Card>
-
-        {/* Resumen de Beneficiarios */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Resumen de Beneficiarios</CardTitle>
-            <CardDescription>Distribución del porcentaje entre beneficiarios designados</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* Vista móvil: Lista de resumen */}
-            <div className="md:hidden space-y-4">
-              {familiares.filter(f => f.esBeneficiario).length > 0 ? (
-                <>
-                  {familiares
-                    .filter(f => f.esBeneficiario)
-                    .map((familiar) => (
-                      <div key={`resumen-${familiar.id}`} className="flex justify-between items-center border-b pb-2">
-                        <div>
-                          <p className="font-medium">{familiar.nombre}</p>
-                          <p className="text-sm text-muted-foreground">{getParentescoText(familiar.parentesco)}</p>
-                        </div>
-                        <Badge className="text-lg h-7">{familiar.porcentaje}%</Badge>
-                      </div>
-                    ))}
-                  
-                  <div className="mt-4 pt-2 border-t flex justify-between">
-                    <span className="font-semibold">Total:</span>
-                    <span className="font-semibold">
-                      {familiares
-                        .filter(f => f.esBeneficiario)
-                        .reduce((sum, f) => sum + (f.porcentaje || 0), 0)}%
-                    </span>
-                  </div>
-                </>
-              ) : (
-                <div className="text-center py-4 text-muted-foreground">
-                  No hay beneficiarios designados
-                </div>
-              )}
-            </div>
-            
-            {/* Vista desktop: Tabla */}
-            <div className="hidden md:block">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Nombre</TableHead>
-                    <TableHead>Parentesco</TableHead>
-                    <TableHead>Porcentaje</TableHead>
-                    <TableHead>Documento</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {familiares.filter(f => f.esBeneficiario).length > 0 ? (
-                    <>
-                      {familiares
-                        .filter(f => f.esBeneficiario)
-                        .map((familiar) => (
-                          <TableRow key={`resumen-${familiar.id}`}>
-                            <TableCell className="font-medium">{familiar.nombre}</TableCell>
-                            <TableCell>{getParentescoText(familiar.parentesco)}</TableCell>
-                            <TableCell>{familiar.porcentaje}%</TableCell>
-                            <TableCell>
-                              {familiar.fileFormatoBeneficiario && (
-                                <Badge variant="outline">Formato de beneficiarios</Badge>
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      <TableRow>
-                        <TableCell colSpan={2} className="text-right font-bold">Total:</TableCell>
-                        <TableCell className="font-bold">
-                          {familiares
-                            .filter(f => f.esBeneficiario)
-                            .reduce((sum, f) => sum + (f.porcentaje || 0), 0)}%
-                        </TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                    </>
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={4} className="text-center py-4 text-muted-foreground">
-                        No hay beneficiarios designados
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-          <CardFooter className="justify-center">
-            <Button variant="outline" size="sm">
-              <Plus className="h-4 w-4 mr-2" /> Actualizar beneficiarios
-            </Button>
-          </CardFooter>
         </Card>
       </div>
     </div>
