@@ -744,70 +744,69 @@ const DatosPersonalesContent = () => {
                         onChange={handleInputChange}
                       />
                     </div>
-
-                    <div className="space-y-2 col-span-2">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <input
-                          type="checkbox"
-                          id="tieneComprobanteParticular"
-                          name="tieneComprobanteParticular"
-                          checked={formData.tieneComprobanteParticular}
-                          onChange={handleCheckboxChange}
-                          className="h-4 w-4"
-                        />
-                        <Label htmlFor="tieneComprobanteParticular">Documento de comprobante de domicilio</Label>
-                      </div>
+                  </div>
+                  <div className="space-y-2 col-span-2">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <input
+                        type="checkbox"
+                        id="tieneComprobanteParticular"
+                        name="tieneComprobanteParticular"
+                        checked={formData.tieneComprobanteParticular}
+                        onChange={handleCheckboxChange}
+                        className="h-4 w-4"
+                      />
+                      <Label htmlFor="tieneComprobanteParticular">Documento de comprobante de domicilio</Label>
+                    </div>
                       
-                      {formData.tieneComprobanteParticular && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor="tipoComprobanteParticular">Tipo de comprobante</Label>
-                            <Select 
-                              value={formData.tipoComprobanteParticular}
-                              onValueChange={(value: string) => handleSelectChange("tipoComprobanteParticular", value)}
-                            >
-                              <SelectTrigger id="tipoComprobanteParticular">
-                                <SelectValue placeholder="Seleccione tipo" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="CFE">CFE</SelectItem>
-                                <SelectItem value="AGUA">Agua</SelectItem>
-                                <SelectItem value="TELEFONO">Teléfono</SelectItem>
-                                <SelectItem value="PREDIAL">Predial</SelectItem>
-                                <SelectItem value="OTRO">Otro</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
+                    {formData.tieneComprobanteParticular && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="tipoComprobanteParticular">Tipo de comprobante</Label>
+                          <Select 
+                            value={formData.tipoComprobanteParticular}
+                            onValueChange={(value: string) => handleSelectChange("tipoComprobanteParticular", value)}
+                          >
+                            <SelectTrigger id="tipoComprobanteParticular">
+                              <SelectValue placeholder="Seleccione tipo" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="CFE">CFE</SelectItem>
+                              <SelectItem value="AGUA">Agua</SelectItem>
+                              <SelectItem value="TELEFONO">Teléfono</SelectItem>
+                              <SelectItem value="PREDIAL">Predial</SelectItem>
+                              <SelectItem value="OTRO">Otro</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
                           
-                          <div className="space-y-2">
-                            <Label htmlFor="fechaComprobanteParticular">Fecha del comprobante</Label>
-                            <div className="relative">
-                              <Input 
-                                id="fechaComprobanteParticular"
-                                type="date"
-                                name="fechaComprobanteParticular"
-                                value={formData.fechaComprobanteParticular}
-                                onChange={handleInputChange}
-                                className="w-full pr-10"
-                              />
-                              <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-muted-foreground h-4 w-4" />
-                            </div>
-                          </div>
-                          
-                          <div className="space-y-2 col-span-2 flex items-center">
-                            <Label htmlFor="comprobanteParticularFile" className="mr-auto">Subir comprobante</Label>
-                            <Button 
-                              type="button" 
-                              variant="outline" 
-                              size="sm"
-                            >
-                              Cargar archivo
-                            </Button>
+                        <div className="space-y-2">
+                          <Label htmlFor="fechaComprobanteParticular">Fecha del comprobante</Label>
+                          <div className="relative">
+                            <Input 
+                              id="fechaComprobanteParticular"
+                              type="date"
+                              name="fechaComprobanteParticular"
+                              value={formData.fechaComprobanteParticular}
+                              onChange={handleInputChange}
+                              className="w-full pr-10"
+                            />
+                            <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-muted-foreground h-4 w-4" />
                           </div>
                         </div>
+                          
+                        <div className="space-y-2 col-span-2 flex items-center">
+                          <Label htmlFor="comprobanteParticularFile" className="mr-auto">Subir comprobante</Label>
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            size="sm"
+                          >
+                            Cargar archivo
+                          </Button>
+                        </div>
+                      </div>
                       )}
                     </div>
-                  </div>
                 </TabsContent>
               </div>
               
