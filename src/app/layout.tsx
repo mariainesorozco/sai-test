@@ -26,11 +26,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <head>
-        {process.env.NODE_ENV === 'production' && (
-          <base href="/sai-test/" />
-        )}
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
