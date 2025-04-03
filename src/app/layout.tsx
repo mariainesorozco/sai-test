@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "SAI UAN",
   description: "Sistema de Administración Institucional - Universidad Autónoma de Nayarit",
   // Añadir manifest y otros metadatos para rutas base
-  manifest: process.env.NODE_ENV === 'production' ? '/sai-test/manifest.json' : '/manifest.json',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
