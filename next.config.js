@@ -9,6 +9,8 @@ const nextConfig = {
     ignoreDuringBuilds: true, 
   },
   trailingSlash: true,
+  basePath: process.env.NODE_ENV === 'production' ? '/sai-test' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/sai-test/' : '',
 };
 
 module.exports = nextConfig;

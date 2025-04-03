@@ -40,6 +40,7 @@ import ImpuestosModule from './modules/ImpuestosModule';
 import EgresosModule from './modules/EgresosModule';
 import CatalogosModule from './modules/CatalogosModule';
 
+const basePath = process.env.NODE_ENV === 'production' ? '/sai-test' : '';
 // Componente principal
 const MainLayout = () => {
   const [activeModule, setActiveModule] = useState('nomina');
