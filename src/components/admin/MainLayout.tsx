@@ -47,7 +47,7 @@ const MainLayout = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [showSearchDialog, setShowSearchDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   
   // Detectar si estamos en un dispositivo móvil
   useEffect(() => {
