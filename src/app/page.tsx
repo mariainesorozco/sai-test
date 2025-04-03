@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
+export function generateStaticParams() {
+    return [{ slug: '' }];
+}
 export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen items-center justify-center gap-6">
