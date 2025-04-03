@@ -22,7 +22,9 @@ import {
   Settings,
   HelpCircle,
   LogOut,
-  ChevronRight
+  ChevronRight,
+  ArrowLeft,
+  Eye
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -39,15 +41,18 @@ import NominaModule from './modules/NominaModule';
 import ImpuestosModule from './modules/ImpuestosModule';
 import EgresosModule from './modules/EgresosModule';
 import CatalogosModule from './modules/CatalogosModule';
+import EmpleadoDetailModule from './modules/EmpleadoDetailModule';
+import WelcomeMessage from './modules/WelcomeMessage';
 
 // Componente principal
 const MainLayout = () => {
-  const [activeModule, setActiveModule] = useState('nomina');
+  const [activeModule, setActiveModule] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showSearchDialog, setShowSearchDialog] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('Pérez');
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [selectedEmpleado, setSelectedEmpleado] = useState<any | null>(null);
   
   // Detectar si estamos en un dispositivo móvil
   useEffect(() => {
@@ -63,6 +68,13 @@ const MainLayout = () => {
       window.removeEventListener('resize', checkIsMobile);
     };
   }, []);
+
+  // Efecto para realizar la búsqueda automática al montar el componente
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      handleSearch(searchQuery);
+    }
+  }, [searchQuery]);
 
   // Datos de ejemplo para la búsqueda
   const empleadosRecientes = [
@@ -114,18 +126,48 @@ const MainLayout = () => {
     }
   };
 
+  // Abrir el expediente de Juan Pérez directamente (para demostración)
+  const handleVerJuanPerez = () => {
+    const juanPerez = empleadosRecientes.find(emp => emp.id === 1);
+    if (juanPerez) {
+      setSelectedEmpleado(juanPerez);
+    }
+  };
+
   const handleModuleChange = (moduleId:any) => {
     setActiveModule(moduleId);
     setIsOpen(false); // Cierra el menú móvil al seleccionar una opción
+    setSelectedEmpleado(null); // Resetea el empleado seleccionado
+  };
+
+  // Función para ver el expediente de un empleado
+  const handleViewExpediente = (empleado:any) => {
+    setSelectedEmpleado(empleado);
+    setShowSearchDialog(false);
+  };
+
+  // Función para volver al módulo desde el expediente
+  const handleBackFromExpediente = () => {
+    setSelectedEmpleado(null);
   };
 
   // Renderiza el contenido según el módulo activo
   const renderModuleContent = () => {
+    // Si hay un empleado seleccionado, muestra su expediente
+    if (selectedEmpleado) {
+      return (
+        <EmpleadoDetailModule 
+          onBack={handleBackFromExpediente}
+          empleadoId={selectedEmpleado.id}
+        />
+      );
+    }
+    
     const activeModuleObj = modules.find(m => m.id === activeModule);
     
     switch (activeModule) {
       case 'nomina':
-        return <NominaModule />;
+        return <NominaModule onViewExpediente={handleViewExpediente} />;
       case 'impuestos':
         return <ImpuestosModule />;
       case 'egresos':
@@ -142,6 +184,14 @@ const MainLayout = () => {
           </div>
         );
     }
+  };
+
+  // Renderiza el contenido cuando no hay ningún módulo seleccionado
+  const renderWelcomeMessage = () => {
+    return <WelcomeMessage 
+      onViewExpediente={handleVerJuanPerez} 
+      onOpenSearch={() => setShowSearchDialog(true)}
+    />;
   };
 
   return (
@@ -166,20 +216,34 @@ const MainLayout = () => {
           
           <div className="px-3 py-2">
             <h3 className="mb-2 px-4 text-xs font-medium text-muted-foreground">ACCESO RÁPIDO</h3>
-            <Button 
-              variant="ghost" 
-              className="w-full justify-start text-left font-normal mb-1"
-              onClick={() => setShowSearchDialog(true)}
-            >
-              <div className="flex items-center gap-3">
-                <Search className="h-4 w-4" />
-                <span>Buscar expediente</span>
-              </div>
-            </Button>
+            <div className="grid gap-1 md:grid-cols-1">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start text-sm"
+                onClick={() => setShowSearchDialog(true)}
+              >
+                <div className="flex items-center gap-3">
+                  <Search className="h-4 w-4" />
+                  <span>Buscar expediente</span>
+                </div>
+              </Button>
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="justify-start text-sm mt-1"
+                onClick={handleVerJuanPerez}
+              >
+                <div className="flex items-center gap-3">
+                  <Eye className="h-4 w-4" />
+                  <span>Ver expediente de Juan Pérez</span>
+                </div>
+              </Button>
+            </div>
           </div>
         </div>
         <div className="mt-auto p-4 border-t">
-          <div className="grid gap-1">
+          <div className="space-y-2">
             <Button variant="ghost" size="sm" className="justify-start">
               <Settings className="mr-2 h-4 w-4" />
               Configuración
@@ -192,6 +256,17 @@ const MainLayout = () => {
               <LogOut className="mr-2 h-4 w-4" />
               Cerrar sesión
             </Button>
+            {selectedEmpleado && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="justify-start w-full mt-4"
+                onClick={handleBackFromExpediente}
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Volver al módulo
+              </Button>
+            )}
           </div>
         </div>
         <div className="p-4 border-t flex items-center gap-2">
@@ -251,6 +326,17 @@ const MainLayout = () => {
                     <Search className="mr-2 h-4 w-4" />
                     Buscar expediente
                   </Button>
+                  <Button 
+                    variant="default" 
+                    className="w-full justify-start"
+                    onClick={() => {
+                      handleVerJuanPerez();
+                      setIsOpen(false);
+                    }}
+                  >
+                    <Eye className="mr-2 h-4 w-4" />
+                    Ver expediente de Juan Pérez
+                  </Button>
                 </div>
                 
                 <div className="mt-auto p-4 border-t">
@@ -267,6 +353,17 @@ const MainLayout = () => {
                       <LogOut className="mr-2 h-4 w-4" />
                       Cerrar sesión
                     </Button>
+                    {selectedEmpleado && (
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start w-full mt-2"
+                        onClick={handleBackFromExpediente}
+                      >
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Volver
+                      </Button>
+                    )}
                   </div>
                 </div>
                 <div className="p-4 border-t flex items-center gap-2">
@@ -285,7 +382,9 @@ const MainLayout = () => {
           
           <div className="flex-1 flex items-center">
             <h1 className="text-lg font-semibold ml-2 md:ml-0">
-              {modules.find(m => m.id === activeModule)?.name || 'Dashboard'}
+              {selectedEmpleado 
+                ? `Expediente: ${selectedEmpleado.nombre}` 
+                : (modules.find(m => m.id === activeModule)?.name || 'Dashboard')}
             </h1>
           </div>
           
@@ -308,8 +407,14 @@ const MainLayout = () => {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto p-4 md:p-6">
-          {renderModuleContent()}
+        <main className="flex-1 overflow-auto p-2 sm:p-4 md:p-6">
+          <div className="transition-opacity duration-200 ease-in-out">
+            {selectedEmpleado 
+              ? renderModuleContent() 
+              : activeModule 
+                ? renderModuleContent() 
+                : renderWelcomeMessage()}
+          </div>
         </main>
       </div>
       
@@ -329,6 +434,7 @@ const MainLayout = () => {
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
                 className="flex-1"
+                autoFocus
               />
               <Button size="sm" variant="secondary">
                 <Search className="h-4 w-4 mr-2" />
@@ -345,7 +451,7 @@ const MainLayout = () => {
                   className="flex items-center justify-between p-2 hover:bg-muted rounded-md cursor-pointer"
                   onClick={() => {
                     setShowSearchDialog(false);
-                    // Aquí iría la lógica para abrir el expediente
+                    handleViewExpediente(result);
                   }}
                 >
                   <div className="flex items-center gap-3">
@@ -357,7 +463,10 @@ const MainLayout = () => {
                       <p className="text-xs text-muted-foreground">{result.puesto}</p>
                     </div>
                   </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  <Button variant="ghost" size="sm" className="gap-1">
+                    <Eye className="h-3.5 w-3.5" />
+                    <span className="hidden sm:inline">Ver</span>
+                  </Button>
                 </div>
               ))}
             </div>

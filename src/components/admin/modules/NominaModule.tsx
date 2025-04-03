@@ -14,10 +14,15 @@ import {
   CheckCircle, 
   AlertCircle, 
   Clock,
-  Plus
+  Plus,
+  Eye
 } from 'lucide-react';
 
-const NominaModule = () => {
+interface NominaModuleProps {
+  onViewExpediente?: (empleado: any) => void;
+}
+
+const NominaModule: React.FC<NominaModuleProps> = ({ onViewExpediente }) => {
   // Datos simulados para estadísticas
   const estadisticas = {
     totalTrabajadores: 4287,
@@ -53,6 +58,13 @@ const NominaModule = () => {
     { id: 3, titulo: 'Declaración impuestos mensuales', fecha: '20/04/2025', estado: 'Pendiente' },
     { id: 4, titulo: 'Cierre contable trimestral', fecha: '05/04/2025', estado: 'Completado' },
   ];
+
+  // Función para manejar la visualización del expediente
+  const handleViewExpediente = (empleado: any) => {
+    if (onViewExpediente) {
+      onViewExpediente(empleado);
+    }
+  };
 
   return (
     <div className="grid gap-6">
@@ -139,7 +151,15 @@ const NominaModule = () => {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">Ver expediente</Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="gap-1.5" 
+                        onClick={() => handleViewExpediente(empleado)}
+                      >
+                        <Eye className="h-3.5 w-3.5" />
+                        <span className="hidden sm:inline">Ver expediente</span>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
