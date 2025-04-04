@@ -63,7 +63,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [activeExpedienteSection, setActiveExpedienteSection] = useState<string | null>(null);
   
   // Detectar si estamos en un dispositivo móvil
   useEffect(() => {
@@ -97,18 +96,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     { id: 'catalogos', name: 'Catálogos' },
     { id: 'expediente', name: 'Expediente Digital' }
   ];
-  
-  // Secciones de expediente
-  const expedienteSections = [
-    { id: 'datos-personales', name: 'Datos Personales' },
-    { id: 'datos-laborales', name: 'Datos Laborales' },
-    { id: 'datos-fiscales', name: 'Datos Fiscales' },
-    { id: 'formacion-academica', name: 'Formación Académica' },
-    { id: 'datos-familiares', name: 'Datos Familiares' },
-    { id: 'seguridad-social', name: 'Seguridad Social' },
-    { id: 'prestaciones-sociales', name: 'Prestaciones Sociales' },
-    { id: 'creditos-pensiones', name: 'Créditos y Pensiones' }
-  ];
 
   // Función para buscar empleados
   const handleSearch = (query:any) => {
@@ -127,39 +114,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   // Función para cambiar de módulo
   const handleModuleChange = (moduleId:any) => {
     setActiveModule(moduleId);
-    setActiveExpedienteSection(null);
     setIsOpen(false); // Cierra el menú móvil al seleccionar una opción
   };
-
-  // Monitorear cambios en la sección de expediente
-  useEffect(() => {
-    // Función para detectar cambios en el DOM que indiquen cambio de sección
-    const observeDOMChanges = () => {
-      const expedienteHeaders = document.querySelectorAll('h2.text-2xl.font-bold');
-      expedienteHeaders.forEach((header) => {
-        const text = header.textContent;
-        if (text) {
-          const section = expedienteSections.find(s => 
-            s.name.toLowerCase() === text.toLowerCase()
-          );
-          if (section && section.id !== activeExpedienteSection) {
-            setActiveExpedienteSection(section.id);
-          }
-        }
-      });
-    };
-
-    // Ejecutar inicialmente y configurar observador para cambios
-    if (activeModule === 'expediente') {
-      setTimeout(observeDOMChanges, 300); // Pequeño retraso para asegurar que el DOM está listo
-      
-      // Configurar MutationObserver para detectar cambios en el futuro
-      const observer = new MutationObserver(observeDOMChanges);
-      observer.observe(document.body, { childList: true, subtree: true });
-      
-      return () => observer.disconnect();
-    }
-  }, [activeModule]);
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -201,24 +157,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                     </SheetClose>
                   ))}
                 </nav>
-                
-                {/* Mostrar secciones de expediente si estamos en ese módulo */}
-                {activeModule === 'expediente' && (
-                  <div className="px-2 py-2 border-t mt-2">
-                    <h3 className="mb-2 px-2 text-xs font-medium text-muted-foreground">SECCIONES DE EXPEDIENTE</h3>
-                    {expedienteSections.map((section) => (
-                      <SheetClose key={section.id} asChild>
-                        <Button 
-                          variant={activeExpedienteSection === section.id ? "secondary" : "ghost"}
-                          className="w-full justify-start"
-                          onClick={() => setActiveExpedienteSection(section.id)}
-                        >
-                          {section.name}
-                        </Button>
-                      </SheetClose>
-                    ))}
-                  </div>
-                )}
                 
                 <div className="mt-auto p-4 border-t">
                   <div className="grid gap-1">
@@ -273,17 +211,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                       }}>
                         {modules.find(m => m.id === activeModule)?.name}
                       </BreadcrumbLink>
-                    </BreadcrumbItem>
-                  </>
-                )}
-                
-                {activeModule === 'expediente' && activeExpedienteSection && (
-                  <>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>
-                        {expedienteSections.find(s => s.id === activeExpedienteSection)?.name}
-                      </BreadcrumbPage>
                     </BreadcrumbItem>
                   </>
                 )}
@@ -353,23 +280,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({
           </div>
         </header>
 
-        {/* Menú contextual para expediente digital (solo en módulo expediente y en desktop) */}
-        {activeModule === 'expediente' && !isMobile && (
-          <div className="bg-muted/20 border-b px-4 py-2 hidden md:flex items-center overflow-x-auto">
-            {expedienteSections.map((section) => (
-              <Button 
-                key={section.id}
-                variant={activeExpedienteSection === section.id ? "secondary" : "ghost"} 
-                size="sm"
-                className="mx-1 whitespace-nowrap"
-                onClick={() => setActiveExpedienteSection(section.id)}
-              >
-                {section.name}
-              </Button>
-            ))}
-          </div>
-        )}
-
         <main className="flex-1 overflow-auto p-4 md:p-6">
           {renderContent()}
         </main>
@@ -407,7 +317,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                   className="flex items-center justify-between p-2 hover:bg-muted rounded-md cursor-pointer"
                   onClick={() => {
                     setShowSearchDialog(false);
-                    handleModuleChange('expediente');
+                    handleModuleChange('nomina');
+                    // Aquí se podría redirigir al expediente específico
                   }}
                 >
                   <div className="flex items-center gap-3">

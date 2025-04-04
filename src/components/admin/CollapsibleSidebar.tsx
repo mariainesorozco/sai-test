@@ -90,7 +90,7 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
   
   // Accesos rápidos
   const quickAccess = [
-    { id: 'search-expediente', name: 'Buscar expediente', icon: Search },
+    { id: 'search-expediente', name: 'Buscar', icon: Search },
     { id: 'settings', name: 'Configuración', icon: Settings },
     { id: 'help', name: 'Ayuda', icon: HelpCircle },
   ];

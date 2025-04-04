@@ -2,13 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { 
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetTitle,
-  SheetClose
-} from '@/components/ui/sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
   User, 
@@ -19,11 +12,12 @@ import {
   CreditCard, 
   Heart, 
   LifeBuoy, 
-  Menu,
-  ChevronLeft
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Importa los componentes de contenido
 import DatosPersonalesContent from './DatosPersonalesContent';
@@ -45,7 +39,6 @@ type SectionType = {
 
 const ExpedienteDigitalDashboard = () => {
   const [activeTab, setActiveTab] = useState('datos-personales');
-  const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   
@@ -131,7 +124,6 @@ const ExpedienteDigitalDashboard = () => {
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
-    setIsOpen(false); // Cierra el menú móvil al seleccionar una opción
   };
 
   // Función para navegar a la sección anterior (solo en móvil)
@@ -160,87 +152,9 @@ const ExpedienteDigitalDashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-background">
-      {/* Sidebar para escritorio */}
-      <aside className="hidden md:flex w-64 flex-col border-r bg-muted/40">
-        <div className="flex h-14 items-center border-b px-4">
-          <h2 className="text-lg font-semibold">Expediente Digital</h2>
-        </div>
-        <nav className="flex-1 overflow-auto py-2">
-          <div className="px-3 py-2">
-            <h3 className="mb-2 text-xs font-medium text-muted-foreground">INFORMACIÓN</h3>
-            {sections.map(section => (
-              <SidebarItem
-                key={section.id}
-                icon={section.icon}
-                label={section.label}
-                active={activeTab === section.id}
-                onClick={() => handleTabChange(section.id)}
-              />
-            ))}
-          </div>
-        </nav>
-        <div className="mt-auto p-4 border-t">
-          <div className="flex items-center gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
-              <AvatarFallback>UA</AvatarFallback>
-            </Avatar>
-            <div className="grid gap-0.5 text-xs">
-              <div className="font-medium">Usuario Admin</div>
-              <div className="text-muted-foreground">admin@uan.edu.mx</div>
-            </div>
-          </div>
-        </div>
-      </aside>
-
       {/* Contenido principal */}
       <div className="flex flex-col flex-1">
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
-          {/* Menú móvil con Sheet */}
-          <div className="md:hidden">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Menú</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-[85vw] max-w-[300px] p-0">
-                <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
-                <div className="flex h-14 items-center border-b px-4">
-                  <h2 className="text-lg font-semibold">Expediente Digital</h2>
-                </div>
-                <nav className="flex-1 overflow-auto py-2">
-                  <div className="px-3 py-2">
-                    <h3 className="mb-2 text-xs font-medium text-muted-foreground">INFORMACIÓN</h3>
-                    {sections.map(section => (
-                      <SheetClose key={section.id} asChild>
-                        <SidebarItem
-                          icon={section.icon}
-                          label={section.label}
-                          active={activeTab === section.id}
-                          onClick={() => handleTabChange(section.id)}
-                        />
-                      </SheetClose>
-                    ))}
-                  </div>
-                </nav>
-                <div className="mt-auto p-4 border-t">
-                  <div className="flex items-center gap-2">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
-                      <AvatarFallback>UA</AvatarFallback>
-                    </Avatar>
-                    <div className="grid gap-0.5 text-xs">
-                      <div className="font-medium">Usuario Admin</div>
-                      <div className="text-muted-foreground">admin@uan.edu.mx</div>
-                    </div>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-          
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8">
               <AvatarImage src="/api/placeholder/32/32" alt="Foto empleado" />
@@ -260,7 +174,27 @@ const ExpedienteDigitalDashboard = () => {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto p-2 sm:p-4 md:p-6">
+        <main className="flex-1 overflow-auto p-4 md:p-6">
+          {/* Contenedor de pestañas para desktop */}
+          <div className="hidden md:block mb-6">
+            <Tabs value={activeTab} onValueChange={handleTabChange}>
+              <TabsList className="grid grid-flow-col w-full justify-start overflow-x-auto mb-6">
+                {sections.map((section) => (
+                  <TabsTrigger key={section.id} value={section.id} className="flex items-center gap-2">
+                    <section.icon className="h-4 w-4" />
+                    <span>{section.label}</span>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              
+              {sections.map((section) => (
+                <TabsContent key={section.id} value={section.id}>
+                  {section.component}
+                </TabsContent>
+              ))}
+            </Tabs>
+          </div>
+          
           {/* Header para la sección actual en móvil */}
           <div className="md:hidden mb-4">
             <div className="flex items-center justify-between">
@@ -297,10 +231,10 @@ const ExpedienteDigitalDashboard = () => {
             </div>
             
             <Separator className="my-2" />
+            
+            {/* Componente específico para móvil */}
+            {activeSection.component}
           </div>
-          
-          {/* Contenido de la sección activa */}
-          {activeSection.component}
 
           {/* Espacio adicional para evitar que la barra flotante tape el contenido */}
           {isMobile && <div className="h-20 w-full mt-6"></div>}
@@ -343,33 +277,6 @@ const ExpedienteDigitalDashboard = () => {
         </main>
       </div>
     </div>
-  );
-};
-
-// Componente para los elementos del sidebar
-const SidebarItem = ({ 
-  icon: Icon, 
-  label, 
-  active, 
-  onClick 
-}: { 
-  icon: React.ElementType; 
-  label: string; 
-  active: boolean; 
-  onClick: () => void;
-}) => {
-  return (
-    <button
-      className={`w-full flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
-        active 
-          ? 'bg-accent text-accent-foreground' 
-          : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-      }`}
-      onClick={onClick}
-    >
-      <Icon className="h-4 w-4" />
-      <span>{label}</span>
-    </button>
   );
 };
 
