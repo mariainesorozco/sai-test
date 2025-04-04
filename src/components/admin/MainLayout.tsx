@@ -23,8 +23,9 @@ import {
   HelpCircle,
   LogOut,
   ChevronRight,
-  ArrowLeft,
-  Eye
+  Home,
+  BarChart,
+  User
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -35,24 +36,29 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/ui/dialog";
+import { Badge } from '@/components/ui/badge';
 
 // Importar componentes de módulos
 import NominaModule from './modules/NominaModule';
 import ImpuestosModule from './modules/ImpuestosModule';
 import EgresosModule from './modules/EgresosModule';
 import CatalogosModule from './modules/CatalogosModule';
-import EmpleadoDetailModule from './modules/EmpleadoDetailModule';
-import WelcomeMessage from './modules/WelcomeMessage';
+import ExpedienteDigitalDashboard from '@/components/ExpedienteDigitalDashboard';
 
 // Componente principal
-const MainLayout = () => {
-  const [activeModule, setActiveModule] = useState<string>('');
+interface MainLayoutProps {
+  activeModule: string;
+  setActiveModule: (moduleId: string) => void;
+  renderContent: () => React.ReactNode;
+}
+
+const MainLayout: React.FC<MainLayoutProps> = ({ activeModule, setActiveModule, renderContent }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showSearchDialog, setShowSearchDialog] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('Pérez');
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [selectedEmpleado, setSelectedEmpleado] = useState<any | null>(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   
   // Detectar si estamos en un dispositivo móvil
   useEffect(() => {
@@ -69,13 +75,6 @@ const MainLayout = () => {
     };
   }, []);
 
-  // Efecto para realizar la búsqueda automática al montar el componente
-  useEffect(() => {
-    if (searchQuery.length > 2) {
-      handleSearch(searchQuery);
-    }
-  }, [searchQuery]);
-
   // Datos de ejemplo para la búsqueda
   const empleadosRecientes = [
     { id: 1, nombre: 'Juan Pérez', puesto: 'Profesor de Tiempo Completo', adscripcion: 'Unidad Académica de Economía', estatus: 'Activo' },
@@ -86,6 +85,12 @@ const MainLayout = () => {
 
   // Módulos del sistema
   const modules = [
+    {
+      id: 'inicio',
+      name: 'Inicio',
+      icon: Home,
+      description: 'Panel de control y resumen',
+    },
     {
       id: 'nomina',
       name: 'Nómina y Recursos Humanos',
@@ -110,6 +115,12 @@ const MainLayout = () => {
       icon: BookOpen,
       description: 'Administración de catálogos del sistema',
     },
+    {
+      id: 'expediente',
+      name: 'Expediente Digital',
+      icon: User,
+      description: 'Gestión de expedientes digitales',
+    }
   ];
 
   // Función para buscar empleados
@@ -126,73 +137,19 @@ const MainLayout = () => {
     }
   };
 
-  // Abrir el expediente de Juan Pérez directamente (para demostración)
-  const handleVerJuanPerez = () => {
-    const juanPerez = empleadosRecientes.find(emp => emp.id === 1);
-    if (juanPerez) {
-      setSelectedEmpleado(juanPerez);
-    }
-  };
-
   const handleModuleChange = (moduleId:any) => {
     setActiveModule(moduleId);
     setIsOpen(false); // Cierra el menú móvil al seleccionar una opción
-    setSelectedEmpleado(null); // Resetea el empleado seleccionado
   };
 
-  // Función para ver el expediente de un empleado
-  const handleViewExpediente = (empleado:any) => {
-    setSelectedEmpleado(empleado);
-    setShowSearchDialog(false);
-  };
+  // Accesos rápidos
+  const quickAccess = [
+    { id: 'search-expediente', title: 'Buscar expediente', icon: Search, action: () => setShowSearchDialog(true) },
+    { id: 'reportes', title: 'Reportes', icon: BarChart, action: () => console.log('Reportes') },
+    { id: 'configuracion', title: 'Configuración', icon: Settings, action: () => console.log('Configuración') },
+  ];
 
-  // Función para volver al módulo desde el expediente
-  const handleBackFromExpediente = () => {
-    setSelectedEmpleado(null);
-  };
-
-  // Renderiza el contenido según el módulo activo
-  const renderModuleContent = () => {
-    // Si hay un empleado seleccionado, muestra su expediente
-    if (selectedEmpleado) {
-      return (
-        <EmpleadoDetailModule 
-          onBack={handleBackFromExpediente}
-          empleadoId={selectedEmpleado.id}
-        />
-      );
-    }
-    
-    const activeModuleObj = modules.find(m => m.id === activeModule);
-    
-    switch (activeModule) {
-      case 'nomina':
-        return <NominaModule onViewExpediente={handleViewExpediente} />;
-      case 'impuestos':
-        return <ImpuestosModule />;
-      case 'egresos':
-        return <EgresosModule />;
-      case 'catalogos':
-        return <CatalogosModule />;
-      default:
-        return (
-          <div className="flex items-center justify-center h-[80vh]">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold">{activeModuleObj?.name || 'Módulo'}</h2>
-              <p className="text-muted-foreground">Seleccione una opción del menú para comenzar</p>
-            </div>
-          </div>
-        );
-    }
-  };
-
-  // Renderiza el contenido cuando no hay ningún módulo seleccionado
-  const renderWelcomeMessage = () => {
-    return <WelcomeMessage 
-      onViewExpediente={handleVerJuanPerez} 
-      onOpenSearch={() => setShowSearchDialog(true)}
-    />;
-  };
+  // No necesitamos renderModuleContent ya que viene desde las props
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -216,34 +173,23 @@ const MainLayout = () => {
           
           <div className="px-3 py-2">
             <h3 className="mb-2 px-4 text-xs font-medium text-muted-foreground">ACCESO RÁPIDO</h3>
-            <div className="grid gap-1 md:grid-cols-1">
+            {quickAccess.map((item) => (
               <Button 
+                key={item.id}
                 variant="ghost" 
-                size="sm" 
-                className="justify-start text-sm"
-                onClick={() => setShowSearchDialog(true)}
+                className="w-full justify-start text-left font-normal mb-1"
+                onClick={item.action}
               >
                 <div className="flex items-center gap-3">
-                  <Search className="h-4 w-4" />
-                  <span>Buscar expediente</span>
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.title}</span>
                 </div>
               </Button>
-              <Button 
-                variant="default" 
-                size="sm" 
-                className="justify-start text-sm mt-1"
-                onClick={handleVerJuanPerez}
-              >
-                <div className="flex items-center gap-3">
-                  <Eye className="h-4 w-4" />
-                  <span>Ver expediente de Juan Pérez</span>
-                </div>
-              </Button>
-            </div>
+            ))}
           </div>
         </div>
         <div className="mt-auto p-4 border-t">
-          <div className="space-y-2">
+          <div className="grid gap-1">
             <Button variant="ghost" size="sm" className="justify-start">
               <Settings className="mr-2 h-4 w-4" />
               Configuración
@@ -256,17 +202,6 @@ const MainLayout = () => {
               <LogOut className="mr-2 h-4 w-4" />
               Cerrar sesión
             </Button>
-            {selectedEmpleado && (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="justify-start w-full mt-4"
-                onClick={handleBackFromExpediente}
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Volver al módulo
-              </Button>
-            )}
           </div>
         </div>
         <div className="p-4 border-t flex items-center gap-2">
@@ -315,28 +250,21 @@ const MainLayout = () => {
                 
                 <div className="px-2 py-4">
                   <Separator className="mb-4" />
-                  <Button 
-                    variant="outline" 
-                    className="w-full mb-2 justify-start"
-                    onClick={() => {
-                      setShowSearchDialog(true);
-                      setIsOpen(false);
-                    }}
-                  >
-                    <Search className="mr-2 h-4 w-4" />
-                    Buscar expediente
-                  </Button>
-                  <Button 
-                    variant="default" 
-                    className="w-full justify-start"
-                    onClick={() => {
-                      handleVerJuanPerez();
-                      setIsOpen(false);
-                    }}
-                  >
-                    <Eye className="mr-2 h-4 w-4" />
-                    Ver expediente de Juan Pérez
-                  </Button>
+                  {quickAccess.map((item) => (
+                    <SheetClose key={item.id} asChild>
+                      <Button 
+                        variant="outline" 
+                        className="w-full mb-2 justify-start"
+                        onClick={() => {
+                          setIsOpen(false);
+                          item.action();
+                        }}
+                      >
+                        <item.icon className="mr-2 h-4 w-4" />
+                        {item.title}
+                      </Button>
+                    </SheetClose>
+                  ))}
                 </div>
                 
                 <div className="mt-auto p-4 border-t">
@@ -353,17 +281,6 @@ const MainLayout = () => {
                       <LogOut className="mr-2 h-4 w-4" />
                       Cerrar sesión
                     </Button>
-                    {selectedEmpleado && (
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="justify-start w-full mt-2"
-                        onClick={handleBackFromExpediente}
-                      >
-                        <ArrowLeft className="mr-2 h-4 w-4" />
-                        Volver
-                      </Button>
-                    )}
                   </div>
                 </div>
                 <div className="p-4 border-t flex items-center gap-2">
@@ -382,9 +299,7 @@ const MainLayout = () => {
           
           <div className="flex-1 flex items-center">
             <h1 className="text-lg font-semibold ml-2 md:ml-0">
-              {selectedEmpleado 
-                ? `Expediente: ${selectedEmpleado.nombre}` 
-                : (modules.find(m => m.id === activeModule)?.name || 'Dashboard')}
+              {modules.find(m => m.id === activeModule)?.name || 'Dashboard'}
             </h1>
           </div>
           
@@ -399,22 +314,49 @@ const MainLayout = () => {
             </Button>
             <Button variant="outline" size="icon">
               <Bell className="h-4 w-4" />
+              <span className="sr-only">Notificaciones</span>
             </Button>
-            <Avatar className="md:hidden h-8 w-8">
-              <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
-              <AvatarFallback>UA</AvatarFallback>
-            </Avatar>
+            <div className="relative">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full"
+                onClick={() => setShowUserMenu(!showUserMenu)}
+              >
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
+                  <AvatarFallback>UA</AvatarFallback>
+                </Avatar>
+              </Button>
+              {showUserMenu && (
+                <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-background border z-50">
+                  <div className="p-2 border-b">
+                    <div className="font-medium">Usuario Admin</div>
+                    <div className="text-xs text-muted-foreground">admin@uan.edu.mx</div>
+                  </div>
+                  <div className="p-1">
+                    <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <User className="mr-2 h-4 w-4" />
+                      Mi perfil
+                    </Button>
+                    <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <Settings className="mr-2 h-4 w-4" />
+                      Configuración
+                    </Button>
+                    <Separator className="my-1" />
+                    <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Cerrar sesión
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto p-2 sm:p-4 md:p-6">
-          <div className="transition-opacity duration-200 ease-in-out">
-            {selectedEmpleado 
-              ? renderModuleContent() 
-              : activeModule 
-                ? renderModuleContent() 
-                : renderWelcomeMessage()}
-          </div>
+        <main className="flex-1 overflow-auto p-4 md:p-6">
+          {renderContent()}
         </main>
       </div>
       
@@ -434,7 +376,6 @@ const MainLayout = () => {
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
                 className="flex-1"
-                autoFocus
               />
               <Button size="sm" variant="secondary">
                 <Search className="h-4 w-4 mr-2" />
@@ -451,7 +392,7 @@ const MainLayout = () => {
                   className="flex items-center justify-between p-2 hover:bg-muted rounded-md cursor-pointer"
                   onClick={() => {
                     setShowSearchDialog(false);
-                    handleViewExpediente(result);
+                    handleModuleChange('expediente');
                   }}
                 >
                   <div className="flex items-center gap-3">
@@ -463,10 +404,12 @@ const MainLayout = () => {
                       <p className="text-xs text-muted-foreground">{result.puesto}</p>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" className="gap-1">
-                    <Eye className="h-3.5 w-3.5" />
-                    <span className="hidden sm:inline">Ver</span>
-                  </Button>
+                  <div className="flex items-center">
+                    <Badge variant={result.estatus === 'Activo' ? 'default' : 'secondary'} className="mr-2">
+                      {result.estatus}
+                    </Badge>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  </div>
                 </div>
               ))}
             </div>

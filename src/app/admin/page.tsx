@@ -1,9 +1,43 @@
-import MainLayout from '@/components/admin/MainLayout';
+// src/app/admin/page.tsx
+"use client";
 
-export function generateStaticParams() {
-    return [{ slug: 'admin' }];
-}
+import { useState } from 'react';
+import MainLayout from '@/components/admin/MainLayout';
+import DashboardPage from '@/components/admin/DashboardPage';
+import NominaModule from '@/components/admin/modules/NominaModule';
+import ImpuestosModule from '@/components/admin/modules/ImpuestosModule';
+import EgresosModule from '@/components/admin/modules/EgresosModule';
+import CatalogosModule from '@/components/admin/modules/CatalogosModule';
+import ExpedienteDigitalDashboard from '@/components/ExpedienteDigitalDashboard';
 
 export default function AdminPage() {
-  return <MainLayout />;
+  const [activeModule, setActiveModule] = useState('inicio');
+
+  // Renderizar el contenido según el módulo activo
+  const renderModuleContent = () => {
+    switch (activeModule) {
+      case 'inicio':
+        return <DashboardPage onModuleSelect={setActiveModule} />;
+      case 'nomina':
+        return <NominaModule />;
+      case 'impuestos':
+        return <ImpuestosModule />;
+      case 'egresos':
+        return <EgresosModule />;
+      case 'catalogos':
+        return <CatalogosModule />;
+      case 'expediente':
+        return <ExpedienteDigitalDashboard />;
+      default:
+        return <DashboardPage onModuleSelect={setActiveModule} />;
+    }
+  };
+
+  return (
+    <MainLayout
+      activeModule={activeModule}
+      setActiveModule={setActiveModule}
+      renderContent={renderModuleContent}
+    />
+  );
 }
