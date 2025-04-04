@@ -71,7 +71,6 @@ export default function HomePage() {
         
         <div className="text-center text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} Universidad Autónoma de Nayarit - Todos los derechos reservados</p>
-          <p>Versión 2.5.0 - Última actualización: 01/04/2025</p>
         </div>
       </div>
     </div>

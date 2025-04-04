@@ -8,7 +8,7 @@ import NominaModule from '@/components/admin/modules/NominaModule';
 import ImpuestosModule from '@/components/admin/modules/ImpuestosModule';
 import EgresosModule from '@/components/admin/modules/EgresosModule';
 import CatalogosModule from '@/components/admin/modules/CatalogosModule';
-import ExpedienteDigitalDashboard from '@/components/ExpedienteDigitalDashboard';
+import ExpedienteDigitalModule from '@/components/admin/modules/ExpedienteDigitalModule';
 
 export default function AdminPage() {
   const [activeModule, setActiveModule] = useState('inicio');
@@ -27,7 +27,7 @@ export default function AdminPage() {
       case 'catalogos':
         return <CatalogosModule />;
       case 'expediente':
-        return <ExpedienteDigitalDashboard />;
+        return <ExpedienteDigitalModule />;
       default:
         return <DashboardPage onModuleSelect={setActiveModule} />;
     }

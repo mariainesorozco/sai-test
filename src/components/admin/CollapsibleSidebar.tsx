@@ -103,7 +103,7 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
     
     // Si el módulo es Expediente Digital, navegar a la página correspondiente
     if (moduleId === 'expediente') {
-      router.push('/admin/nomina/expediente-digital');
+      onModuleChange(moduleId);
     }
   };
 
