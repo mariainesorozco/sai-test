@@ -63,7 +63,7 @@ export default function HomePage() {
           <CardFooter className="flex justify-center">
             <Link href="/admin">
               <Button size="lg">
-                Ingresar al Sistema Integrado
+                Ingresar al Sistema
               </Button>
             </Link>
           </CardFooter>

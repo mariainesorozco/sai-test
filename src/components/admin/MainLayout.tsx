@@ -11,21 +11,25 @@ import {
   SheetTitle,
   SheetClose
 } from '@/components/ui/sheet';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { 
-  Users, 
-  FileText, 
-  DollarSign, 
-  BookOpen, 
   Menu,
   Search,
   Bell,
-  Settings,
-  HelpCircle,
   LogOut,
   ChevronRight,
-  Home,
-  BarChart,
-  User
+  User,
+  Settings,
+  HelpCircle,
+  Grid,
+  Home
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -38,27 +42,28 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from '@/components/ui/badge';
 
-// Importar componentes de módulos
-import NominaModule from './modules/NominaModule';
-import ImpuestosModule from './modules/ImpuestosModule';
-import EgresosModule from './modules/EgresosModule';
-import CatalogosModule from './modules/CatalogosModule';
-import ExpedienteDigitalDashboard from '@/components/ExpedienteDigitalDashboard';
+import CollapsibleSidebar from './CollapsibleSidebar';
 
-// Componente principal
+// Interfaces
 interface MainLayoutProps {
   activeModule: string;
   setActiveModule: (moduleId: string) => void;
   renderContent: () => React.ReactNode;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ activeModule, setActiveModule, renderContent }) => {
+// Componente principal
+const MainLayout: React.FC<MainLayoutProps> = ({ 
+  activeModule, 
+  setActiveModule, 
+  renderContent 
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showSearchDialog, setShowSearchDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [activeExpedienteSection, setActiveExpedienteSection] = useState<string | null>(null);
   
   // Detectar si estamos en un dispositivo móvil
   useEffect(() => {
@@ -83,44 +88,26 @@ const MainLayout: React.FC<MainLayoutProps> = ({ activeModule, setActiveModule, 
     { id: 4, nombre: 'Ana González', puesto: 'Directivo', adscripcion: 'Rectoría', estatus: 'Activo' },
   ];
 
-  // Módulos del sistema
+  // Módulos del sistema (para acceso en este componente)
   const modules = [
-    {
-      id: 'inicio',
-      name: 'Inicio',
-      icon: Home,
-      description: 'Panel de control y resumen',
-    },
-    {
-      id: 'nomina',
-      name: 'Nómina y Recursos Humanos',
-      icon: Users,
-      description: 'Gestión de personal, expedientes y nómina',
-    },
-    {
-      id: 'impuestos',
-      name: 'Impuestos',
-      icon: FileText,
-      description: 'Gestión de impuestos y obligaciones fiscales',
-    },
-    {
-      id: 'egresos',
-      name: 'Egresos',
-      icon: DollarSign,
-      description: 'Control de pagos y egresos institucionales',
-    },
-    {
-      id: 'catalogos',
-      name: 'Catálogos',
-      icon: BookOpen,
-      description: 'Administración de catálogos del sistema',
-    },
-    {
-      id: 'expediente',
-      name: 'Expediente Digital',
-      icon: User,
-      description: 'Gestión de expedientes digitales',
-    }
+    { id: 'inicio', name: 'Inicio' },
+    { id: 'nomina', name: 'Nómina y Recursos Humanos' },
+    { id: 'impuestos', name: 'Impuestos' },
+    { id: 'egresos', name: 'Egresos' },
+    { id: 'catalogos', name: 'Catálogos' },
+    { id: 'expediente', name: 'Expediente Digital' }
+  ];
+  
+  // Secciones de expediente
+  const expedienteSections = [
+    { id: 'datos-personales', name: 'Datos Personales' },
+    { id: 'datos-laborales', name: 'Datos Laborales' },
+    { id: 'datos-fiscales', name: 'Datos Fiscales' },
+    { id: 'formacion-academica', name: 'Formación Académica' },
+    { id: 'datos-familiares', name: 'Datos Familiares' },
+    { id: 'seguridad-social', name: 'Seguridad Social' },
+    { id: 'prestaciones-sociales', name: 'Prestaciones Sociales' },
+    { id: 'creditos-pensiones', name: 'Créditos y Pensiones' }
   ];
 
   // Función para buscar empleados
@@ -137,84 +124,52 @@ const MainLayout: React.FC<MainLayoutProps> = ({ activeModule, setActiveModule, 
     }
   };
 
+  // Función para cambiar de módulo
   const handleModuleChange = (moduleId:any) => {
     setActiveModule(moduleId);
+    setActiveExpedienteSection(null);
     setIsOpen(false); // Cierra el menú móvil al seleccionar una opción
   };
 
-  // Accesos rápidos
-  const quickAccess = [
-    { id: 'search-expediente', title: 'Buscar expediente', icon: Search, action: () => setShowSearchDialog(true) },
-    { id: 'reportes', title: 'Reportes', icon: BarChart, action: () => console.log('Reportes') },
-    { id: 'configuracion', title: 'Configuración', icon: Settings, action: () => console.log('Configuración') },
-  ];
+  // Monitorear cambios en la sección de expediente
+  useEffect(() => {
+    // Función para detectar cambios en el DOM que indiquen cambio de sección
+    const observeDOMChanges = () => {
+      const expedienteHeaders = document.querySelectorAll('h2.text-2xl.font-bold');
+      expedienteHeaders.forEach((header) => {
+        const text = header.textContent;
+        if (text) {
+          const section = expedienteSections.find(s => 
+            s.name.toLowerCase() === text.toLowerCase()
+          );
+          if (section && section.id !== activeExpedienteSection) {
+            setActiveExpedienteSection(section.id);
+          }
+        }
+      });
+    };
 
-  // No necesitamos renderModuleContent ya que viene desde las props
+    // Ejecutar inicialmente y configurar observador para cambios
+    if (activeModule === 'expediente') {
+      setTimeout(observeDOMChanges, 300); // Pequeño retraso para asegurar que el DOM está listo
+      
+      // Configurar MutationObserver para detectar cambios en el futuro
+      const observer = new MutationObserver(observeDOMChanges);
+      observer.observe(document.body, { childList: true, subtree: true });
+      
+      return () => observer.disconnect();
+    }
+  }, [activeModule]);
 
   return (
     <div className="flex min-h-screen bg-background">
       {/* Sidebar para escritorio */}
-      <aside className="hidden md:flex w-64 flex-col border-r bg-muted/40">
-        <div className="flex h-14 items-center border-b px-4">
-          <h2 className="text-lg font-semibold">SAI UAN</h2>
-        </div>
-        <div className="flex-1 overflow-auto">
-          <nav className="grid gap-1 px-2 py-3">
-            {modules.map((module) => (
-              <SidebarItem
-                key={module.id}
-                icon={module.icon}
-                label={module.name}
-                active={activeModule === module.id}
-                onClick={() => handleModuleChange(module.id)}
-              />
-            ))}
-          </nav>
-          
-          <div className="px-3 py-2">
-            <h3 className="mb-2 px-4 text-xs font-medium text-muted-foreground">ACCESO RÁPIDO</h3>
-            {quickAccess.map((item) => (
-              <Button 
-                key={item.id}
-                variant="ghost" 
-                className="w-full justify-start text-left font-normal mb-1"
-                onClick={item.action}
-              >
-                <div className="flex items-center gap-3">
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.title}</span>
-                </div>
-              </Button>
-            ))}
-          </div>
-        </div>
-        <div className="mt-auto p-4 border-t">
-          <div className="grid gap-1">
-            <Button variant="ghost" size="sm" className="justify-start">
-              <Settings className="mr-2 h-4 w-4" />
-              Configuración
-            </Button>
-            <Button variant="ghost" size="sm" className="justify-start">
-              <HelpCircle className="mr-2 h-4 w-4" />
-              Ayuda
-            </Button>
-            <Button variant="ghost" size="sm" className="justify-start">
-              <LogOut className="mr-2 h-4 w-4" />
-              Cerrar sesión
-            </Button>
-          </div>
-        </div>
-        <div className="p-4 border-t flex items-center gap-2">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
-            <AvatarFallback>UA</AvatarFallback>
-          </Avatar>
-          <div className="grid gap-0.5 text-xs">
-            <div className="font-medium">Usuario Admin</div>
-            <div className="text-muted-foreground">admin@uan.edu.mx</div>
-          </div>
-        </div>
-      </aside>
+      <div className="hidden md:block">
+        <CollapsibleSidebar 
+          activeModule={activeModule}
+          onModuleChange={handleModuleChange}
+        />
+      </div>
 
       {/* Contenido principal */}
       <div className="flex flex-col flex-1">
@@ -241,31 +196,29 @@ const MainLayout: React.FC<MainLayoutProps> = ({ activeModule, setActiveModule, 
                         className="w-full justify-start"
                         onClick={() => handleModuleChange(module.id)}
                       >
-                        <module.icon className="mr-2 h-4 w-4" />
                         {module.name}
                       </Button>
                     </SheetClose>
                   ))}
                 </nav>
                 
-                <div className="px-2 py-4">
-                  <Separator className="mb-4" />
-                  {quickAccess.map((item) => (
-                    <SheetClose key={item.id} asChild>
-                      <Button 
-                        variant="outline" 
-                        className="w-full mb-2 justify-start"
-                        onClick={() => {
-                          setIsOpen(false);
-                          item.action();
-                        }}
-                      >
-                        <item.icon className="mr-2 h-4 w-4" />
-                        {item.title}
-                      </Button>
-                    </SheetClose>
-                  ))}
-                </div>
+                {/* Mostrar secciones de expediente si estamos en ese módulo */}
+                {activeModule === 'expediente' && (
+                  <div className="px-2 py-2 border-t mt-2">
+                    <h3 className="mb-2 px-2 text-xs font-medium text-muted-foreground">SECCIONES DE EXPEDIENTE</h3>
+                    {expedienteSections.map((section) => (
+                      <SheetClose key={section.id} asChild>
+                        <Button 
+                          variant={activeExpedienteSection === section.id ? "secondary" : "ghost"}
+                          className="w-full justify-start"
+                          onClick={() => setActiveExpedienteSection(section.id)}
+                        >
+                          {section.name}
+                        </Button>
+                      </SheetClose>
+                    ))}
+                  </div>
+                )}
                 
                 <div className="mt-auto p-4 border-t">
                   <div className="grid gap-1">
@@ -297,12 +250,48 @@ const MainLayout: React.FC<MainLayoutProps> = ({ activeModule, setActiveModule, 
             </Sheet>
           </div>
           
-          <div className="flex-1 flex items-center">
-            <h1 className="text-lg font-semibold ml-2 md:ml-0">
-              {modules.find(m => m.id === activeModule)?.name || 'Dashboard'}
-            </h1>
+          {/* Breadcrumbs usando el componente de shadcn/ui */}
+          <div className="flex-1 overflow-hidden flex items-center">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/admin" onClick={(e) => {
+                    e.preventDefault();
+                    handleModuleChange('inicio');
+                  }}>
+                    <Home className="h-3.5 w-3.5" />
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                
+                {activeModule !== 'inicio' && (
+                  <>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbLink href="#" onClick={(e) => {
+                        e.preventDefault();
+                        handleModuleChange(activeModule);
+                      }}>
+                        {modules.find(m => m.id === activeModule)?.name}
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  </>
+                )}
+                
+                {activeModule === 'expediente' && activeExpedienteSection && (
+                  <>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbPage>
+                        {expedienteSections.find(s => s.id === activeExpedienteSection)?.name}
+                      </BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </>
+                )}
+              </BreadcrumbList>
+            </Breadcrumb>
           </div>
           
+          {/* Acciones de usuario */}
           <div className="flex items-center gap-2">
             <Button 
               variant="outline" 
@@ -311,11 +300,20 @@ const MainLayout: React.FC<MainLayoutProps> = ({ activeModule, setActiveModule, 
               onClick={() => setShowSearchDialog(true)}
             >
               <Search className="h-4 w-4" />
+              <span className="sr-only">Buscar</span>
             </Button>
             <Button variant="outline" size="icon">
               <Bell className="h-4 w-4" />
               <span className="sr-only">Notificaciones</span>
             </Button>
+            
+            {/* Dashboard de aplicaciones */}
+            <Button variant="outline" size="icon">
+              <Grid className="h-4 w-4" />
+              <span className="sr-only">Apps</span>
+            </Button>
+            
+            {/* Avatar de usuario con menú */}
             <div className="relative">
               <Button 
                 variant="ghost" 
@@ -354,6 +352,23 @@ const MainLayout: React.FC<MainLayoutProps> = ({ activeModule, setActiveModule, 
             </div>
           </div>
         </header>
+
+        {/* Menú contextual para expediente digital (solo en módulo expediente y en desktop) */}
+        {activeModule === 'expediente' && !isMobile && (
+          <div className="bg-muted/20 border-b px-4 py-2 hidden md:flex items-center overflow-x-auto">
+            {expedienteSections.map((section) => (
+              <Button 
+                key={section.id}
+                variant={activeExpedienteSection === section.id ? "secondary" : "ghost"} 
+                size="sm"
+                className="mx-1 whitespace-nowrap"
+                onClick={() => setActiveExpedienteSection(section.id)}
+              >
+                {section.name}
+              </Button>
+            ))}
+          </div>
+        )}
 
         <main className="flex-1 overflow-auto p-4 md:p-6">
           {renderContent()}
@@ -429,33 +444,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ activeModule, setActiveModule, 
         </DialogContent>
       </Dialog>
     </div>
-  );
-};
-
-// Componente para los elementos del sidebar
-const SidebarItem = ({ 
-  icon: Icon, 
-  label, 
-  active, 
-  onClick 
-}: { 
-  icon: React.ElementType; 
-  label: string; 
-  active: boolean; 
-  onClick: () => void;
-}) => {
-  return (
-    <button
-      className={`flex items-center gap-3 rounded-md px-4 py-2 text-sm transition-colors ${
-        active 
-          ? 'bg-primary text-primary-foreground' 
-          : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-      }`}
-      onClick={onClick}
-    >
-      <Icon className="h-4 w-4" />
-      <span>{label}</span>
-    </button>
   );
 };
 
