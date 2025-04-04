@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useRouter } from 'next/navigation';
 
 interface SidebarProps {
   activeModule: string;
@@ -28,6 +29,7 @@ interface SidebarProps {
 const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChange }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const router = useRouter();
   
   // Detectar si estamos en un dispositivo móvil
   useEffect(() => {
@@ -95,6 +97,16 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
     { id: 'help', name: 'Ayuda', icon: HelpCircle },
   ];
 
+  // Función para manejar el clic en un módulo
+  const handleModuleClick = (moduleId: string) => {
+    onModuleChange(moduleId);
+    
+    // Si el módulo es Expediente Digital, navegar a la página correspondiente
+    if (moduleId === 'expediente') {
+      router.push('/admin/nomina/expediente-digital');
+    }
+  };
+
   return (
     <aside 
       className={cn(
@@ -145,7 +157,7 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
                               : "text-muted-foreground hover:bg-muted hover:text-foreground",
                             collapsed ? "justify-center" : ""
                           )}
-                          onClick={() => onModuleChange(module.id)}
+                          onClick={() => handleModuleClick(module.id)}
                         >
                           <module.icon className="h-4 w-4" />
                           {!collapsed && <span>{module.name}</span>}

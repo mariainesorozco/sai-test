@@ -20,6 +20,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,9 +28,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// Este módulo se integrará con NominaModule.tsx para acceder a los expedientes digitales
-
 const ExpedienteDigitalModule = () => {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('todos');
 
@@ -104,6 +104,17 @@ const ExpedienteDigitalModule = () => {
     administrativos: empleados.filter(e => e.tipo === 'Administrativo').length,
     directivos: empleados.filter(e => e.tipo === 'Directivo').length,
     expedientesCompletos: empleados.filter(e => e.expedienteCompleto === 100).length
+  };
+
+  // Función para navegar al expediente del empleado seleccionado
+  const handleNavigateToExpediente = (empleadoId: number) => {
+    if (empleadoId === 1) {
+      // Navegar al expediente de Juan Pérez
+      router.push('/admin/nomina/expediente-digital/juan-perez');
+    } else {
+      // Para otros empleados, mostrar un mensaje o redirigir a una página genérica
+      alert("Expediente no disponible. Solo el expediente de Juan Pérez está implementado.");
+    }
   };
 
   return (
@@ -272,11 +283,14 @@ const ExpedienteDigitalModule = () => {
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0" asChild>
-                          <a href={`/admin/nomina/expediente-digital/${empleado.id}`}>
-                            <span className="sr-only">Ver expediente</span>
-                            <ChevronRight className="h-4 w-4" />
-                          </a>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="h-8 w-8 p-0"
+                          onClick={() => handleNavigateToExpediente(empleado.id)}
+                        >
+                          <span className="sr-only">Ver expediente</span>
+                          <ChevronRight className="h-4 w-4" />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -352,11 +366,14 @@ const ExpedienteDigitalModule = () => {
                 </CardContent>
                 <Separator />
                 <CardFooter className="p-3 justify-end">
-                  <Button variant="ghost" size="sm" className="w-full" asChild>
-                    <a href={`/admin/nomina/expediente-digital/${empleado.id}`}>
-                      <FileText className="h-4 w-4 mr-2" />
-                      Ver expediente
-                    </a>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full"
+                    onClick={() => handleNavigateToExpediente(empleado.id)}
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    Ver expediente
                   </Button>
                 </CardFooter>
               </Card>
@@ -411,10 +428,12 @@ const ExpedienteDigitalModule = () => {
                           <Badge variant="outline" className="text-xs bg-blue-50">Datos familiares</Badge>
                         )}
                       </div>
-                      <Button variant="ghost" size="sm" asChild>
-                        <a href={`/admin/nomina/expediente-digital/${empleado.id}`}>
-                          Completar
-                        </a>
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => handleNavigateToExpediente(empleado.id)}
+                      >
+                        Completar
                       </Button>
                     </div>
                   </div>

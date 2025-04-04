@@ -289,7 +289,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       <Dialog open={showSearchDialog} onOpenChange={setShowSearchDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Buscar trabajador/docente</DialogTitle>
+            <DialogTitle>Buscar empleado</DialogTitle>
             <DialogDescription>
               Ingrese el nombre o número de empleado para buscar su expediente.
             </DialogDescription>

@@ -1,8 +1,8 @@
-// Archivo: /app/admin/nomina/expediente-digital/page.tsx
+// Archivo: /app/admin/nomina/expediente-digital/juan-perez/page.tsx
 
 "use client";
 
-import ExpedienteDigitalModule from '@/components/admin/modules/ExpedienteDigitalModule';
+import ExpedienteJuanPerez from '@/components/ExpedienteDigitalDashboard/datos-juan-perez/ExpedienteJuanPerez';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,13 +11,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Home, FileText, Users } from 'lucide-react';
+import { Home, FileText, User } from 'lucide-react';
 import Link from 'next/link';
 
-export default function ExpedienteDigitalPage() {
+export default function ExpedienteJuanPerezPage() {
   return (
-    <div className="space-y-6 p-4 md:p-6">
-      <div className="hidden md:block">
+    <div className="space-y-6 p-0">
+      <div className="hidden md:block px-6 pt-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -32,9 +32,18 @@ export default function ExpedienteDigitalPage() {
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
                 <Link href="/admin/nomina">
+                  Nómina y Recursos Humanos
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/admin/nomina/expediente-digital">
                   <span className="flex items-center gap-1">
-                    <Users className="h-3.5 w-3.5" />
-                    Nómina y Recursos Humanos
+                    <FileText className="h-3.5 w-3.5" />
+                    Expediente Digital
                   </span>
                 </Link>
               </BreadcrumbLink>
@@ -44,8 +53,8 @@ export default function ExpedienteDigitalPage() {
             <BreadcrumbItem>
               <BreadcrumbPage>
                 <span className="flex items-center gap-1">
-                  <FileText className="h-3.5 w-3.5" />
-                  Expediente Digital
+                  <User className="h-3.5 w-3.5" />
+                  Juan Pérez
                 </span>
               </BreadcrumbPage>
             </BreadcrumbItem>
@@ -53,7 +62,7 @@ export default function ExpedienteDigitalPage() {
         </Breadcrumb>
       </div>
       
-      <ExpedienteDigitalModule />
+      <ExpedienteJuanPerez />
     </div>
   );
 }

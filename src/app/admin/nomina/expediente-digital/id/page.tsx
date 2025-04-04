@@ -1,7 +1,6 @@
 "use client";
 
-import { useParams } from 'next/navigation';
-import ExpedienteDigitalDashboard from '@/components/ExpedienteDigitalDashboard';
+import React from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,14 +9,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Home, Users } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Home, Users, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import ExpedienteJuanPerez from '@/components/ExpedienteDigitalDashboard/datos-juan-perez/ExpedienteJuanPerez';
 
-export default function ExpedienteDigitalPage() {
-  const params = useParams();
-  const id = params.id;
-
+export default function JuanPerezExpedientePage() {
   return (
     <div className="space-y-6 p-4 md:p-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -63,14 +62,43 @@ export default function ExpedienteDigitalPage() {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbPage>
-                Expediente #{id}
+                Juan Pérez
               </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </div>
       
-      <ExpedienteDigitalDashboard />
+      {/* Encabezado del expediente */}
+      <div className="bg-muted/20 border rounded-md p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Avatar className="h-12 w-12">
+              <AvatarImage src="/api/placeholder/48/48" alt="Juan Pérez" />
+              <AvatarFallback>JP</AvatarFallback>
+            </Avatar>
+            <div>
+              <div className="font-semibold">
+                Juan Pérez
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Profesor de Tiempo Completo - Unidad Académica de Economía
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="text-xs">
+              Académico
+            </Badge>
+            <Badge className="text-xs">
+              Activo
+            </Badge>
+          </div>
+        </div>
+      </div>
+      
+      {/* Contenido del expediente con los datos de Juan Pérez */}
+      <ExpedienteJuanPerez />
     </div>
   );
 }
