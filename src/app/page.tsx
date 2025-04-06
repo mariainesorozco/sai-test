@@ -23,35 +23,35 @@ export default function HomePage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-              <Link href="/admin" className="col-span-1 flex flex-col items-center">
+              <Link href="/admin/nomina" className="col-span-1 flex flex-col items-center">
                 <Button variant="outline" className="h-auto py-6 w-full flex flex-col items-center">
                   <Users className="h-8 w-8 mb-2" />
                   <span className="text-sm font-medium">Nómina y RH</span>
                 </Button>
               </Link>
               
-              <Link href="/admin" className="col-span-1 flex flex-col items-center">
+              <Link href="/admin/impuestos" className="col-span-1 flex flex-col items-center">
                 <Button variant="outline" className="h-auto py-6 w-full flex flex-col items-center">
                   <FileText className="h-8 w-8 mb-2" />
                   <span className="text-sm font-medium">Impuestos</span>
                 </Button>
               </Link>
               
-              <Link href="/admin" className="col-span-1 flex flex-col items-center">
+              <Link href="/admin/egresos" className="col-span-1 flex flex-col items-center">
                 <Button variant="outline" className="h-auto py-6 w-full flex flex-col items-center">
                   <DollarSign className="h-8 w-8 mb-2" />
                   <span className="text-sm font-medium">Egresos</span>
                 </Button>
               </Link>
               
-              <Link href="/admin" className="col-span-1 flex flex-col items-center">
+              <Link href="/admin/catalogos" className="col-span-1 flex flex-col items-center">
                 <Button variant="outline" className="h-auto py-6 w-full flex flex-col items-center">
                   <BookOpen className="h-8 w-8 mb-2" />
                   <span className="text-sm font-medium">Catálogos</span>
                 </Button>
               </Link>
               
-              <Link href="/expediente-digital-dashboard" className="col-span-1 flex flex-col items-center">
+              <Link href="/admin/nomina/expediente-digital" className="col-span-1 flex flex-col items-center">
                 <Button variant="outline" className="h-auto py-6 w-full flex flex-col items-center relative">
                   <User className="h-8 w-8 mb-2" />
                   <span className="text-sm font-medium">Expediente Digital</span>

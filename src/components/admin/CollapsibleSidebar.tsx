@@ -34,9 +34,10 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
   // Detectar si estamos en un dispositivo móvil
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
       // Si es móvil, siempre mantener expandido el menú
-      if (window.innerWidth < 768) {
+      if (mobile) {
         setCollapsed(false);
       }
     };
@@ -110,12 +111,12 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
   return (
     <aside 
       className={cn(
-        "border-r bg-muted/40 h-screen flex flex-col transition-all duration-300 relative",
+        "border-r bg-muted/40 h-full min-h-screen flex flex-col transition-all duration-300 relative",
         collapsed ? "w-16" : "w-64"
       )}
     >
       {/* Header del sidebar */}
-      <div className="flex h-14 items-center border-b px-4 justify-between">
+      <div className="flex h-14 min-h-[56px] items-center border-b px-4 justify-between">
         {!collapsed && <h2 className="text-lg font-semibold">SAI UAN</h2>}
         {collapsed && <div className="mx-auto font-bold">SAI</div>}
         
@@ -136,97 +137,104 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
         )}
       </div>
       
-      {/* Navegación principal */}
-      <nav className="flex-1 overflow-auto">
-        <div className={cn("py-3", collapsed ? "px-2" : "px-3")}>
-          {!collapsed && <h3 className="mb-2 px-4 text-xs font-medium text-muted-foreground">MÓDULOS</h3>}
-          <TooltipProvider>
-            <ul className="space-y-1">
-              {modules.map((module) => {
-                const isActive = activeModule === module.id;
-                
-                return (
-                  <li key={module.id}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button
-                          className={cn(
-                            "flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm transition-colors",
-                            isActive 
-                              ? "bg-primary text-primary-foreground" 
-                              : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                            collapsed ? "justify-center" : ""
-                          )}
-                          onClick={() => handleModuleClick(module.id)}
-                        >
-                          <module.icon className="h-4 w-4" />
-                          {!collapsed && <span>{module.name}</span>}
-                        </button>
-                      </TooltipTrigger>
-                      {collapsed && (
-                        <TooltipContent side="right">
-                          {module.name}
-                        </TooltipContent>
-                      )}
-                    </Tooltip>
-                  </li>
-                );
-              })}
-            </ul>
-          </TooltipProvider>
-        </div>
-        
-        {/* Acceso rápido */}
-        {!collapsed && (
-          <div className="px-3 py-2">
-            <h3 className="mb-2 px-4 text-xs font-medium text-muted-foreground">ACCESO RÁPIDO</h3>
-            <ul className="space-y-1">
-              {quickAccess.map((item) => (
-                <li key={item.id}>
-                  <Button 
-                    variant="ghost" 
-                    className="w-full justify-start text-left font-normal"
-                  >
-                    <div className="flex items-center gap-3">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.name}</span>
-                    </div>
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        
-        {/* Acceso rápido en modo colapsado */}
-        {collapsed && (
-          <div className="px-2 py-2">
+      {/* Navegación principal con scroll */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div 
+          className={cn(
+            "flex-1 overflow-y-auto", 
+            isMobile ? "pb-4" : ""
+          )}
+        >
+          <div className={cn("py-3", collapsed ? "px-2" : "px-3")}>
+            {!collapsed && <h3 className="mb-2 px-4 text-xs font-medium text-muted-foreground">MÓDULOS</h3>}
             <TooltipProvider>
               <ul className="space-y-1">
-                {quickAccess.map((item) => (
-                  <li key={item.id}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          className="w-full h-9 p-0 flex justify-center"
-                        >
-                          <item.icon className="h-4 w-4" />
-                          <span className="sr-only">{item.name}</span>
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent side="right">
-                        {item.name}
-                      </TooltipContent>
-                    </Tooltip>
-                  </li>
-                ))}
+                {modules.map((module) => {
+                  const isActive = activeModule === module.id;
+                  
+                  return (
+                    <li key={module.id}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button
+                            className={cn(
+                              "flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm transition-colors",
+                              isActive 
+                                ? "bg-primary text-primary-foreground" 
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                              collapsed ? "justify-center" : ""
+                            )}
+                            onClick={() => handleModuleClick(module.id)}
+                          >
+                            <module.icon className="h-4 w-4 flex-shrink-0" />
+                            {!collapsed && <span className="truncate">{module.name}</span>}
+                          </button>
+                        </TooltipTrigger>
+                        {collapsed && (
+                          <TooltipContent side="right">
+                            {module.name}
+                          </TooltipContent>
+                        )}
+                      </Tooltip>
+                    </li>
+                  );
+                })}
               </ul>
             </TooltipProvider>
           </div>
-        )}
-      </nav>
+          
+          {/* Acceso rápido */}
+          {!collapsed && (
+            <div className="px-3 py-2">
+              <h3 className="mb-2 px-4 text-xs font-medium text-muted-foreground">ACCESO RÁPIDO</h3>
+              <ul className="space-y-1">
+                {quickAccess.map((item) => (
+                  <li key={item.id}>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start text-left font-normal"
+                    >
+                      <div className="flex items-center gap-3">
+                        <item.icon className="h-4 w-4 flex-shrink-0" />
+                        <span className="truncate">{item.name}</span>
+                      </div>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {/* Acceso rápido en modo colapsado */}
+          {collapsed && (
+            <div className="px-2 py-2">
+              <TooltipProvider>
+                <ul className="space-y-1">
+                  {quickAccess.map((item) => (
+                    <li key={item.id}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="w-full h-9 p-0 flex justify-center"
+                          >
+                            <item.icon className="h-4 w-4" />
+                            <span className="sr-only">{item.name}</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="right">
+                          {item.name}
+                        </TooltipContent>
+                      </Tooltip>
+                    </li>
+                  ))}
+                </ul>
+              </TooltipProvider>
+            </div>
+          )}
+        </div>
+      </div>
       
       {/* Información de usuario */}
       <div className={cn(
@@ -236,7 +244,7 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Avatar className="h-8 w-8">
+              <Avatar className="h-8 w-8 flex-shrink-0">
                 <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
                 <AvatarFallback>UA</AvatarFallback>
               </Avatar>
@@ -253,14 +261,14 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
         </TooltipProvider>
         
         {!collapsed && (
-          <div className="grid gap-0.5 text-xs">
-            <div className="font-medium">Usuario Admin</div>
-            <div className="text-muted-foreground">admin@uan.edu.mx</div>
+          <div className="grid gap-0.5 text-xs overflow-hidden">
+            <div className="font-medium truncate">Usuario Admin</div>
+            <div className="text-muted-foreground truncate">admin@uan.edu.mx</div>
           </div>
         )}
         
         {!collapsed && (
-          <Button variant="ghost" size="sm" className="ml-auto h-8 w-8 p-0">
+          <Button variant="ghost" size="sm" className="ml-auto h-8 w-8 p-0 flex-shrink-0">
             <LogOut className="h-4 w-4" />
             <span className="sr-only">Cerrar sesión</span>
           </Button>

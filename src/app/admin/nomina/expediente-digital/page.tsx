@@ -1,5 +1,4 @@
-// Archivo: /app/admin/nomina/expediente-digital/page.tsx
-
+// app/admin/nomina/expediente-digital/page.tsx
 "use client";
 
 import ExpedienteDigitalModule from '@/components/admin/modules/ExpedienteDigitalModule';
@@ -16,7 +15,7 @@ import Link from 'next/link';
 
 export default function ExpedienteDigitalPage() {
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-6">
       <div className="hidden md:block">
         <Breadcrumb>
           <BreadcrumbList>

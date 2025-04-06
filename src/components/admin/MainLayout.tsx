@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { routes } from '@/app/admin/route-config';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -63,6 +65,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const router = useRouter();
   
   // Detectar si estamos en un dispositivo móvil
   useEffect(() => {
@@ -112,8 +115,33 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   };
 
   // Función para cambiar de módulo
-  const handleModuleChange = (moduleId:any) => {
+  const handleModuleChange = (moduleId: string) => {
     setActiveModule(moduleId);
+    
+    // Navegación basada en el módulo seleccionado
+    switch (moduleId) {
+      case 'inicio':
+        router.push('/admin');
+        break;
+      case 'nomina':
+        router.push('/admin/nomina');
+        break;
+      case 'impuestos':
+        router.push('/admin/impuestos');
+        break;
+      case 'egresos':
+        router.push('/admin/egresos');
+        break;
+      case 'catalogos':
+        router.push('/admin/catalogos');
+        break;
+      case 'expediente':
+        router.push('/admin/nomina/expediente-digital');
+        break;
+      default:
+        router.push('/admin');
+    }
+    
     setIsOpen(false); // Cierra el menú móvil al seleccionar una opción
   };
 
@@ -139,27 +167,41 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                   <span className="sr-only">Menú</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[85vw] max-w-[300px] p-0">
+              <SheetContent 
+                side="left" 
+                className="w-[85vw] max-w-[300px] p-0"
+                style={{ 
+                  display: "flex", 
+                  flexDirection: "column", 
+                  height: "100%",
+                  maxHeight: "100dvh" 
+                }}
+              >
                 <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
-                <div className="flex h-14 items-center border-b px-4">
+                <div className="flex h-14 items-center border-b px-4 flex-shrink-0">
                   <h2 className="text-lg font-semibold">SAI UAN</h2>
                 </div>
-                <nav className="grid gap-1 p-2">
-                  {modules.map((module) => (
-                    <SheetClose key={module.id} asChild>
-                      <Button 
-                        variant={activeModule === module.id ? "default" : "ghost"}
-                        className="w-full justify-start"
-                        onClick={() => handleModuleChange(module.id)}
-                      >
-                        {module.name}
-                      </Button>
-                    </SheetClose>
-                  ))}
-                </nav>
                 
-                <div className="mt-auto p-4 border-t">
-                  <div className="grid gap-1">
+                {/* Contenedor con scroll para opciones del menú */}
+                <div className="flex-1 overflow-y-auto" style={{ minHeight: 0 }}>
+                  <nav className="grid gap-1 p-2">
+                    {modules.map((module) => (
+                      <SheetClose key={module.id} asChild>
+                        <Button 
+                          variant={activeModule === module.id ? "default" : "ghost"}
+                          className="w-full justify-start"
+                          onClick={() => handleModuleChange(module.id)}
+                        >
+                          {module.name}
+                        </Button>
+                      </SheetClose>
+                    ))}
+                  </nav>
+                </div>
+                
+                {/* Footer con botones e información de usuario - siempre visible */}
+                <div className="border-t flex-shrink-0">
+                  <div className="p-4 grid gap-1">
                     <Button variant="ghost" size="sm" className="justify-start">
                       <Settings className="mr-2 h-4 w-4" />
                       Configuración
@@ -173,15 +215,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                       Cerrar sesión
                     </Button>
                   </div>
-                </div>
-                <div className="p-4 border-t flex items-center gap-2">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
-                    <AvatarFallback>UA</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-0.5 text-xs">
-                    <div className="font-medium">Usuario Admin</div>
-                    <div className="text-muted-foreground">admin@uan.edu.mx</div>
+                  
+                  <div className="p-4 border-t flex items-center gap-2">
+                    <Avatar className="h-8 w-8 flex-shrink-0">
+                      <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
+                      <AvatarFallback>UA</AvatarFallback>
+                    </Avatar>
+                    <div className="grid gap-0.5 text-xs overflow-hidden">
+                      <div className="font-medium truncate">Usuario Admin</div>
+                      <div className="text-muted-foreground truncate">admin@uan.edu.mx</div>
+                    </div>
                   </div>
                 </div>
               </SheetContent>

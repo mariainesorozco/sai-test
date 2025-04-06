@@ -1,6 +1,8 @@
+// app/admin/nomina/expediente-digital/[id]/page.tsx
 "use client";
 
-import React from 'react';
+import { useParams } from 'next/navigation';
+import ExpedienteJuanPerez from '@/components/ExpedienteDigitalDashboard/datos-juan-perez/ExpedienteJuanPerez';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,15 +12,26 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Badge } from '@/components/ui/badge';
-import { Home, Users, FileText } from 'lucide-react';
+import { Home, Users, FileText, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import ExpedienteJuanPerez from '@/components/ExpedienteDigitalDashboard/datos-juan-perez/ExpedienteJuanPerez';
 
-export default function JuanPerezExpedientePage() {
+export default function ExpedienteDetallePage() {
+  const params = useParams();
+  const id = params.id as string;
+  
+  // Aquí podrías cargar los datos del expediente basado en el ID
+  // Por ahora usamos datos de ejemplo
+  const expedienteData = {
+    nombre: "Juan Pérez",
+    puesto: "Profesor de Tiempo Completo",
+    adscripcion: "Unidad Académica de Economía",
+    estatus: "Activo"
+  };
+
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Expediente Digital</h2>
@@ -62,7 +75,10 @@ export default function JuanPerezExpedientePage() {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbPage>
-                Juan Pérez
+                <span className="flex items-center gap-1">
+                  <User className="h-3.5 w-3.5" />
+                  {expedienteData.nombre}
+                </span>
               </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
@@ -74,15 +90,15 @@ export default function JuanPerezExpedientePage() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage src="/api/placeholder/48/48" alt="Juan Pérez" />
-              <AvatarFallback>JP</AvatarFallback>
+              <AvatarImage src="/api/placeholder/48/48" alt={expedienteData.nombre} />
+              <AvatarFallback>{expedienteData.nombre.substring(0, 2).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div>
               <div className="font-semibold">
-                Juan Pérez
+                {expedienteData.nombre}
               </div>
               <div className="text-sm text-muted-foreground">
-                Profesor de Tiempo Completo - Unidad Académica de Economía
+                {`${expedienteData.puesto} - ${expedienteData.adscripcion}`}
               </div>
             </div>
           </div>
@@ -91,13 +107,13 @@ export default function JuanPerezExpedientePage() {
               Académico
             </Badge>
             <Badge className="text-xs">
-              Activo
+              {expedienteData.estatus}
             </Badge>
           </div>
         </div>
       </div>
       
-      {/* Contenido del expediente con los datos de Juan Pérez */}
+      {/* Contenido del expediente */}
       <ExpedienteJuanPerez />
     </div>
   );

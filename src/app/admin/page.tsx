@@ -1,43 +1,37 @@
-// src/app/admin/page.tsx
+// app/admin/page.tsx
 "use client";
 
-import { useState } from 'react';
-import MainLayout from '@/components/admin/MainLayout';
 import DashboardPage from '@/components/admin/DashboardPage';
-import NominaModule from '@/components/admin/modules/NominaModule';
-import ImpuestosModule from '@/components/admin/modules/ImpuestosModule';
-import EgresosModule from '@/components/admin/modules/EgresosModule';
-import CatalogosModule from '@/components/admin/modules/CatalogosModule';
-import ExpedienteDigitalModule from '@/components/admin/modules/ExpedienteDigitalModule';
+import { useRouter } from 'next/navigation';
 
 export default function AdminPage() {
-  const [activeModule, setActiveModule] = useState('inicio');
+  const router = useRouter();
 
-  // Renderizar el contenido según el módulo activo
-  const renderModuleContent = () => {
-    switch (activeModule) {
+  const handleModuleSelect = (moduleId: string) => {
+    // Navegación basada en el módulo seleccionado
+    switch (moduleId) {
       case 'inicio':
-        return <DashboardPage onModuleSelect={setActiveModule} />;
+        router.push('/admin');
+        break;
       case 'nomina':
-        return <NominaModule />;
+        router.push('/admin/nomina');
+        break;
       case 'impuestos':
-        return <ImpuestosModule />;
+        router.push('/admin/impuestos');
+        break;
       case 'egresos':
-        return <EgresosModule />;
+        router.push('/admin/egresos');
+        break;
       case 'catalogos':
-        return <CatalogosModule />;
+        router.push('/admin/catalogos');
+        break;
       case 'expediente':
-        return <ExpedienteDigitalModule />;
+        router.push('/admin/nomina/expediente-digital');
+        break;
       default:
-        return <DashboardPage onModuleSelect={setActiveModule} />;
+        router.push('/admin');
     }
   };
 
-  return (
-    <MainLayout
-      activeModule={activeModule}
-      setActiveModule={setActiveModule}
-      renderContent={renderModuleContent}
-    />
-  );
+  return <DashboardPage onModuleSelect={handleModuleSelect} />;
 }
