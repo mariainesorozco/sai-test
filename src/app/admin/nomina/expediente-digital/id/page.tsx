@@ -3,14 +3,6 @@
 
 import { useParams } from 'next/navigation';
 import ExpedienteJuanPerez from '@/components/ExpedienteDigitalDashboard/datos-juan-perez/ExpedienteJuanPerez';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Badge } from '@/components/ui/badge';
 import { Home, Users, FileText, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -44,45 +36,6 @@ export default function ExpedienteDetallePage() {
             Volver a la lista
           </Link>
         </Button>
-      </div>
-      
-      <div className="hidden md:block">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/admin">
-                <Home className="h-3.5 w-3.5" />
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/nomina">
-                Nómina y Recursos Humanos
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/nomina/expediente-digital">
-                <span className="flex items-center gap-1">
-                  <Users className="h-3.5 w-3.5" />
-                  Expediente Digital
-                </span>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>
-                <span className="flex items-center gap-1">
-                  <User className="h-3.5 w-3.5" />
-                  {expedienteData.nombre}
-                </span>
-              </BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
       </div>
       
       {/* Encabezado del expediente */}

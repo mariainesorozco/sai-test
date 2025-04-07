@@ -159,9 +159,15 @@ const NominaModule = () => {
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right">
-                          <Button variant="ghost" size="sm" asChild>
-                            <a href={`/admin/nomina/expediente-digital/${empleado.id}`}>Ver expediente</a>
-                          </Button>
+                          {empleado.id === 1 ? (
+                            <Button variant="ghost" size="sm" asChild>
+                              <a href="/admin/nomina/expediente-digital/juan-perez">Ver expediente</a>
+                            </Button>
+                          ) : (
+                            <Button variant="ghost" size="sm" onClick={() => alert('Expediente no disponible. Solo el expediente de Juan Pérez está implementado.')}>
+                              Ver expediente
+                            </Button>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))}

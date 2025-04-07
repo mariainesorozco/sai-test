@@ -361,7 +361,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                   onClick={() => {
                     setShowSearchDialog(false);
                     handleModuleChange('nomina');
-                    // Aquí se podría redirigir al expediente específico
+                    window.location.href = '/admin/nomina/expediente-digital/juan-perez';
                   }}
                 >
                   <div className="flex items-center gap-3">

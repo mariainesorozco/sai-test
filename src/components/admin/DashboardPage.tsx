@@ -378,13 +378,15 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={() => onModuleSelect('expediente')}
-                        >
-                          Ver
-                        </Button>
+                        {empleado.id === 1 ? (
+                          <Button variant="ghost" size="sm" asChild>
+                            <a href="/admin/nomina/expediente-digital/juan-perez">Ver expediente</a>
+                          </Button>
+                        ) : (
+                          <Button variant="ghost" size="sm" onClick={() => alert('Expediente no disponible. Solo el expediente de Juan Pérez está implementado.')}>
+                            Ver expediente
+                          </Button>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}
