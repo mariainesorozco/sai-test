@@ -143,8 +143,7 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
   // Función para navegar al expediente
   const handleNavigateToExpediente = (empleadoId: number) => {
     if (empleadoId === 1) {
-      // Usa routes para mantener la consistencia
-      router.push(routes.expediente.empleado(1));
+      router.push('/admin/nomina/expediente-digital/juan-perez');
     } else {
       alert('Expediente no disponible. Solo el expediente de Juan Pérez está implementado.');
     }
