@@ -362,7 +362,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                     setShowSearchDialog(false);
                     handleModuleChange('nomina');
                     if (result.id === 1) {
-                      router.push(routes.nomina.expedienteDigital);
+                      router.push('/admin/nomina/expediente-digital/juan-perez');
                     } else {
                       alert('Expediente no disponible. Solo el expediente de Juan Pérez está implementado.');
                     }                  }}
