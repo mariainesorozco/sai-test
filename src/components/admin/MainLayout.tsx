@@ -361,8 +361,11 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                   onClick={() => {
                     setShowSearchDialog(false);
                     handleModuleChange('nomina');
-                    window.location.href = '/admin/nomina/expediente-digital/juan-perez';
-                  }}
+                    if (result.id === 1) {
+                      router.push(routes.nomina.expedienteDigital);
+                    } else {
+                      alert('Expediente no disponible. Solo el expediente de Juan Pérez está implementado.');
+                    }                  }}
                 >
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">

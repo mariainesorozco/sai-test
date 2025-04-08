@@ -1,6 +1,8 @@
 "use client";
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { routes } from '@/app/admin/route-config';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -91,6 +93,7 @@ interface DashboardProps {
 }
 
 const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
+  const router = useRouter();
   // Datos de ejemplo para estadísticas
   const stats = {
     personal: {
@@ -136,6 +139,16 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
     { id: 3, nombre: 'Carlos Rodríguez', puesto: 'Profesor de Asignatura', adscripcion: 'Unidad Académica de Derecho', estatus: 'Licencia', completitud: 75 },
     { id: 4, nombre: 'Ana González', puesto: 'Directivo', adscripcion: 'Rectoría', estatus: 'Activo', completitud: 100 },
   ];
+
+  // Función para navegar al expediente
+  const handleNavigateToExpediente = (empleadoId: number) => {
+    if (empleadoId === 1) {
+      // Usa routes para mantener la consistencia
+      router.push(routes.expediente.empleado(1));
+    } else {
+      alert('Expediente no disponible. Solo el expediente de Juan Pérez está implementado.');
+    }
+  };
 
   return (
     <div className="grid gap-6">
@@ -378,15 +391,13 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
-                        {empleado.id === 1 ? (
-                          <Button variant="ghost" size="sm" asChild>
-                            <a href="/admin/nomina/expediente-digital/juan-perez">Ver expediente</a>
-                          </Button>
-                        ) : (
-                          <Button variant="ghost" size="sm" onClick={() => alert('Expediente no disponible. Solo el expediente de Juan Pérez está implementado.')}>
-                            Ver expediente
-                          </Button>
-                        )}
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleNavigateToExpediente(empleado.id)}
+                        >
+                          Ver expediente
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
