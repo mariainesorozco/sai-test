@@ -1,31 +1,32 @@
 // src/app/admin/route-config.ts
+import { prefixRoute } from '@/utils/route-utils';
 
 export const routes = {
-    inicio: '/admin',
+    inicio: prefixRoute('/admin'),
     nomina: {
-      root: '/admin/nomina',
-      expedienteDigital: '/admin/nomina/expediente-digital',
-      perfiles: '/admin/nomina/perfiles',
-      nominas: '/admin/nomina/nominas',
+      root: prefixRoute('/admin/nomina'),
+      expedienteDigital: prefixRoute('/admin/nomina/expediente-digital'),
+      perfiles: prefixRoute('/admin/nomina/perfiles'),
+      nominas: prefixRoute('/admin/nomina/nominas'),
     },
     impuestos: {
-      root: '/admin/impuestos',
-      declaraciones: '/admin/impuestos/declaraciones',
-      obligaciones: '/admin/impuestos/obligaciones',
+      root: prefixRoute('/admin/impuestos'),
+      declaraciones: prefixRoute('/admin/impuestos/declaraciones'),
+      obligaciones: prefixRoute('/admin/impuestos/obligaciones'),
     },
     egresos: {
-      root: '/admin/egresos',
-      pagos: '/admin/egresos/pagos',
-      proveedores: '/admin/egresos/proveedores',
+      root: prefixRoute('/admin/egresos'),
+      pagos: prefixRoute('/admin/egresos/pagos'),
+      proveedores: prefixRoute('/admin/egresos/proveedores'),
     },
     catalogos: {
-      root: '/admin/catalogos',
-      general: '/admin/catalogos/general',
-      nomina: '/admin/catalogos/nomina',
-      contabilidad: '/admin/catalogos/contabilidad',
+      root: prefixRoute('/admin/catalogos'),
+      general: prefixRoute('/admin/catalogos/general'),
+      nomina: prefixRoute('/admin/catalogos/nomina'),
+      contabilidad: prefixRoute('/admin/catalogos/contabilidad'),
     },
     expediente: {
-      root: '/admin/expediente-digital',
-      empleado: (id: string | number) => `/admin/expediente-digital/${id}`,
+      root: prefixRoute('/admin/expediente-digital'),
+      empleado: (id: string | number) => prefixRoute(`/admin/expediente-digital/${id}`),
     }
-  };
+};
