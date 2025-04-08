@@ -15,7 +15,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowLeft,
-  Download
+  Download,
+  Calendar
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -32,6 +33,7 @@ import DatosFamiliaresJuanPerez from './DatosFamiliaresJuanPerez';
 import SeguridadSocialJuanPerez from './SeguridadSocialJuanPerez';
 import PrestacionesSocialesJuanPerez from './PrestacionesSocialesJuanPerez';
 import CreditosPensionesJuanPerez from './CreditosPensionesJuanPerez';
+import CargaHorariaJuanPerez from './CargaHorariaJuanPerez';
 
 // Definición de tipos para las secciones
 type SectionType = {
@@ -85,6 +87,12 @@ const ExpedienteJuanPerez = () => {
       label: 'Datos Laborales',
       icon: Briefcase,
       component: <DatosLaboralesJuanPerez />
+    },
+    {
+      id: 'carga-horaria',
+      label: 'Carga Horaria',
+      icon: Calendar,
+      component: <CargaHorariaJuanPerez />
     },
     {
       id: 'datos-fiscales',
