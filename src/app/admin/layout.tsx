@@ -4,7 +4,6 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import MainLayout from '@/components/admin/MainLayout';
-import { stripBasePath } from '@/utils/route-utils';
 
 export default function AdminLayout({
   children,
@@ -16,19 +15,17 @@ export default function AdminLayout({
   
   // Detectar el módulo activo basado en la ruta
   useEffect(() => {
-    const cleanPathname = stripBasePath(pathname);
-
-    if (cleanPathname === '/admin') {
+    if (pathname === '/admin') {
       setActiveModule('inicio');
-    } else if (cleanPathname.startsWith('/admin/nomina')) {
+    } else if (pathname.startsWith('/admin/nomina')) {
       setActiveModule('nomina');
-    } else if (cleanPathname.startsWith('/admin/impuestos')) {
+    } else if (pathname.startsWith('/admin/impuestos')) {
       setActiveModule('impuestos');
-    } else if (cleanPathname.startsWith('/admin/egresos')) {
+    } else if (pathname.startsWith('/admin/egresos')) {
       setActiveModule('egresos');
-    } else if (cleanPathname.startsWith('/admin/catalogos')) {
+    } else if (pathname.startsWith('/admin/catalogos')) {
       setActiveModule('catalogos');
-    } else if (cleanPathname.startsWith('/admin/expediente-digital')) {
+    } else if (pathname.startsWith('/admin/expediente-digital')) {
       setActiveModule('expediente');
     }
   }, [pathname]);

@@ -3,7 +3,6 @@
 
 import DashboardPage from '@/components/admin/DashboardPage';
 import { useRouter } from 'next/navigation';
-import { routes } from './route-config';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -12,25 +11,25 @@ export default function AdminPage() {
     // Navegación basada en el módulo seleccionado
     switch (moduleId) {
       case 'inicio':
-        router.push(routes.inicio);
+        router.push('/admin');
         break;
       case 'nomina':
-        router.push(routes.nomina.root);
+        router.push('/admin/nomina');
         break;
       case 'impuestos':
-        router.push(routes.impuestos.root);
+        router.push('/admin/impuestos');
         break;
       case 'egresos':
-        router.push(routes.egresos.root);
+        router.push('/admin/egresos');
         break;
       case 'catalogos':
-        router.push(routes.catalogos.root);
+        router.push('/admin/catalogos');
         break;
       case 'expediente':
-        router.push(routes.expediente.root);
+        router.push('/admin/nomina/expediente-digital');
         break;
       default:
-        router.push(routes.inicio);
+        router.push('/admin');
     }
   };
 
