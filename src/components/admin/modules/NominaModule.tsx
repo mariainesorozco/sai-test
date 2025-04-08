@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useRouter } from 'next/navigation';
 import { 
   Users, 
   FileText, 
@@ -19,13 +20,15 @@ import {
   UserPlus,
   Briefcase,
   ListFilter,
-  Search
+  Search,
+  ChevronRight
 } from 'lucide-react';
 
 // Importar submódulos
 import ExpedienteDigitalModule from './ExpedienteDigitalModule';
 
 const NominaModule = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("general");
 
   // Datos simulados para estadísticas
@@ -63,6 +66,17 @@ const NominaModule = () => {
     { id: 3, titulo: 'Declaración impuestos mensuales', fecha: '20/04/2025', estado: 'Pendiente' },
     { id: 4, titulo: 'Cierre contable trimestral', fecha: '05/04/2025', estado: 'Completado' },
   ];
+
+  // Función para navegar al expediente del empleado seleccionado
+  const handleNavigateToExpediente = (empleadoId: number) => {
+    if (empleadoId === 1) {
+      // Navegar al expediente de Juan Pérez
+      router.push('/admin/nomina/expediente-digital/juan-perez');
+    } else {
+      // Para otros empleados, mostrar un mensaje o redirigir a una página genérica
+      alert("Expediente no disponible. Solo el expediente de Juan Pérez está implementado.");
+    }
+  };
 
   return (
     <div className="grid gap-6">
@@ -159,15 +173,15 @@ const NominaModule = () => {
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right">
-                          {empleado.id === 1 ? (
-                            <Button variant="ghost" size="sm" asChild>
-                              <a href="/admin/nomina/expediente-digital/juan-perez">Ver expediente</a>
-                            </Button>
-                          ) : (
-                            <Button variant="ghost" size="sm" onClick={() => alert('Expediente no disponible. Solo el expediente de Juan Pérez está implementado.')}>
-                              Ver expediente
-                            </Button>
-                          )}
+                          <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="h-8 w-8 p-0"
+                          onClick={() => handleNavigateToExpediente(empleado.id)}
+                        >
+                          <span className="sr-only">Ver expediente</span>
+                          <ChevronRight className="h-4 w-4" />
+                        </Button>
                         </TableCell>
                       </TableRow>
                     ))}
