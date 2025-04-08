@@ -1,3 +1,7 @@
+// -----------------------------------
+// CreditosPensionesJuanPerez.tsx
+// -----------------------------------
+
 "use client";
 
 import React from 'react';
@@ -42,8 +46,8 @@ const CreditosPensionesJuanPerez = () => {
 
   return (
     <div className="grid gap-4 md:gap-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Créditos y Pensiones</h2>
+      <div className="md:hidden flex items-center justify-between">
+        <h2 className="text-lg font-semibold">Créditos y Pensiones</h2>
         <Button size="sm">Editar</Button>
       </div>
 

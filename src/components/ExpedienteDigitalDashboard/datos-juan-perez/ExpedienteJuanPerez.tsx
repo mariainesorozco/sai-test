@@ -14,9 +14,11 @@ import {
   LifeBuoy, 
   ChevronLeft,
   ChevronRight,
-  ArrowLeft
+  ArrowLeft,
+  Download
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useRouter } from 'next/navigation';
@@ -159,141 +161,161 @@ const ExpedienteJuanPerez = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Contenido principal */}
-      <div className="flex flex-col flex-1">
-        <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
+    <div className="grid gap-6">
+      {/* Header y navegación */}
+      <div className="flex flex-col gap-4">
+        {/* Cabecera adaptada para móvil y desktop */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleBack}
+              className="mr-1 p-2 md:p-3 h-9"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span className="sr-only md:not-sr-only md:ml-1">Volver</span>
+            </Button>
+            <h2 className="text-lg md:text-2xl font-bold tracking-tight">Expediente</h2>
+          </div>
+          <div className="flex gap-1 md:gap-2">
+            <Button variant="outline" size="sm" className="px-2 md:px-3 h-9">
+              <Download className="h-4 w-4 md:mr-2" />
+              <span className="sr-only md:not-sr-only">Exportar</span>
+            </Button>
+            <Button size="sm" className="px-2 md:px-3 h-9">
+              <span>Editar</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Información del empleado */}
+        <Card>
+          <CardContent className="p-4 md:p-6">
+            <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <Avatar className="h-14 w-14 md:h-16 md:w-16">
+                <AvatarImage src="/api/placeholder/64/64" alt="Foto de Juan Pérez" />
+                <AvatarFallback>JP</AvatarFallback>
+              </Avatar>
+              
+              <div className="space-y-1 flex-1">
+                <h3 className="text-lg md:text-xl font-semibold">Juan Pérez García</h3>
+                <div className="flex flex-col md:flex-row md:items-center gap-0 md:gap-4">
+                  <p className="text-sm text-muted-foreground">Profesor de Tiempo Completo</p>
+                  <p className="text-sm text-muted-foreground hidden md:block">•</p>
+                  <p className="text-sm text-muted-foreground">Unidad Académica de Economía</p>
+                </div>
+                <div className="flex flex-wrap gap-1 md:gap-2 mt-1 md:mt-2">
+                  <Badge variant="outline" className="text-xs md:text-sm">Docente</Badge>
+                  <Badge variant="outline" className="bg-green-50 text-xs md:text-sm">Activo</Badge>
+                  <Badge variant="outline" className="bg-blue-50 text-xs md:text-sm">Base</Badge>
+                </div>
+              </div>
+              
+              <div className="mt-2 md:mt-0 flex flex-col items-center gap-0 md:gap-1 md:border-l md:pl-4">
+                <div className="text-xs md:text-sm text-muted-foreground">Completado</div>
+                <div className="text-lg md:text-xl font-bold">95%</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Contenedor de pestañas para desktop */}
+      <div className="hidden md:block">
+        <Tabs value={activeTab} onValueChange={handleTabChange}>
+          <TabsList className="w-full flex flex-wrap mb-4 h-auto p-1 overflow-x-auto">
+            {sections.map((section) => (
+              <TabsTrigger key={section.id} value={section.id} className="flex items-center gap-2 py-2">
+                <section.icon className="h-4 w-4" />
+                <span>{section.label}</span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          
+          {sections.map((section) => (
+            <TabsContent key={section.id} value={section.id}>
+              {section.component}
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
+      
+      {/* Navegación y contenido para móvil */}
+      <div className="md:hidden">
+        {/* Navegación compacta para móvil con indicadores */}
+        <div className="flex items-center justify-between mb-3">
           <Button 
             variant="ghost" 
-            size="sm" 
-            className="mr-2" 
-            onClick={handleBack}
+            size="sm"
+            onClick={handlePrevSection}
+            disabled={sections.findIndex(s => s.id === activeTab) === 0}
+            className="h-8 px-2"
           >
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            <span className="hidden md:inline">Volver</span>
+            <ChevronLeft className="h-4 w-4 mr-1" />
+            <span className="text-sm">Anterior</span>
           </Button>
           
-          <div className="flex items-center gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src="/api/placeholder/32/32" alt="Foto empleado" />
-              <AvatarFallback>JP</AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="font-semibold text-sm md:text-base">Expediente: Juan Pérez</h3>
-              <div className="text-xs text-muted-foreground">
-                <span className="hidden md:inline">Profesor de Tiempo Completo - Unidad Académica de Economía</span>
-                <span className="md:hidden">Profesor TC</span>
-              </div>
-            </div>
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            <Badge variant="outline" className="text-xs">Docente</Badge>
-            <Badge variant="outline" className="text-xs">Activo</Badge>
-          </div>
-        </header>
-
-        <main className="flex-1 overflow-auto p-4 md:p-6">
-          {/* Contenedor de pestañas para desktop */}
-          <div className="hidden md:block mb-6">
-            <Tabs value={activeTab} onValueChange={handleTabChange}>
-              <TabsList className="grid grid-flow-col w-full justify-start overflow-x-auto mb-6">
-                {sections.map((section) => (
-                  <TabsTrigger key={section.id} value={section.id} className="flex items-center gap-2">
-                    <section.icon className="h-4 w-4" />
-                    <span>{section.label}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-              
-              {sections.map((section) => (
-                <TabsContent key={section.id} value={section.id}>
-                  {section.component}
-                </TabsContent>
-              ))}
-            </Tabs>
-          </div>
+          <span className="text-xs text-muted-foreground px-2 py-1 bg-muted/40 rounded-full">
+            {sections.findIndex(s => s.id === activeTab) + 1} / {sections.length}
+          </span>
           
-          {/* Header para la sección actual en móvil */}
-          <div className="md:hidden mb-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold tracking-tight">
-                {activeSection.label}
-              </h2>
-            </div>
-            
-            {/* Navegación entre secciones para móvil */}
-            <div className="flex items-center justify-between mt-2">
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={handlePrevSection}
-                disabled={sections.findIndex(s => s.id === activeTab) === 0}
-              >
-                <ChevronLeft className="h-4 w-4 mr-1" />
-                Anterior
-              </Button>
-              
-              <div className="text-sm text-muted-foreground">
-                {sections.findIndex(s => s.id === activeTab) + 1} / {sections.length}
-              </div>
-              
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={handleNextSection}
-                disabled={sections.findIndex(s => s.id === activeTab) === sections.length - 1}
-              >
-                Siguiente
-                <ChevronRight className="h-4 w-4 ml-1" />
-              </Button>
-            </div>
-            
-            <Separator className="my-2" />
-            
-            {/* Componente específico para móvil */}
-            {activeSection.component}
-          </div>
-
-          {/* Espacio adicional para evitar que la barra flotante tape el contenido */}
-          {isMobile && <div className="h-20 w-full mt-6"></div>}
-          
-          {/* Navegación entre páginas para móvil (floating - barra de iconos) */}
-          {isMobile && (
-            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-background border rounded-lg shadow-lg p-1.5 flex items-center space-x-1 z-10 overflow-x-auto max-w-[92vw]">
-              {sections.map((section) => {
-                const SectionIcon = section.icon;
-                return (
-                  <Button
-                    key={section.id}
-                    variant={activeTab === section.id ? "default" : "ghost"}
-                    size="sm"
-                    className={`min-w-9 h-9 p-0 rounded-md relative ${activeTab === section.id ? 'bg-primary' : ''}`}
-                    onClick={() => handleTabChange(section.id)}
-                    title={section.label}
-                  >
-                    <SectionIcon className={`h-4 w-4 ${activeTab === section.id ? 'text-primary-foreground' : ''}`} />
-                    {activeTab === section.id && (
-                      <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full bg-primary-foreground" />
-                    )}
-                  </Button>
-                );
-              })}
-            </div>
-          )}
-          
-          {/* Botón para volver al inicio */}
-          {showScrollTop && (
-            <Button
-              className="fixed bottom-24 right-4 rounded-full shadow-lg z-10 w-10 h-10 p-0"
-              size="sm"
-              onClick={scrollToTop}
-              title="Volver al inicio"
-            >
-              <ChevronLeft className="h-5 w-5 rotate-90" />
-            </Button>
-          )}
-        </main>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={handleNextSection}
+            disabled={sections.findIndex(s => s.id === activeTab) === sections.length - 1}
+            className="h-8 px-2"
+          >
+            <span className="text-sm">Siguiente</span>
+            <ChevronRight className="h-4 w-4 ml-1" />
+          </Button>
+        </div>
+        
+        <Separator className="mb-4" />
+        
+        {/* Componente específico para móvil */}
+        {activeSection.component}
       </div>
+
+      {/* Espacio adicional para evitar que la barra flotante tape el contenido */}
+      {isMobile && <div className="h-20 w-full mt-6"></div>}
+      
+      {/* Navegación entre páginas para móvil (floating - barra de iconos) */}
+      {isMobile && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-background border rounded-lg shadow-lg p-1.5 flex items-center space-x-1 z-10 overflow-x-auto max-w-[92vw]">
+          {sections.map((section) => {
+            const SectionIcon = section.icon;
+            return (
+              <Button
+                key={section.id}
+                variant={activeTab === section.id ? "default" : "ghost"}
+                size="sm"
+                className={`min-w-8 h-8 p-0 rounded-md relative ${activeTab === section.id ? 'bg-primary' : ''}`}
+                onClick={() => handleTabChange(section.id)}
+                title={section.label}
+              >
+                <SectionIcon className={`h-4 w-4 ${activeTab === section.id ? 'text-primary-foreground' : ''}`} />
+                {activeTab === section.id && (
+                  <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full bg-primary-foreground" />
+                )}
+              </Button>
+            );
+          })}
+        </div>
+      )}
+      
+      {/* Botón para volver al inicio */}
+      {showScrollTop && (
+        <Button
+          className="fixed bottom-24 right-4 rounded-full shadow-lg z-10 w-10 h-10 p-0"
+          size="sm"
+          onClick={scrollToTop}
+          title="Volver al inicio"
+        >
+          <ChevronLeft className="h-5 w-5 rotate-90" />
+        </Button>
+      )}
     </div>
   );
 };

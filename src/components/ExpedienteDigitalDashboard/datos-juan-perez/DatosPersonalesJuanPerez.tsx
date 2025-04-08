@@ -3,8 +3,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, Calendar, Database, Shield, Mail, Phone, MapPin, FileText, Heart, Globe } from 'lucide-react';
+import { Calendar, Database, Shield, Mail, Phone, MapPin, FileText, Heart, Globe } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import InfoItem from '../InfoItem';
@@ -59,29 +58,18 @@ const DatosPersonalesJuanPerez = () => {
 
   return (
     <div className="grid gap-4 md:gap-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Datos Personales</h2>
+      <div className="md:hidden flex items-center justify-between">
+        <h2 className="text-lg font-semibold">Datos Personales</h2>
         <Button size="sm">Editar</Button>
       </div>
 
-      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-3">
         <Card className="col-span-1">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Información Básica</CardTitle>
+            <CardTitle className="text-sm font-medium">Datos de Nacimiento</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col space-y-4">
-              <div className="flex justify-center mb-2">
-                <Avatar className="h-20 w-20 md:h-24 md:w-24">
-                  <AvatarImage src="/api/placeholder/96/96" alt="Foto empleado" />
-                  <AvatarFallback className="text-lg">JP</AvatarFallback>
-                </Avatar>
-              </div>
-              <InfoItem 
-                icon={User} 
-                label="Nombre completo" 
-                value={`${datosJuanPerez.apellidoPaterno} ${datosJuanPerez.apellidoMaterno} ${datosJuanPerez.nombre}`} 
-              />
               <InfoItem 
                 icon={Heart} 
                 label="Estado civil" 
@@ -99,18 +87,14 @@ const DatosPersonalesJuanPerez = () => {
               />
 
               <Separator className="my-2" />
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <InfoItem icon={Database} label="RFC" value={datosJuanPerez.rfc} />
-                <InfoItem icon={Database} label="CURP" value={datosJuanPerez.curp} />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <InfoItem icon={Database} label="NSS" value={datosJuanPerez.nss} />
-                <InfoItem 
-                  icon={Shield} 
-                  label="Sexo" 
-                  value={datosJuanPerez.sexo === "H" ? "Hombre" : "Mujer"} 
-                />
-              </div>
+              <InfoItem icon={Database} label="RFC" value={datosJuanPerez.rfc} />
+              <InfoItem icon={Database} label="CURP" value={datosJuanPerez.curp} />
+              <InfoItem icon={Database} label="NSS" value={datosJuanPerez.nss} />
+              <InfoItem 
+                icon={Shield} 
+                label="Sexo" 
+                value={datosJuanPerez.sexo === "H" ? "Hombre" : "Mujer"} 
+              />
             </div>
           </CardContent>
         </Card>
@@ -133,7 +117,7 @@ const DatosPersonalesJuanPerez = () => {
           </CardContent>
         </Card>
 
-        <Card className="col-span-1 md:col-span-2 lg:col-span-1">
+        <Card className="col-span-1">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Domicilios</CardTitle>
           </CardHeader>

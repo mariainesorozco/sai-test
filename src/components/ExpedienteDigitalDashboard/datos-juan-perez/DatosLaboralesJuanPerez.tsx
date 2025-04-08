@@ -1,3 +1,7 @@
+// -----------------------------------
+// DatosLaboralesJuanPerez.tsx
+// -----------------------------------
+
 "use client";
 
 import React from 'react';
@@ -8,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import InfoItem from '../InfoItem';
 
-// Datos específicos de Juan Pérez
+// Datos específicos de Juan Pérez (mantenemos los datos originales)
 const datosJuanPerez = {
   // Datos laborales
   puesto: 'Profesor de Tiempo Completo',
@@ -63,12 +67,13 @@ const DatosLaboralesJuanPerez = () => {
 
   return (
     <div className="grid gap-4 md:gap-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Datos Laborales</h2>
+      {/* Mostramos el título solo en móvil, siguiendo el patrón de DatosPersonalesJuanPerez */}
+      <div className="md:hidden flex items-center justify-between">
+        <h2 className="text-lg font-semibold">Datos Laborales</h2>
         <Button size="sm">Editar</Button>
       </div>
 
-      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-3">
         <Card className="col-span-1">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Información Básica</CardTitle>

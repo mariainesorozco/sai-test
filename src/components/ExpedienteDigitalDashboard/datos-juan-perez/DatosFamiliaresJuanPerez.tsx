@@ -1,3 +1,7 @@
+// -----------------------------------
+// DatosFamiliaresJuanPerez.tsx
+// -----------------------------------
+
 "use client";
 
 import React from 'react';
@@ -72,8 +76,8 @@ const DatosFamiliaresJuanPerez = () => {
 
   return (
     <div className="grid gap-4 md:gap-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Datos Familiares</h2>
+      <div className="md:hidden flex items-center justify-between">
+        <h2 className="text-lg font-semibold">Datos Familiares</h2>
         <Button size="sm">Editar</Button>
       </div>
 
@@ -101,7 +105,7 @@ const DatosFamiliaresJuanPerez = () => {
                     <div className="flex items-center text-sm text-muted-foreground mb-2">
                       <Calendar className="h-3.5 w-3.5 mr-1.5" />
                       <span>Nacimiento: {formatDate(familiar.fechaNac)}</span>
-                    </div>
+                      </div>
                   )}
                   
                   <div className="flex flex-wrap gap-2 mb-3">

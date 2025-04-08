@@ -1,10 +1,13 @@
+// -----------------------------------
+// PrestacionesSocialesJuanPerez.tsx
+// -----------------------------------
+
 "use client";
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Clock, Calendar, FileText } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import InfoItem from '../InfoItem';
 
 // Datos específicos de Juan Pérez
@@ -18,8 +21,8 @@ const datosJuanPerez = {
 const PrestacionesSocialesJuanPerez = () => {
   return (
     <div className="grid gap-4 md:gap-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight hidden md:block">Prestaciones Sociales</h2>
+      <div className="md:hidden flex items-center justify-between">
+        <h2 className="text-lg font-semibold">Prestaciones Sociales</h2>
         <Button size="sm">Editar</Button>
       </div>
 
