@@ -160,7 +160,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     const module = modules.find(m => m.id === moduleId);
     // Si es una pantalla muy pequeña, usamos nombres más cortos para algunos módulos
     if (isSmallMobile) {
-      if (moduleId === 'nomina') return 'Nómina';
+      if (moduleId === 'nomina') return 'Nómina y RH';
       if (moduleId === 'expediente') return 'Expediente';
     }
     return module?.name || '';

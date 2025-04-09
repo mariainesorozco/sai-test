@@ -59,7 +59,7 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
     },
     {
       id: 'nomina',
-      name: 'Nómina y RRHH',
+      name: 'Nómina y RH',
       icon: Users,
       description: 'Gestión de personal, expedientes y nómina',
     },
