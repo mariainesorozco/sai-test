@@ -5,12 +5,18 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Progress } from '@/components/ui/progress';
 import { 
   DollarSign, 
   FileText, 
   Users, 
   BarChart,
-  Plus
+  Plus,
+  ChevronRight,
+  Clock,
+  AlertCircle,
+  Calendar,
+  ArrowUp
 } from 'lucide-react';
 
 const EgresosModule = () => {
@@ -85,62 +91,241 @@ const EgresosModule = () => {
     }).format(value);
   };
 
+  // Formato abreviado para móviles
+  const formatCurrencyShort = (value: any) => {
+    if (value >= 1000000) {
+      return new Intl.NumberFormat('es-MX', {
+        style: 'currency',
+        currency: 'MXN',
+        maximumFractionDigits: 1
+      }).format(value / 1000000) + 'M';
+    } else if (value >= 1000) {
+      return new Intl.NumberFormat('es-MX', {
+        style: 'currency',
+        currency: 'MXN',
+        maximumFractionDigits: 1
+      }).format(value / 1000) + 'K';
+    } else {
+      return formatCurrency(value);
+    }
+  };
+
   return (
-    <div className="grid gap-6">
-      {/* Tarjetas de estadísticas de egresos */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Egresos Totales</CardTitle>
-            <CardDescription>Mes actual</CardDescription>
+    <div className="grid gap-3 sm:gap-6">
+      {/* Tarjetas de estadísticas de egresos - Versión optimizada para móvil */}
+      <div className="grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
+        <Card className="p-0 sm:py-0">
+          <CardHeader className="p-3 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Egresos Totales</CardTitle>
+            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(estadisticas.egresosTotales)}</div>
-            <p className="text-xs text-muted-foreground">
-              +{estadisticas.egresosDiferenciaMes}% respecto al mes anterior
+          <CardContent className="p-3">
+            <div className="flex items-baseline justify-between">
+              <div className="text-lg sm:text-2xl font-bold">{formatCurrencyShort(estadisticas.egresosTotales)}</div>
+              <div className="flex items-center text-[10px] sm:text-xs text-green-600">
+                <ArrowUp className="h-3 w-3 mr-0.5" />
+                {estadisticas.egresosDiferenciaMes}%
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="p-0 sm:py-0">
+          <CardHeader className="p-3 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Nómina</CardTitle>
+            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+          </CardHeader>
+          <CardContent className="p-3">
+            <div className="text-lg sm:text-2xl font-bold">{formatCurrencyShort(estadisticas.nomina)}</div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
+              {estadisticas.nominaPorcentaje}% del total
             </p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Nómina</CardTitle>
-            <CardDescription>Mes actual</CardDescription>
+        
+        <Card className="p-0 sm:py-0">
+          <CardHeader className="p-3 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Proveedores</CardTitle>
+            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(estadisticas.nomina)}</div>
-            <p className="text-xs text-muted-foreground">
-              {estadisticas.nominaPorcentaje}% del total de egresos
+          <CardContent className="p-3">
+            <div className="text-lg sm:text-2xl font-bold">{formatCurrencyShort(estadisticas.proveedores)}</div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
+              {estadisticas.proveedoresPorcentaje}% del total
             </p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Proveedores</CardTitle>
-            <CardDescription>Mes actual</CardDescription>
+        
+        <Card className="p-0 sm:py-0">
+          <CardHeader className="p-3 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Otros</CardTitle>
+            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(estadisticas.proveedores)}</div>
-            <p className="text-xs text-muted-foreground">
-              {estadisticas.proveedoresPorcentaje}% del total de egresos
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Otros</CardTitle>
-            <CardDescription>Mes actual</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(estadisticas.otros)}</div>
-            <p className="text-xs text-muted-foreground">
-              {estadisticas.otrosPorcentaje}% del total de egresos
+          <CardContent className="p-3">
+            <div className="text-lg sm:text-2xl font-bold">{formatCurrencyShort(estadisticas.otros)}</div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
+              {estadisticas.otrosPorcentaje}% del total
             </p>
           </CardContent>
         </Card>
       </div>
       
-      {/* Egresos recientes y pagos pendientes */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+      {/* Egresos recientes - Versión móvil */}
+      <Card className="md:hidden">
+        <CardHeader className="p-3 pb-2">
+          <CardTitle className="text-sm">Egresos Recientes</CardTitle>
+          <CardDescription className="text-[10px]">Últimos pagos</CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="divide-y">
+            {egresosRecientes.slice(0, 3).map((egreso) => (
+              <div 
+                key={egreso.id} 
+                className="p-3 flex items-start justify-between"
+              >
+                <div>
+                  <div className="text-xs font-medium">{egreso.concepto}</div>
+                  <div className="text-[10px] text-muted-foreground">{egreso.beneficiario}</div>
+                  <div className="text-[10px] flex items-center text-muted-foreground mt-1">
+                    <Calendar className="h-2.5 w-2.5 mr-1" />
+                    {egreso.fecha}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs font-medium">{formatCurrencyShort(egreso.importe)}</div>
+                  <Button variant="ghost" size="sm" className="h-6 p-0 text-[10px] mt-1">
+                    Ver <ChevronRight className="h-3 w-3 ml-0.5" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="p-3 border-t">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="w-full text-[10px] h-7"
+            >
+              Ver todos
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+      
+      {/* Pagos pendientes - Versión móvil */}
+      <Card className="md:hidden">
+        <CardHeader className="p-3 pb-2">
+          <CardTitle className="text-sm">Pagos Pendientes</CardTitle>
+          <CardDescription className="text-[10px]">Próximos pagos</CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="divide-y">
+            {pagosPendientes.slice(0, 3).map((pago) => (
+              <div 
+                key={pago.id} 
+                className="p-3 flex items-start justify-between"
+              >
+                <div>
+                  <div className="text-xs font-medium">{pago.concepto}</div>
+                  <div className="text-[10px] flex items-center text-muted-foreground mt-1">
+                    <Clock className="h-2.5 w-2.5 mr-1" />
+                    {pago.fecha}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs font-medium">{formatCurrencyShort(pago.importe)}</div>
+                  <Badge 
+                    variant={pago.estatus === 'Programado' ? 'outline' : 'secondary'}
+                    className="text-[9px] h-4 mt-1"
+                  >
+                    {pago.estatus}
+                  </Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2 p-3 border-t">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="w-full text-[10px] h-7"
+            >
+              <Plus className="h-3 w-3 mr-1" />
+              Nuevo pago
+            </Button>
+          </div>
+          <div className="p-3">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="w-full text-[10px] h-7"
+            >
+              Ver todos
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+      
+      {/* Distribución de egresos - Versión móvil */}
+      <Card>
+        <CardHeader className="p-3 pb-2 sm:p-6 sm:pb-6">
+          <CardTitle className="text-sm sm:text-base">Distribución de Egresos</CardTitle>
+          <CardDescription className="text-[10px] sm:text-sm">Mes actual</CardDescription>
+        </CardHeader>
+        <CardContent className="p-3 pt-0 sm:p-6">
+          <div className="space-y-3 sm:space-y-4">
+            {distribucionEgresos.map((item, index) => (
+              <div key={index} className="space-y-1 sm:space-y-2">
+                <div className="flex items-center justify-between text-xs sm:text-sm">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <div className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full ${item.color}`}></div>
+                    <span className="font-medium">{item.categoria}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium hidden xs:inline">{formatCurrencyShort(item.importe)}</span>
+                    <span className="text-muted-foreground">{item.porcentaje}%</span>
+                  </div>
+                </div>
+                <div className="w-full h-1.5 sm:h-2 rounded-full bg-muted">
+                  <div className={`h-full ${item.color} rounded-full`} style={{ width: `${item.porcentaje}%` }}></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+      
+      {/* Acceso rápido - Versión móvil */}
+      <div className="md:hidden">
+        <Card>
+          <CardHeader className="p-3 pb-2">
+            <CardTitle className="text-sm">Acceso rápido</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3 pt-0">
+            <div className="grid grid-cols-4 gap-2">
+              <Button variant="outline" className="h-auto py-3 flex flex-col text-[10px]">
+                <DollarSign className="h-4 w-4 mb-1" />
+                <span>Nuevo pago</span>
+              </Button>
+              <Button variant="outline" className="h-auto py-3 flex flex-col text-[10px]">
+                <FileText className="h-4 w-4 mb-1" />
+                <span>Reporte</span>
+              </Button>
+              <Button variant="outline" className="h-auto py-3 flex flex-col text-[10px]">
+                <Users className="h-4 w-4 mb-1" />
+                <span>Proveedores</span>
+              </Button>
+              <Button variant="outline" className="h-auto py-3 flex flex-col text-[10px]">
+                <BarChart className="h-4 w-4 mb-1" />
+                <span>Estadísticas</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+      
+      {/* Egresos recientes y pagos pendientes - Versión desktop */}
+      <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-7">
         {/* Egresos recientes */}
         <Card className="lg:col-span-4">
           <CardHeader>
@@ -216,8 +401,8 @@ const EgresosModule = () => {
         </Card>
       </div>
       
-      {/* Acceso rápido y distribución de egresos */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {/* Acceso rápido y distribución de egresos - Versión desktop */}
+      <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* Acceso rápido */}
         <Card className="lg:col-span-1">
           <CardHeader>
@@ -276,8 +461,54 @@ const EgresosModule = () => {
         </Card>
       </div>
 
-      {/* Tabla de proveedores frecuentes */}
-      <Card>
+      {/* Proveedores frecuentes - Versión móvil */}
+      <Card className="md:hidden">
+        <CardHeader className="p-3 pb-2">
+          <CardTitle className="text-sm">Proveedores Frecuentes</CardTitle>
+          <CardDescription className="text-[10px]">Pagos frecuentes</CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="divide-y">
+            {[
+              { id: 1, proveedor: 'CFE', rfc: 'CFE370814QI0', acumulado: 1245678.25, ultimo: '10/03/2025' },
+              { id: 2, proveedor: 'Papelería Central S.A.', rfc: 'PCS981123XYZ', acumulado: 387450.86, ultimo: '08/03/2025' },
+              { id: 3, proveedor: 'Telmex', rfc: 'TME840315KT6', acumulado: 134567.72, ultimo: '05/03/2025' },
+            ].map((proveedor) => (
+              <div 
+                key={proveedor.id} 
+                className="p-3 flex items-start justify-between"
+              >
+                <div>
+                  <div className="text-xs font-medium">{proveedor.proveedor}</div>
+                  <div className="text-[10px] text-muted-foreground">{proveedor.rfc}</div>
+                  <div className="text-[10px] flex items-center text-muted-foreground mt-1">
+                    <Calendar className="h-2.5 w-2.5 mr-1" />
+                    Último: {proveedor.ultimo}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs font-medium">{formatCurrencyShort(proveedor.acumulado)}</div>
+                  <Button variant="ghost" size="sm" className="h-6 p-0 text-[10px] mt-1">
+                    Ver pagos <ChevronRight className="h-3 w-3 ml-0.5" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="p-3 border-t">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="w-full text-[10px] h-7"
+            >
+              Ver todos los proveedores
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Tabla de proveedores frecuentes - Versión desktop */}
+      <Card className="hidden md:block">
         <CardHeader>
           <CardTitle>Proveedores Frecuentes</CardTitle>
           <CardDescription>Proveedores con pagos frecuentes</CardDescription>
