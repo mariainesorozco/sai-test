@@ -22,6 +22,9 @@ export default function AdminPage() {
       case 'egresos':
         router.push('/admin/egresos');
         break;
+      case 'contabilidad':
+        router.push('/admin/contabilidad');
+        break;
       case 'catalogos':
         router.push('/admin/catalogos');
         break;

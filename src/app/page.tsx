@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Users, FileText, DollarSign, BookOpen, User } from 'lucide-react';
+import { Users, FileText, DollarSign, BookOpen, User, Calculator } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -41,6 +41,13 @@ export default function HomePage() {
                 <Button variant="outline" className="h-auto py-6 w-full flex flex-col items-center">
                   <DollarSign className="h-8 w-8 mb-2" />
                   <span className="text-sm font-medium">Egresos</span>
+                </Button>
+              </Link>
+
+              <Link href="/admin/contabilidad" className="col-span-1 flex flex-col items-center">
+                <Button variant="outline" className="h-auto py-6 w-full flex flex-col items-center">
+                  <Calculator className="h-8 w-8 mb-2" />
+                  <span className="text-sm font-medium">Contabilidad</span>
                 </Button>
               </Link>
               

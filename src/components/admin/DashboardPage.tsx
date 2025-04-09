@@ -155,7 +155,7 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
     <div className="grid gap-3 sm:gap-6 max-w-full">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Dashboard</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Sistema de Administración Institucional</h1>
           <p className="text-muted-foreground text-xs sm:text-sm">Resumen del sistema y acceso rápido</p>
         </div>
       </div>

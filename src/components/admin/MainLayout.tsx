@@ -106,8 +106,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     { id: 'nomina', name: 'Nómina y RH' },
     { id: 'impuestos', name: 'Impuestos' },
     { id: 'egresos', name: 'Egresos' },
+    { id: 'contabilidad', name: 'Contabilidad' },
     { id: 'catalogos', name: 'Catálogos' },
-    { id: 'expediente', name: 'Expediente Digital' }
+    { id: 'expediente', name: 'Expediente' }
   ];
 
   // Función para buscar empleados
@@ -141,6 +142,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         break;
       case 'egresos':
         router.push('/admin/egresos');
+        break;
+      case 'contabilidad':
+        router.push('/admin/contabilidad');
         break;
       case 'catalogos':
         router.push('/admin/catalogos');

@@ -15,7 +15,8 @@ import {
   LogOut,
   ChevronsLeft,
   ChevronsRight,
-  Search
+  Search,
+  Calculator,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -76,6 +77,12 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
       description: 'Control de pagos y egresos institucionales',
     },
     {
+      id: 'contabilidad',
+      name: 'Contabilidad',
+      icon: Calculator,
+      description: 'Gestión contable y financiera',
+    },
+    {
       id: 'catalogos',
       name: 'Catálogos',
       icon: BookOpen,
@@ -83,7 +90,7 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
     },
     {
       id: 'expediente',
-      name: 'Expediente Digital',
+      name: 'Expediente',
       icon: User,
       description: 'Gestión de expedientes digitales',
     }

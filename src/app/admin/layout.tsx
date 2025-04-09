@@ -23,6 +23,8 @@ export default function AdminLayout({
       setActiveModule('impuestos');
     } else if (pathname.startsWith('/admin/egresos')) {
       setActiveModule('egresos');
+    } else if (pathname.startsWith('/admin/contabilidad')) {
+        setActiveModule('contabilidad');
     } else if (pathname.startsWith('/admin/catalogos')) {
       setActiveModule('catalogos');
     } else if (pathname.startsWith('/admin/expediente-digital')) {
