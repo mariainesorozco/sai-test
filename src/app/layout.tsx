@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SAI UAN",
+  title: "SAi UAN",
   description: "Sistema de Administración Institucional - Universidad Autónoma de Nayarit",
   // Añadir manifest y otros metadatos para rutas base
   manifest: '/manifest.json',

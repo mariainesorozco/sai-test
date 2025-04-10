@@ -204,7 +204,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
               >
                 <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
                 <div className="flex h-14 items-center border-b px-4 flex-shrink-0">
-                  <h2 className="text-base font-semibold tracking-tight">SAI UAN</h2>
+                  <h2 className="text-base font-semibold tracking-tight">SAi UAN</h2>
                 </div>
                 
                 {/* Contenedor con scroll para opciones del menú */}

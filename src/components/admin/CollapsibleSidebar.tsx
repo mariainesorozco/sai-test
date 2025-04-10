@@ -117,8 +117,8 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
     >
       {/* Header del sidebar */}
       <div className="flex h-14 min-h-[56px] items-center border-b px-4 justify-between">
-        {!collapsed && <h2 className="text-lg font-semibold tracking-tight">SAI UAN</h2>}
-        {collapsed && <div className="mx-auto font-bold text-primary">SAI</div>}
+        {!collapsed && <h2 className="text-lg font-semibold tracking-tight">SAi UAN</h2>}
+        {collapsed && <div className="mx-auto font-bold text-primary">SAi</div>}
         
         {/* Botón para colapsar/expandir (solo en desktop) */}
         {!isMobile && (

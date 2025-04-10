@@ -16,7 +16,7 @@ export default function HomePage() {
         
         <Card className="mb-8">
           <CardHeader className="pb-3 text-center">
-            <CardTitle>Bienvenido al SAI</CardTitle>
+            <CardTitle>Bienvenido al SAi</CardTitle>
             <CardDescription>
               Seleccione el módulo al que desea acceder
             </CardDescription>
@@ -61,7 +61,7 @@ export default function HomePage() {
               <Link href="/admin/nomina/expediente-digital" className="col-span-1 flex flex-col items-center">
                 <Button variant="outline" className="h-auto py-6 w-full flex flex-col items-center relative">
                   <User className="h-8 w-8 mb-2" />
-                  <span className="text-sm font-medium">Expediente Digital</span>
+                  <span className="text-sm font-medium">Expediente</span>
                   <Badge className="absolute -top-2 -right-2 bg-primary">Nuevo</Badge>
                 </Button>
               </Link>

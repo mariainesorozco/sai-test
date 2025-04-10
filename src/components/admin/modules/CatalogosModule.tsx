@@ -166,6 +166,12 @@ const CatalogosModule = () => {
 
   return (
     <div className="grid gap-3 sm:gap-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="sm:text-xl md:text-xl font-semibold">Catálogos</h1>
+          <p className="text-sm text-muted-foreground">Panel de administración de catálogos del sistema</p>
+        </div>
+      </div>
       {/* Barra de búsqueda para móviles */}
       <div className="md:hidden">
         <div className="relative mb-3">
