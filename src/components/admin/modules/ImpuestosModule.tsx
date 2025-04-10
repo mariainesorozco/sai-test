@@ -80,7 +80,7 @@ const ImpuestosModule = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="sm:text-xl md:text-xl font-semibold">Impuestos</h1>
-          <p className="text-sm text-muted-foreground">Panel de control de impuestos y obligaciones fiscales</p>
+          <p className="text-sm text-muted-foreground">Panel de gestión de impuestos y obligaciones fiscales</p>
         </div>
       </div>
       {/* Tarjetas de estadísticas de impuestos - Versión Móvil Optimizada */}

@@ -267,17 +267,38 @@ const DistribucionPresupuestoChart: React.FC = () => {
               </div>
             ))}
           </div>
+         {/* Botón para expandir/colapsar en móvil */}
+         {isMobile && (
+            <button 
+              className="flex items-center justify-center text-muted-foreground text-xs mt-2 py-1 border-t"
+              onClick={() => setDetailsExpanded(!detailsExpanded)}
+            >
+              {detailsExpanded ? (
+                <>
+                  <ChevronUp className="h-3 w-3 mr-1" /> Mostrar menos
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="h-3 w-3 mr-1" /> Mostrar más detalles
+                </>
+              )}
+            </button>
+          )}
         </div>
       </CardContent>
-      <CardFooter className="border-t px-6 py-3">
-        <div className="text-sm text-muted-foreground">
+      <CardFooter className={`border-t ${isMobile ? 'px-3 py-2 flex-col' : 'px-6 py-3'}`}>
+        <div className="text-xs sm:text-sm text-muted-foreground">
           {periodoSeleccionado === 'anterior' ? 
             'Datos del periodo financiero anterior (2024)' : 
            periodoSeleccionado === 'actual' ? 
             'Datos del periodo financiero actual (2025)' : 
             'Proyección para el próximo periodo financiero (2026)'}
         </div>
-        <Button variant="outline" size="sm" className="ml-auto">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className={`${isMobile ? 'w-full mt-2 text-xs' : 'ml-auto'}`}
+        >
           Ver detalles completos
         </Button>
       </CardFooter>
@@ -286,3 +307,4 @@ const DistribucionPresupuestoChart: React.FC = () => {
 };
 
 export default DistribucionPresupuestoChart;
+          

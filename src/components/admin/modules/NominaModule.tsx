@@ -83,7 +83,7 @@ const NominaModule = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-lg font-semibold">Nómina y Recursos Humanos</h1>
-          <p className="text-sm text-muted-foreground">Panel de administración de personal, expedientes y nómina</p>
+          <p className="text-sm text-muted-foreground">Panel de gestión de personal, expedientes y nómina</p>
         </div>
       </div>
       <div className="overflow-auto -mx-2 px-2 no-scrollbar">

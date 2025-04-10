@@ -14,12 +14,13 @@ import {
   HelpCircle,
   LogOut,
   ChevronsLeft,
-  ChevronsRight,
+  ChevronRight,
+  PanelRight,
   Search,
   Calculator,
+  Menu,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface SidebarProps {
   activeModule: string;
@@ -108,30 +109,49 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
     onModuleChange(moduleId);
   };
 
+  // Función para alternar el estado de colapso
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+
   return (
     <aside 
       className={cn(
-        "border-r bg-background h-full min-h-screen flex flex-col transition-all duration-300 relative",
+        "border-r bg-background h-full min-h-screen flex flex-col transition-all duration-300 relative shadow-sm z-10",
         collapsed ? "w-16" : "w-64"
       )}
     >
       {/* Header del sidebar */}
-      <div className="flex h-14 min-h-[56px] items-center border-b px-4 justify-between">
-        {!collapsed && <h2 className="text-lg font-semibold tracking-tight">SAi UAN</h2>}
-        {collapsed && <div className="mx-auto font-bold text-primary">SAi</div>}
+      <div className="flex h-14 min-h-[56px] items-center border-b px-4 shadow-sm bg-background/95 backdrop-blur-sm">
+        {!collapsed ? (
+          <div className="flex-1 flex items-center">
+            <h2 className="text-lg font-semibold tracking-tight text-primary">SAi UAN</h2>
+          </div>
+        ) : (
+          <div className="flex-1 flex justify-center">
+            <span className="text-lg font-bold text-primary">SAi</span>
+          </div>
+        )}
         
         {/* Botón para colapsar/expandir (solo en desktop) */}
         {!isMobile && (
           <Button 
-            variant="ghost" 
+            variant="outline" 
             size="sm" 
             className={cn(
-              "h-8 w-8 p-0 rounded-full hover:bg-muted",
-              collapsed ? "-mr-10 absolute right-0 bg-background border shadow-sm" : ""
+              "h-8 w-8 p-0 rounded-md hover:bg-primary/10 transition-colors",
+              collapsed 
+                ? "absolute -right-4 top-3 bg-white border-primary/20 shadow-md z-20" 
+                : ""
             )}
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={toggleCollapsed}
+            title={collapsed ? 'Expandir menú' : 'Colapsar menú'}
           >
-            {collapsed ? <ChevronsRight className="h-4 w-4" /> : <ChevronsLeft className="h-4 w-4" />}
+            {collapsed ? (
+              <Menu className="h-4 w-4 text-primary" />
+            ) : (
+              <ChevronsLeft className="h-4 w-4 text-primary" />
+            )}
             <span className="sr-only">{collapsed ? 'Expandir' : 'Colapsar'}</span>
           </Button>
         )}
@@ -141,94 +161,86 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
       <div className="flex-1 flex flex-col overflow-hidden">
         <div 
           className={cn(
-            "flex-1 overflow-y-auto py-3", 
+            "flex-1 overflow-y-auto scrollbar-thin py-3", 
             collapsed ? "px-2" : "px-3"
           )}
         >
-          {!collapsed && <h3 className="mb-2 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Módulos</h3>}
-          <TooltipProvider>
-            <ul className="space-y-1">
-              {modules.map((module) => {
-                const isActive = activeModule === module.id;
-                
-                return (
-                  <li key={module.id}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button
-                          className={cn(
-                            "flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm transition-colors",
-                            isActive 
-                              ? "bg-primary/10 text-primary font-medium" 
-                              : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                            collapsed ? "justify-center" : ""
-                          )}
-                          onClick={() => handleModuleClick(module.id)}
-                        >
-                          <module.icon className={cn("h-4 w-4 flex-shrink-0", isActive ? "text-primary" : "text-muted-foreground")} />
-                          {!collapsed && <span className="truncate">{module.name}</span>}
-                        </button>
-                      </TooltipTrigger>
-                      {collapsed && (
-                        <TooltipContent side="right">
-                          {module.name}
-                        </TooltipContent>
-                      )}
-                    </Tooltip>
-                  </li>
-                );
-              })}
-            </ul>
-          </TooltipProvider>
+          {!collapsed && (
+            <div className="mb-3 px-3">
+              <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Módulos</h3>
+            </div>
+          )}
+          
+          <nav className="space-y-1">
+            {modules.map((module) => {
+              const isActive = activeModule === module.id;
+              
+              return (
+                <button
+                  key={module.id}
+                  className={cn(
+                    "flex items-center w-full rounded-md text-sm transition-colors text-left",
+                    collapsed ? "justify-center px-2 py-2" : "px-3 py-2",
+                    isActive 
+                      ? "bg-primary/10 text-primary font-medium shadow-sm" 
+                      : "text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                  )}
+                  onClick={() => handleModuleClick(module.id)}
+                  title={collapsed ? module.name : undefined}
+                >
+                  <module.icon className={cn(
+                    "flex-shrink-0",
+                    collapsed ? "h-5 w-5" : "h-4 w-4 mr-3", 
+                    isActive ? "text-primary" : "text-muted-foreground"
+                  )} />
+                  
+                  {!collapsed && (
+                    <span className="truncate flex-1">{module.name}</span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+          
+          {/* Separador antes de los accesos rápidos */}
+          {!collapsed && (
+            <div className="h-px w-full bg-border/60 my-4 mx-auto max-w-[90%] opacity-60" />
+          )}
           
           {/* Acceso rápido */}
           {!collapsed && (
-            <div className="px-3 py-2 mt-6">
-              <h3 className="mb-2 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Acceso Rápido</h3>
-              <ul className="space-y-1">
+            <div className="px-3 py-1">
+              <h3 className="mb-2 px-1 text-xs font-medium text-muted-foreground">Acceso Rápido</h3>
+              <nav className="space-y-1">
                 {quickAccess.map((item) => (
-                  <li key={item.id}>
-                    <Button 
-                      variant="ghost" 
-                      className="w-full justify-start text-left font-normal text-muted-foreground hover:text-foreground"
-                    >
-                      <div className="flex items-center gap-3">
-                        <item.icon className="h-4 w-4 flex-shrink-0" />
-                        <span className="truncate">{item.name}</span>
-                      </div>
-                    </Button>
-                  </li>
+                  <Button 
+                    key={item.id}
+                    variant="ghost" 
+                    className="w-full justify-start py-2 px-3 text-left font-normal text-muted-foreground hover:text-foreground h-auto"
+                  >
+                    <item.icon className="h-4 w-4 mr-3" />
+                    <span className="truncate flex-1">{item.name}</span>
+                  </Button>
                 ))}
-              </ul>
+              </nav>
             </div>
           )}
           
           {/* Acceso rápido en modo colapsado */}
           {collapsed && (
-            <div className="mt-6">
-              <TooltipProvider>
-                <ul className="space-y-1">
-                  {quickAccess.map((item) => (
-                    <li key={item.id}>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            className="w-full h-9 p-0 flex justify-center text-muted-foreground hover:text-foreground"
-                          >
-                            <item.icon className="h-4 w-4" />
-                            <span className="sr-only">{item.name}</span>
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">
-                          {item.name}
-                        </TooltipContent>
-                      </Tooltip>
-                    </li>
-                  ))}
-                </ul>
-              </TooltipProvider>
+            <div className="mt-4 border-t pt-4 border-b pb-4">
+              <nav className="flex flex-col gap-3 items-center">
+                {quickAccess.map((item) => (
+                  <button
+                    key={item.id}
+                    className="flex justify-center items-center rounded-full w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
+                    title={item.name}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span className="sr-only">{item.name}</span>
+                  </button>
+                ))}
+              </nav>
             </div>
           )}
         </div>
@@ -236,41 +248,37 @@ const CollapsibleSidebar: React.FC<SidebarProps> = ({ activeModule, onModuleChan
       
       {/* Información de usuario */}
       <div className={cn(
-        "mt-auto border-t p-4 flex items-center",
-        collapsed ? "justify-center" : "gap-2"
+        "border-t p-3 bg-background/95 backdrop-blur-sm",
+        collapsed ? "" : ""
       )}>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Avatar className="h-8 w-8 flex-shrink-0 ring-2 ring-background">
-                <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
-                <AvatarFallback className="bg-primary/10 text-primary">UA</AvatarFallback>
-              </Avatar>
-            </TooltipTrigger>
-            {collapsed && (
-              <TooltipContent side="right">
-                <div>
-                  <div className="font-medium">Usuario Admin</div>
-                  <div className="text-xs text-muted-foreground">admin@uan.edu.mx</div>
-                </div>
-              </TooltipContent>
-            )}
-          </Tooltip>
-        </TooltipProvider>
-        
-        {!collapsed && (
-          <div className="grid gap-0.5 text-xs overflow-hidden">
-            <div className="font-medium truncate">Usuario Admin</div>
-            <div className="text-muted-foreground truncate">admin@uan.edu.mx</div>
-          </div>
-        )}
-        
-        {!collapsed && (
-          <Button variant="ghost" size="sm" className="ml-auto h-8 w-8 p-0 flex-shrink-0 rounded-full text-muted-foreground hover:text-foreground">
-            <LogOut className="h-4 w-4" />
-            <span className="sr-only">Cerrar sesión</span>
-          </Button>
-        )}
+        <div className={cn(
+          "flex rounded-md p-2 transition-colors",
+          collapsed ? "justify-center" : "gap-3 hover:bg-muted/80 items-center"
+        )}>
+          <Avatar className="h-8 w-8 flex-shrink-0 border-2 border-background">
+            <AvatarImage src="/api/placeholder/32/32" alt="Avatar" />
+            <AvatarFallback className="bg-primary/10 text-primary">UA</AvatarFallback>
+          </Avatar>
+          
+          {!collapsed && (
+            <>
+              <div className="grid gap-0.5 text-xs overflow-hidden flex-1">
+                <div className="font-medium truncate">Usuario Admin</div>
+                <div className="text-muted-foreground truncate">admin@uan.edu.mx</div>
+              </div>
+              
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-7 w-7 p-0 rounded-full hover:bg-muted shrink-0"
+                title="Cerrar sesión"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+                <span className="sr-only">Cerrar sesión</span>
+              </Button>
+            </>
+          )}
+        </div>
       </div>
     </aside>
   );

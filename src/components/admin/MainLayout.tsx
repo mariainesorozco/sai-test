@@ -203,7 +203,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 }}
               >
                 <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
-                <div className="flex h-14 items-center border-b px-4 flex-shrink-0">
+                <div className="flex h-14 items-center border-b px-4 flex-shrink-0 shadow-sm">
                   <h2 className="text-base font-semibold tracking-tight">SAi UAN</h2>
                 </div>
                 

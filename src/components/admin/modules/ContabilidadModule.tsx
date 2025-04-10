@@ -392,7 +392,7 @@ const ContabilidadModule: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <div>
           <h2 className="sm:text-xl md:text-xl font-semibold">Contabilidad</h2>
-          <p className="text-sm text-muted-foreground">Panel de control financiero</p>
+          <p className="text-sm text-muted-foreground">Panel de gestión contable y financiera</p>
         </div>
         <div className="flex items-center gap-2">
           <div className="text-xs text-muted-foreground mr-2">Periodo:</div>
