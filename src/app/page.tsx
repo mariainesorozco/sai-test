@@ -22,7 +22,7 @@ export default function HomePage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
               <Link href="/admin/nomina" className="col-span-1 flex flex-col items-center">
                 <Button variant="outline" className="h-auto py-6 w-full flex flex-col items-center">
                   <Users className="h-8 w-8 mb-2" />

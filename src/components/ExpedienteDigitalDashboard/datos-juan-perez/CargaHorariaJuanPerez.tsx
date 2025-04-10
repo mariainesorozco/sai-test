@@ -481,6 +481,65 @@ const CargaHorariaJuanPerez = () => {
                 ))}
               </div>
             </div>
+
+            {/* Contenido para móvil - fuera de las Tabs */}
+            {activeDay >= 1 && activeDay <= 5 && (
+                <div className="space-y-3 md:hidden">
+                {datosJuanPerez.horarios[activeDay-1].length > 0 ? 
+                datosJuanPerez.horarios[activeDay-1].map((horario) => (
+                    <div key={horario.id} className="border rounded-lg overflow-hidden shadow-sm">
+                    {/* Franja de color para tipo de actividad */}
+                    <div className={`px-3 py-1.5 text-white text-xs font-medium ${
+                        horario.actividad === "DOCENCIA" ? "bg-blue-500" : 
+                        horario.actividad === "ACADEMICA" ? "bg-amber-500" : 
+                        "bg-green-500"
+                    }`}>
+                        {horario.horaInicio} - {horario.horaFin} • {horario.actividad}
+                    </div>
+                    
+                    <div className="p-3">
+                        {horario.materia ? (
+                        <>
+                            {/* Información de materia */}
+                            <div className="flex items-center mb-1">
+                            <Book className="h-4 w-4 mr-2 text-muted-foreground flex-shrink-0" />
+                            <span className="text-sm font-medium">{horario.materia}</span>
+                            </div>
+                            
+                            {/* Información de grupo y ubicación */}
+                            <div className="grid grid-cols-2 text-xs text-muted-foreground mt-2">
+                            <div className="flex items-center">
+                                <span className="font-medium mr-1">Grupo:</span>
+                                <span>{horario.grupo || "-"}</span>
+                            </div>
+                            <div className="flex items-center justify-end">
+                                <Building className="h-3 w-3 mr-1 text-muted-foreground" />
+                                <span>{horario.ubicacion}</span>
+                            </div>
+                            </div>
+                        </>
+                        ) : (
+                        <>
+                            {/* Actividad no docente */}
+                            <div className="flex items-center">
+                            <Building className="h-4 w-4 mr-2 text-muted-foreground flex-shrink-0" />
+                            <span className="text-sm">{horario.ubicacion}</span>
+                            </div>
+                            <div className="text-xs text-muted-foreground mt-1">
+                            Actividad administrativa/académica
+                            </div>
+                        </>
+                        )}
+                    </div>
+                    </div>
+                )) : (
+                    <div className="text-center py-6 text-muted-foreground bg-muted/20 rounded-lg">
+                    No hay horas asignadas para este día
+                    </div>
+                )
+                }
+            </div>
+            )}
             
             {/* Vista desktop: pestañas completas */}
             <Tabs value={activeDay.toString()} onValueChange={(value) => setActiveDay(parseInt(value))} className="hidden md:block">
@@ -495,65 +554,6 @@ const CargaHorariaJuanPerez = () => {
                   </TabsTrigger>
                 ))}
               </TabsList>
-              
-              {/* Contenido para móvil - fuera de las Tabs */}
-              {activeDay >= 1 && activeDay <= 5 && (
-                <div className="space-y-3 md:hidden">
-                  {datosJuanPerez.horarios[activeDay-1].length > 0 ? 
-                    datosJuanPerez.horarios[activeDay-1].map((horario) => (
-                      <div key={horario.id} className="border rounded-lg overflow-hidden shadow-sm">
-                        {/* Franja de color para tipo de actividad */}
-                        <div className={`px-3 py-1.5 text-white text-xs font-medium ${
-                          horario.actividad === "DOCENCIA" ? "bg-blue-500" : 
-                          horario.actividad === "ACADEMICA" ? "bg-amber-500" : 
-                          "bg-green-500"
-                        }`}>
-                          {horario.horaInicio} - {horario.horaFin} • {horario.actividad}
-                        </div>
-                        
-                        <div className="p-3">
-                          {horario.materia ? (
-                            <>
-                              {/* Información de materia */}
-                              <div className="flex items-center mb-1">
-                                <Book className="h-4 w-4 mr-2 text-muted-foreground flex-shrink-0" />
-                                <span className="text-sm font-medium">{horario.materia}</span>
-                              </div>
-                              
-                              {/* Información de grupo y ubicación */}
-                              <div className="grid grid-cols-2 text-xs text-muted-foreground mt-2">
-                                <div className="flex items-center">
-                                  <span className="font-medium mr-1">Grupo:</span>
-                                  <span>{horario.grupo || "-"}</span>
-                                </div>
-                                <div className="flex items-center justify-end">
-                                  <Building className="h-3 w-3 mr-1 text-muted-foreground" />
-                                  <span>{horario.ubicacion}</span>
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              {/* Actividad no docente */}
-                              <div className="flex items-center">
-                                <Building className="h-4 w-4 mr-2 text-muted-foreground flex-shrink-0" />
-                                <span className="text-sm">{horario.ubicacion}</span>
-                              </div>
-                              <div className="text-xs text-muted-foreground mt-1">
-                                Actividad administrativa/académica
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    )) : (
-                      <div className="text-center py-6 text-muted-foreground bg-muted/20 rounded-lg">
-                        No hay horas asignadas para este día
-                      </div>
-                    )
-                  }
-                </div>
-              )}
               
               {/* Contenido para desktop - dentro de las Tabs */}
               {datosJuanPerez.horarios.map((horariosDia, index) => (
