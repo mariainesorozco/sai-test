@@ -77,12 +77,18 @@ const ImpuestosModule = () => {
 
   return (
     <div className="grid gap-3 sm:gap-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="sm:text-xl md:text-xl font-semibold">Impuestos</h1>
+          <p className="text-sm text-muted-foreground">Panel de control de impuestos y obligaciones fiscales</p>
+        </div>
+      </div>
       {/* Tarjetas de estadísticas de impuestos - Versión Móvil Optimizada */}
       <div className="grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="p-0 sm:py-0">
           <CardHeader className="p-3 pb-1 sm:pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">ISR Retenido</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base font-medium">ISR Retenido</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
           </CardHeader>
           <CardContent className="p-3">
             <div className="flex items-baseline justify-between">
@@ -97,8 +103,8 @@ const ImpuestosModule = () => {
         
         <Card className="p-0 sm:py-0">
           <CardHeader className="p-3 pb-1 sm:pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">IMSS</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base font-medium">IMSS</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
           </CardHeader>
           <CardContent className="p-3">
             <div className="flex items-baseline justify-between">
@@ -113,8 +119,8 @@ const ImpuestosModule = () => {
         
         <Card className="p-0 sm:py-0">
           <CardHeader className="p-3 pb-1 sm:pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">INFONAVIT</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base font-medium">INFONAVIT</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
           </CardHeader>
           <CardContent className="p-3">
             <div className="flex items-baseline justify-between">
@@ -129,8 +135,8 @@ const ImpuestosModule = () => {
         
         <Card className="p-0 sm:py-0">
           <CardHeader className="p-3 pb-1 sm:pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">IVA</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base font-medium">IVA</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
           </CardHeader>
           <CardContent className="p-3">
             <div className="flex items-baseline justify-between">

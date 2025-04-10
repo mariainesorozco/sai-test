@@ -181,14 +181,12 @@ const CatalogosModule = () => {
       
       <Tabs defaultValue="general" value={selectedTab} onValueChange={setSelectedTab}>
         {/* Tabs para todas las pantallas - Responsive */}
-        <div className="overflow-x-auto -mx-2 px-2">
-          <TabsList className="mb-3 sm:mb-4 w-[400px] sm:w-auto">
-            <TabsTrigger value="general" className="text-xs sm:text-sm">General</TabsTrigger>
-            <TabsTrigger value="nomina" className="text-xs sm:text-sm">Nómina</TabsTrigger>
-            <TabsTrigger value="contabilidad" className="text-xs sm:text-sm">Contabilidad</TabsTrigger>
-            <TabsTrigger value="administracion" className="text-xs sm:text-sm">Administración</TabsTrigger>
-          </TabsList>
-        </div>
+        <TabsList className="mb-2 sm:mb-3 md:mb-4 w-auto">
+          <TabsTrigger value="general" className="text-xs sm:text-sm">General</TabsTrigger>
+          <TabsTrigger value="nomina" className="text-xs sm:text-sm">Nómina</TabsTrigger>
+          <TabsTrigger value="contabilidad" className="text-xs sm:text-sm">Contabilidad</TabsTrigger>
+          <TabsTrigger value="administracion" className="text-xs sm:text-sm">Administración</TabsTrigger>
+        </TabsList>
         
         {/* Contenido para móviles */}
         <div className="md:hidden">

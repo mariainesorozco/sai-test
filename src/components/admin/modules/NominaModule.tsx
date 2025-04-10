@@ -80,6 +80,12 @@ const NominaModule = () => {
 
   return (
     <div className="grid gap-2 sm:gap-4 md:gap-6 mx-0 px-0 max-w-full">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-lg font-semibold">Nómina y Recursos Humanos</h1>
+          <p className="text-sm text-muted-foreground">Panel de control de personal, expedientes y nómina</p>
+        </div>
+      </div>
       <div className="overflow-auto -mx-2 px-2 no-scrollbar">
         <Tabs defaultValue={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-2 sm:mb-3 md:mb-4 w-auto">
@@ -95,7 +101,7 @@ const NominaModule = () => {
             <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-4">
               <Card className="p-2 sm:p-3 md:p-4 md:py-6">
                 <div className="flex flex-col">
-                  <div className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">Total</div>
+                  <div className="text-xs sm:text-sm md:text-base font-medium text-foreground">Total</div>
                   <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Plantilla</div>
                   <div className="text-lg sm:text-xl md:text-2xl font-bold mt-1 sm:mt-2">{estadisticas.totalTrabajadores.toLocaleString()}</div>
                   <div className="text-[9px] sm:text-xs md:text-sm text-muted-foreground">
@@ -105,7 +111,7 @@ const NominaModule = () => {
               </Card>
               <Card className="p-2 sm:p-3 md:p-4 md:py-6">
                 <div className="flex flex-col">
-                  <div className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">Docentes</div>
+                  <div className="text-xs sm:text-sm md:text-base font-medium text-foreground">Docentes</div>
                   <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Personal</div>
                   <div className="text-lg sm:text-xl md:text-2xl font-bold mt-1 sm:mt-2">{estadisticas.docentes.toLocaleString()}</div>
                   <div className="text-[9px] sm:text-xs md:text-sm text-muted-foreground">
@@ -115,7 +121,7 @@ const NominaModule = () => {
               </Card>
               <Card className="p-2 sm:p-3 md:p-4 md:py-6">
                 <div className="flex flex-col">
-                  <div className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">Admin</div>
+                  <div className="text-xs sm:text-sm md:text-base font-medium text-foreground">Administrativos</div>
                   <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Personal</div>
                   <div className="text-lg sm:text-xl md:text-2xl font-bold mt-1 sm:mt-2">{estadisticas.administrativos.toLocaleString()}</div>
                   <div className="text-[9px] sm:text-xs md:text-sm text-muted-foreground">
@@ -125,7 +131,7 @@ const NominaModule = () => {
               </Card>
               <Card className="p-2 sm:p-3 md:p-4 md:py-6">
                 <div className="flex flex-col">
-                  <div className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">Directivos</div>
+                  <div className="text-xs sm:text-sm md:text-base font-medium text-foreground">Directivos</div>
                   <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Personal</div>
                   <div className="text-lg sm:text-xl md:text-2xl font-bold mt-1 sm:mt-2">{estadisticas.directivos}</div>
                   <div className="text-[9px] sm:text-xs md:text-sm text-muted-foreground">

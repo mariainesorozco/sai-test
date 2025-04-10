@@ -112,12 +112,18 @@ const EgresosModule = () => {
 
   return (
     <div className="grid gap-3 sm:gap-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="sm:text-xl md:text-xl font-semibold">Egresos</h1>
+          <p className="text-sm text-muted-foreground">Panel de control de pagos y egresos institucionales</p>
+        </div>
+      </div>
       {/* Tarjetas de estadísticas de egresos - Versión optimizada para móvil */}
       <div className="grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="p-0 sm:py-0">
           <CardHeader className="p-3 pb-1 sm:pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Egresos Totales</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base font-medium">Egresos Totales</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
           </CardHeader>
           <CardContent className="p-3">
             <div className="flex items-baseline justify-between">
@@ -132,8 +138,8 @@ const EgresosModule = () => {
         
         <Card className="p-0 sm:py-0">
           <CardHeader className="p-3 pb-1 sm:pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Nómina</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base font-medium">Nómina</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
           </CardHeader>
           <CardContent className="p-3">
             <div className="text-lg sm:text-2xl font-bold">{formatCurrencyShort(estadisticas.nomina)}</div>
@@ -145,8 +151,8 @@ const EgresosModule = () => {
         
         <Card className="p-0 sm:py-0">
           <CardHeader className="p-3 pb-1 sm:pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Proveedores</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base font-medium">Proveedores</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
           </CardHeader>
           <CardContent className="p-3">
             <div className="text-lg sm:text-2xl font-bold">{formatCurrencyShort(estadisticas.proveedores)}</div>
@@ -158,8 +164,8 @@ const EgresosModule = () => {
         
         <Card className="p-0 sm:py-0">
           <CardHeader className="p-3 pb-1 sm:pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Otros</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base font-medium">Otros</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
           </CardHeader>
           <CardContent className="p-3">
             <div className="text-lg sm:text-2xl font-bold">{formatCurrencyShort(estadisticas.otros)}</div>

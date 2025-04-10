@@ -121,7 +121,7 @@ const ExpedienteDigitalModule = () => {
       {/* Encabezado y estadísticas */}
       <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-4 md:gap-6 sm:items-center">
         <div>
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold">Expediente Digital</h2>
+          <h2 className="text-lg sm:text-xl md:text-xl font-bold">Expediente Digital</h2>
           <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
             Gestión de expedientes digitales de empleados
           </p>

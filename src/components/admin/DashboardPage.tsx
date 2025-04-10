@@ -155,7 +155,7 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
     <div className="grid gap-3 sm:gap-6 max-w-full">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Sistema de Administración Institucional</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Sistema de Administración Institucional - SAi</h1>
           <p className="text-muted-foreground text-xs sm:text-sm">Resumen del sistema y acceso rápido</p>
         </div>
       </div>
@@ -164,8 +164,8 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
       <div className="grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="bg-white">
           <CardHeader className="p-3 pb-1">
-            <CardTitle className="text-xs sm:text-sm font-medium">Personal</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Plantilla total</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base">Personal</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Plantilla total</CardDescription>
           </CardHeader>
           <CardContent className="p-3 pt-1">
             <div className="text-lg sm:text-2xl font-bold">{stats.personal.total.toLocaleString()}</div>
@@ -190,8 +190,8 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
 
         <Card className="bg-white">
           <CardHeader className="p-3 pb-1">
-            <CardTitle className="text-xs sm:text-sm font-medium">Nómina</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Próximo pago</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base">Nómina</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Próximo pago</CardDescription>
           </CardHeader>
           <CardContent className="p-3 pt-1">
             <div className="text-lg sm:text-2xl font-bold">
@@ -223,8 +223,8 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
 
         <Card className="bg-white">
           <CardHeader className="p-3 pb-1">
-            <CardTitle className="text-xs sm:text-sm font-medium">Impuestos</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Próximas</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base">Impuestos</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Próximas</CardDescription>
           </CardHeader>
           <CardContent className="p-3 pt-1">
             <div className="text-lg sm:text-2xl font-bold">
@@ -256,8 +256,8 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
 
         <Card className="bg-white">
           <CardHeader className="p-3 pb-1">
-            <CardTitle className="text-xs sm:text-sm font-medium">Egresos</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">Pagos pendientes</CardDescription>
+            <CardTitle className="text-xs sm:text-sm md:text-base">Egresos</CardTitle>
+            <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Pagos pendientes</CardDescription>
           </CardHeader>
           <CardContent className="p-3 pt-1">
             <div className="text-lg sm:text-2xl font-bold">

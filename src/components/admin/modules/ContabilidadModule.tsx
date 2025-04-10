@@ -391,7 +391,7 @@ const ContabilidadModule: React.FC = () => {
       {/* Header con selección de periodo */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <div>
-          <h2 className="text-lg font-semibold">Contabilidad</h2>
+          <h2 className="sm:text-xl md:text-xl font-semibold">Contabilidad</h2>
           <p className="text-sm text-muted-foreground">Panel de control financiero</p>
         </div>
         <div className="flex items-center gap-2">
@@ -421,8 +421,8 @@ const ContabilidadModule: React.FC = () => {
           <CardHeader className="p-3 pb-1 sm:pb-2">
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle className="text-xs sm:text-sm font-medium">Ingresos Totales</CardTitle>
-                <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+                <CardTitle className="text-xs sm:text-sm md:text-base font-medium">Ingresos Totales</CardTitle>
+                <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
               </div>
               <Wallet className="h-4 w-4 text-muted-foreground" />
             </div>
@@ -439,8 +439,8 @@ const ContabilidadModule: React.FC = () => {
           <CardHeader className="p-3 pb-1 sm:pb-2">
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle className="text-xs sm:text-sm font-medium">Docencia</CardTitle>
-                <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+                <CardTitle className="text-xs sm:text-sm md:text-base font-medium">Docencia</CardTitle>
+                <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
               </div>
               <Building2 className="h-4 w-4 text-muted-foreground" />
             </div>
@@ -457,8 +457,8 @@ const ContabilidadModule: React.FC = () => {
           <CardHeader className="p-3 pb-1 sm:pb-2">
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle className="text-xs sm:text-sm font-medium">Investigación</CardTitle>
-                <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+                <CardTitle className="text-xs sm:text-sm md:text-base font-medium">Investigación</CardTitle>
+                <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
               </div>
               <Microscope className="h-4 w-4 text-muted-foreground" />
             </div>
@@ -475,8 +475,8 @@ const ContabilidadModule: React.FC = () => {
           <CardHeader className="p-3 pb-1 sm:pb-2">
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle className="text-xs sm:text-sm font-medium">Administrativos</CardTitle>
-                <CardDescription className="text-[10px] sm:text-xs">Mes actual</CardDescription>
+                <CardTitle className="text-xs sm:text-sm md:text-base font-medium">Administrativos</CardTitle>
+                <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">Mes actual</CardDescription>
               </div>
               <BadgeCheck className="h-4 w-4 text-muted-foreground" />
             </div>
