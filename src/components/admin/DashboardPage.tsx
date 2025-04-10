@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { routes } from '@/app/admin/route-config';
+import AnalisisFinancieroChart from './modules/AnalisisFinancieroChart';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -286,6 +286,11 @@ const DashboardPage: React.FC<DashboardProps> = ({ onModuleSelect }) => {
             </Button>
           </CardFooter>
         </Card>
+      </div>
+
+      {/* Componente de visualización de datos interactivo (versión escritorio) */}
+      <div className="hidden lg:block">
+        <AnalisisFinancieroChart />
       </div>
 
       {/* Contenido principal en Grid */}

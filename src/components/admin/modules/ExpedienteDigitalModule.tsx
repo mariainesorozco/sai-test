@@ -265,7 +265,7 @@ const ExpedienteDigitalModule = () => {
                       setFiltersExpanded(false);
                     }}
                   >
-                    Admin
+                    Administrativos
                   </Button>
                   <Button 
                     variant={selectedFilter === 'directivos' ? "default" : "outline"} 
