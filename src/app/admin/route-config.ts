@@ -20,8 +20,7 @@ export const routes = {
     },
     contabilidad: {
         root: '/admin/contabilidad',
-        conciliacion: '/admin/contabilidad/conciliacion',
-      },
+    },
     catalogos: {
       root: '/admin/catalogos',
       general: '/admin/catalogos/general',

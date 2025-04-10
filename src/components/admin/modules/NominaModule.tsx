@@ -79,101 +79,95 @@ const NominaModule = () => {
   };
 
   return (
-    <div className="grid gap-3 sm:gap-6">
-      <Tabs defaultValue={activeTab} onValueChange={setActiveTab}>
-        <div className="overflow-x-auto -mx-2 px-2">
-          <TabsList className="mb-3 sm:mb-4 w-[400px] sm:w-auto">
-            <TabsTrigger value="general" className="text-xs sm:text-sm">Panel</TabsTrigger>
-            <TabsTrigger value="expediente" className="text-xs sm:text-sm">Expediente</TabsTrigger>
-            <TabsTrigger value="nomina" className="text-xs sm:text-sm">Nómina</TabsTrigger>
-            <TabsTrigger value="informes" className="text-xs sm:text-sm">Informes</TabsTrigger>
+    <div className="grid gap-2 sm:gap-4 md:gap-6 mx-0 px-0 max-w-full">
+      <div className="overflow-auto -mx-2 px-2 no-scrollbar">
+        <Tabs defaultValue={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="mb-2 sm:mb-3 md:mb-4 w-auto">
+            <TabsTrigger value="general" className="text-xs sm:text-sm md:text-base">Panel</TabsTrigger>
+            <TabsTrigger value="expediente" className="text-xs sm:text-sm md:text-base">Expediente</TabsTrigger>
+            <TabsTrigger value="nomina" className="text-xs sm:text-sm md:text-base">Nómina</TabsTrigger>
+            <TabsTrigger value="informes" className="text-xs sm:text-sm md:text-base">Informes</TabsTrigger>
           </TabsList>
-        </div>
-        
-        {/* Panel General */}
-        <TabsContent value="general">
-          {/* Tarjetas de estadísticas */}
-          <div className="grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
-            <Card>
-              <CardHeader className="p-3 pb-1 sm:pb-2">
-                <CardTitle className="text-xs sm:text-sm font-medium">Total</CardTitle>
-                <CardDescription className="text-[10px] sm:text-xs">Plantilla</CardDescription>
-              </CardHeader>
-              <CardContent className="p-3">
-                <div className="text-lg sm:text-2xl font-bold">{estadisticas.totalTrabajadores.toLocaleString()}</div>
-                <p className="text-[10px] sm:text-xs text-muted-foreground">
-                  +{estadisticas.nuevosUltimoMes} en el último mes
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="p-3 pb-1 sm:pb-2">
-                <CardTitle className="text-xs sm:text-sm font-medium">Docentes</CardTitle>
-                <CardDescription className="text-[10px] sm:text-xs">Personal</CardDescription>
-              </CardHeader>
-              <CardContent className="p-3">
-                <div className="text-lg sm:text-2xl font-bold">{estadisticas.docentes.toLocaleString()}</div>
-                <p className="text-[10px] sm:text-xs text-muted-foreground">
-                  {estadisticas.porcentajeDocentes}% del total
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="p-3 pb-1 sm:pb-2">
-                <CardTitle className="text-xs sm:text-sm font-medium">Admin</CardTitle>
-                <CardDescription className="text-[10px] sm:text-xs">Personal</CardDescription>
-              </CardHeader>
-              <CardContent className="p-3">
-                <div className="text-lg sm:text-2xl font-bold">{estadisticas.administrativos.toLocaleString()}</div>
-                <p className="text-[10px] sm:text-xs text-muted-foreground">
-                  {estadisticas.porcentajeAdministrativos}% del total
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="p-3 pb-1 sm:pb-2">
-                <CardTitle className="text-xs sm:text-sm font-medium">Directivos</CardTitle>
-                <CardDescription className="text-[10px] sm:text-xs">Personal</CardDescription>
-              </CardHeader>
-              <CardContent className="p-3">
-                <div className="text-lg sm:text-2xl font-bold">{estadisticas.directivos}</div>
-                <p className="text-[10px] sm:text-xs text-muted-foreground">
-                  {estadisticas.porcentajeDirectivos}% del total
-                </p>
-              </CardContent>
-            </Card>
-          </div>
           
-          {/* Expedientes y estado de completitud */}
-          <div className="grid gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-7 mt-3 sm:mt-6">
-            {/* Para móviles: Vista simplificada */}
-            <Card className="md:hidden">
-              <CardHeader className="p-3 pb-2">
-                <CardTitle className="text-sm">Expedientes recientes</CardTitle>
-                <CardDescription className="text-[10px]">Últimas consultas</CardDescription>
+          {/* Panel General */}
+          <TabsContent value="general" className="space-y-2 sm:space-y-4 md:space-y-6">
+            {/* Tarjetas de estadísticas */}
+            <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-4">
+              <Card className="p-2 sm:p-3 md:p-4 md:py-6">
+                <div className="flex flex-col">
+                  <div className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">Total</div>
+                  <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Plantilla</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold mt-1 sm:mt-2">{estadisticas.totalTrabajadores.toLocaleString()}</div>
+                  <div className="text-[9px] sm:text-xs md:text-sm text-muted-foreground">
+                    +{estadisticas.nuevosUltimoMes} en el último mes
+                  </div>
+                </div>
+              </Card>
+              <Card className="p-2 sm:p-3 md:p-4 md:py-6">
+                <div className="flex flex-col">
+                  <div className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">Docentes</div>
+                  <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Personal</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold mt-1 sm:mt-2">{estadisticas.docentes.toLocaleString()}</div>
+                  <div className="text-[9px] sm:text-xs md:text-sm text-muted-foreground">
+                    {estadisticas.porcentajeDocentes}% del total
+                  </div>
+                </div>
+              </Card>
+              <Card className="p-2 sm:p-3 md:p-4 md:py-6">
+                <div className="flex flex-col">
+                  <div className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">Admin</div>
+                  <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Personal</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold mt-1 sm:mt-2">{estadisticas.administrativos.toLocaleString()}</div>
+                  <div className="text-[9px] sm:text-xs md:text-sm text-muted-foreground">
+                    {estadisticas.porcentajeAdministrativos}% del total
+                  </div>
+                </div>
+              </Card>
+              <Card className="p-2 sm:p-3 md:p-4 md:py-6">
+                <div className="flex flex-col">
+                  <div className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">Directivos</div>
+                  <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Personal</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold mt-1 sm:mt-2">{estadisticas.directivos}</div>
+                  <div className="text-[9px] sm:text-xs md:text-sm text-muted-foreground">
+                    {estadisticas.porcentajeDirectivos}% del total
+                  </div>
+                </div>
+              </Card>
+            </div>
+            
+            {/* Expedientes recientes */}
+            <Card>
+              <CardHeader className="p-3 sm:p-4 md:p-6 pb-0 sm:pb-2 md:pb-3">
+                <CardTitle className="text-sm sm:text-base md:text-lg">Expedientes recientes</CardTitle>
+                <CardDescription className="text-[10px] sm:text-xs md:text-sm">Últimas consultas</CardDescription>
               </CardHeader>
-              <CardContent className="p-3 pt-0">
-                <div className="divide-y">
+              <CardContent className="p-3 sm:p-4 md:p-6 pt-2 sm:pt-3 md:pt-4">
+                <div className="space-y-2 sm:space-y-3 md:space-y-4">
                   {expedientesRecientes.slice(0, 2).map((empleado) => (
                     <div 
                       key={empleado.id} 
-                      className="py-2 flex items-center justify-between"
+                      className="border rounded-md p-2 sm:p-3 md:p-4 flex items-center justify-between cursor-pointer hover:bg-muted/30 transition-colors"
                       onClick={() => handleNavigateToExpediente(empleado.id)}
                     >
-                      <div className="flex items-center gap-2">
-                        <Avatar className="h-7 w-7">
-                          <AvatarFallback className="text-[10px]">{empleado.nombre.charAt(0)}</AvatarFallback>
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <Avatar className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10">
+                          <AvatarFallback className="text-[10px] sm:text-xs md:text-sm">{empleado.nombre.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <div className="text-xs font-medium">{empleado.nombre}</div>
-                          <div className="text-[10px] text-muted-foreground">{empleado.puesto}</div>
+                          <div className="text-xs sm:text-sm md:text-base font-medium">{empleado.nombre}</div>
+                          <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground truncate max-w-[120px] sm:max-w-[200px] md:max-w-none">
+                            {empleado.puesto}
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-center">
-                        <Badge variant={empleado.estatus === 'Activo' ? 'default' : 'secondary'} className="mr-2 text-[9px] px-1 py-0 h-4">
+                        <Badge 
+                          variant={empleado.estatus === 'Activo' ? 'default' : 'secondary'} 
+                          className="mr-1 sm:mr-2 text-[9px] sm:text-xs md:text-sm px-1 sm:px-2 py-0 h-4 sm:h-5 md:h-6"
+                        >
                           {empleado.estatus}
                         </Badge>
-                        <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+                        <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-muted-foreground" />
                       </div>
                     </div>
                   ))}
@@ -181,7 +175,7 @@ const NominaModule = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="w-full mt-2 text-[10px] h-7"
+                  className="w-full mt-2 sm:mt-3 md:mt-4 text-[10px] sm:text-xs md:text-sm h-7 sm:h-8 md:h-9"
                   onClick={() => setActiveTab("expediente")}
                 >
                   Ver todos
@@ -189,360 +183,244 @@ const NominaModule = () => {
               </CardContent>
             </Card>
             
-            {/* Tabla de expedientes recientes para escritorio */}
-            <Card className="hidden md:block lg:col-span-4">
-              <CardHeader>
-                <CardTitle>Expedientes recientes</CardTitle>
-                <CardDescription>Trabajadores consultados recientemente</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Nombre</TableHead>
-                      <TableHead className="hidden sm:table-cell">Puesto</TableHead>
-                      <TableHead className="hidden md:table-cell">Adscripción</TableHead>
-                      <TableHead>Estatus</TableHead>
-                      <TableHead className="text-right">Acciones</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {expedientesRecientes.map((empleado) => (
-                      <TableRow key={empleado.id}>
-                        <TableCell className="font-medium">{empleado.nombre}</TableCell>
-                        <TableCell className="hidden sm:table-cell">{empleado.puesto}</TableCell>
-                        <TableCell className="hidden md:table-cell">{empleado.adscripcion}</TableCell>
-                        <TableCell>
-                          <Badge variant={empleado.estatus === 'Activo' ? 'default' : 'secondary'}>
-                            {empleado.estatus}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="h-8 w-8 p-0"
-                          onClick={() => handleNavigateToExpediente(empleado.id)}
-                        >
-                          <span className="sr-only">Ver expediente</span>
-                          <ChevronRight className="h-4 w-4" />
-                        </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-              <CardFooter className="border-t px-6 py-3">
-                <Button variant="outline" size="sm" className="ml-auto" onClick={() => setActiveTab("expediente")}>
-                  Ver todos
-                </Button>
-              </CardFooter>
-            </Card>
-            
-            {/* Para móviles: Vista simplificada de expedientes por completar */}
-            <Card className="md:hidden">
-              <CardHeader className="p-3 pb-2">
-                <CardTitle className="text-sm">Expedientes por completar</CardTitle>
-                <CardDescription className="text-[10px]">Datos pendientes</CardDescription>
-              </CardHeader>
-              <CardContent className="p-3 pt-0">
-                <div className="space-y-2">
-                  {expedientesPendientes.slice(0, 2).map((empleado) => (
-                    <div key={empleado.id} className="flex items-start space-x-2">
-                      <Avatar className="h-6 w-6 mt-0.5">
-                        <AvatarFallback className="text-[10px]">{empleado.nombre.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 space-y-1">
-                        <div className="flex items-center justify-between">
-                          <p className="font-medium text-xs">{empleado.nombre}</p>
-                          <p className="text-[10px] text-muted-foreground">{empleado.porcentaje}%</p>
-                        </div>
-                        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-primary" 
-                            style={{ width: `${empleado.porcentaje}%` }}
-                          ></div>
-                        </div>
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {empleado.faltantes.slice(0, 1).map((faltante, idx) => (
-                            <Badge key={idx} variant="outline" className="text-[9px] px-1 py-0 h-4">
-                              {faltante}
-                            </Badge>
-                          ))}
-                          {empleado.faltantes.length > 1 && (
-                            <Badge variant="outline" className="text-[9px] px-1 py-0 h-4">
-                              +{empleado.faltantes.length - 1}
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full mt-2 text-[10px] h-7"
-                  onClick={() => setActiveTab("expediente")}
-                >
-                  Ver todos
-                </Button>
-              </CardContent>
-            </Card>
-            
-            {/* Expedientes por completar para escritorio */}
-            <Card className="hidden md:block lg:col-span-3">
-              <CardHeader>
-                <CardTitle>Expedientes por completar</CardTitle>
-                <CardDescription>Empleados con datos pendientes</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {expedientesPendientes.map((empleado) => (
-                    <div key={empleado.id} className="flex items-start space-x-4">
-                      <Avatar className="mt-1">
-                        <AvatarFallback>{empleado.nombre.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 space-y-1">
-                        <div className="flex items-center justify-between">
-                          <p className="font-medium text-sm">{empleado.nombre}</p>
-                          <p className="text-sm text-muted-foreground">{empleado.porcentaje}%</p>
-                        </div>
-                        <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-primary" 
-                            style={{ width: `${empleado.porcentaje}%` }}
-                          ></div>
-                        </div>
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {empleado.faltantes.map((faltante, idx) => (
-                            <Badge key={idx} variant="outline" className="text-xs">
-                              {faltante}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className="border-t px-6 py-3">
-                <Button variant="outline" size="sm" className="ml-auto" onClick={() => setActiveTab("expediente")}>
-                  Ver todos
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
-          
-          {/* Acceso rápido para móviles */}
-          <div className="mt-3 sm:mt-6 md:hidden">
+            {/* Expedientes por completar */}
             <Card>
-              <CardHeader className="p-3 pb-2">
-                <CardTitle className="text-sm">Acceso rápido</CardTitle>
+              <CardHeader className="p-3 sm:p-4 md:p-6 pb-0 sm:pb-2 md:pb-3">
+                <CardTitle className="text-sm sm:text-base md:text-lg">Expedientes por completar</CardTitle>
+                <CardDescription className="text-[10px] sm:text-xs md:text-sm">Datos pendientes</CardDescription>
               </CardHeader>
-              <CardContent className="p-3 pt-0">
-                <div className="grid grid-cols-2 gap-2">
-                  <Button variant="outline" className="h-auto p-2 flex flex-col text-[10px]" onClick={() => setActiveTab("expediente")}>
-                    <FileText className="h-4 w-4 mb-1" />
-                    <span>Expedientes</span>
-                  </Button>
-                  <Button variant="outline" className="h-auto p-2 flex flex-col text-[10px]" asChild>
-                    <a href="/admin/nomina/nuevo-empleado">
-                      <UserPlus className="h-4 w-4 mb-1" />
-                      <span>Nuevo empleado</span>
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Acceso rápido y tareas para escritorio */}
-          <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-6">
-            {/* Accesos rápidos */}
-            <Card className="lg:col-span-1">
-              <CardHeader>
-                <CardTitle>Acceso rápido</CardTitle>
-                <CardDescription>Funciones más utilizadas</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" className="h-auto py-4 flex flex-col" onClick={() => setActiveTab("expediente")}>
-                    <FileText className="h-5 w-5 mb-2" />
-                    <span className="text-xs">Expedientes</span>
-                  </Button>
-                  <Button variant="outline" className="h-auto py-4 flex flex-col" asChild>
-                    <a href="/admin/nomina/nuevo-empleado">
-                      <UserPlus className="h-5 w-5 mb-2" />
-                      <span className="text-xs">Nuevo empleado</span>
-                    </a>
-                  </Button>
-                  <Button variant="outline" className="h-auto py-4 flex flex-col">
-                    <Calendar className="h-5 w-5 mb-2" />
-                    <span className="text-xs">Calendario de nómina</span>
-                  </Button>
-                  <Button variant="outline" className="h-auto py-4 flex flex-col">
-                    <BarChart className="h-5 w-5 mb-2" />
-                    <span className="text-xs">Estadísticas</span>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Tareas recientes */}
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle>Tareas recientes</CardTitle>
-                <CardDescription>Actividades y procesos en curso</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {tareasRecientes.map((tarea) => (
-                    <div key={tarea.id} className="flex items-center justify-between border-b pb-3">
-                      <div className="flex items-start space-x-3">
-                        {tarea.estado === 'Completado' ? (
-                          <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
-                        ) : tarea.estado === 'En proceso' ? (
-                          <Clock className="h-5 w-5 text-amber-500 mt-0.5" />
-                        ) : (
-                          <AlertCircle className="h-5 w-5 text-gray-400 mt-0.5" />
-                        )}
-                        <div>
-                          <p className="text-sm font-medium">{tarea.titulo}</p>
-                          <p className="text-xs text-muted-foreground">Fecha límite: {tarea.fecha}</p>
+              <CardContent className="p-3 sm:p-4 md:p-6 pt-2 sm:pt-3 md:pt-4">
+                <div className="space-y-2 sm:space-y-3 md:space-y-4">
+                  {expedientesPendientes.slice(0, 2).map((empleado) => (
+                    <div key={empleado.id} className="border rounded-md p-2 sm:p-3 md:p-4">
+                      <div className="flex items-center justify-between mb-1 sm:mb-2">
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          <Avatar className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10">
+                            <AvatarFallback className="text-[9px] sm:text-xs md:text-sm">{empleado.nombre.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <div className="text-xs sm:text-sm md:text-base font-medium truncate max-w-[120px] sm:max-w-[200px] md:max-w-none">
+                            {empleado.nombre}
+                          </div>
+                        </div>
+                        <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">
+                          {empleado.porcentaje}%
                         </div>
                       </div>
-                      <Badge variant={
-                        tarea.estado === 'Completado' ? 'default' : 
-                        tarea.estado === 'En proceso' ? 'secondary' : 'outline'
-                      }>
-                        {tarea.estado}
-                      </Badge>
+                      <div className="w-full h-1.5 sm:h-2 md:h-3 bg-muted rounded-full overflow-hidden mb-1 sm:mb-2">
+                        <div 
+                          className="h-full bg-primary" 
+                          style={{ width: `${empleado.porcentaje}%` }}
+                        ></div>
+                      </div>
+                      <div className="flex flex-wrap gap-1 sm:gap-2 mt-1 sm:mt-2">
+                        {empleado.faltantes.slice(0, 1).map((faltante, idx) => (
+                          <Badge key={idx} variant="outline" className="text-[8px] sm:text-xs md:text-sm px-1 sm:px-2 py-0 h-4 sm:h-5 md:h-6">
+                            {faltante.length > 12 ? faltante.substring(0, 12) + '...' : faltante}
+                          </Badge>
+                        ))}
+                        {empleado.faltantes.length > 1 && (
+                          <Badge variant="outline" className="text-[8px] sm:text-xs md:text-sm px-1 sm:px-2 py-0 h-4 sm:h-5 md:h-6">
+                            +{empleado.faltantes.length - 1}
+                          </Badge>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
-              </CardContent>
-              <CardFooter className="border-t px-6 py-3">
-                <Button variant="outline" size="sm">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Nueva tarea
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full mt-2 sm:mt-3 md:mt-4 text-[10px] sm:text-xs md:text-sm h-7 sm:h-8 md:h-9"
+                  onClick={() => setActiveTab("expediente")}
+                >
+                  Ver todos
                 </Button>
-                <Button variant="outline" size="sm" className="ml-auto">
+              </CardContent>
+            </Card>
+            
+            {/* Grid de acceso rápido */}
+            <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 sm:grid-cols-4">
+              <Card className="p-2 sm:p-3 md:p-4">
+                <Button 
+                  variant="ghost" 
+                  className="h-auto w-full py-2 sm:py-3 md:py-4 flex flex-col items-center justify-center" 
+                  onClick={() => setActiveTab("expediente")}
+                >
+                  <FileText className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 mb-1 sm:mb-2" />
+                  <span className="text-[10px] sm:text-xs md:text-sm">Expedientes</span>
+                </Button>
+              </Card>
+              <Card className="p-2 sm:p-3 md:p-4">
+                <Button 
+                  variant="ghost" 
+                  className="h-auto w-full py-2 sm:py-3 md:py-4 flex flex-col items-center justify-center" 
+                  asChild
+                >
+                  <a href="/admin/nomina/nuevo-empleado">
+                    <UserPlus className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 mb-1 sm:mb-2" />
+                    <span className="text-[10px] sm:text-xs md:text-sm">Nuevo empleado</span>
+                  </a>
+                </Button>
+              </Card>
+              <Card className="p-2 sm:p-3 md:p-4">
+                <Button 
+                  variant="ghost" 
+                  className="h-auto w-full py-2 sm:py-3 md:py-4 flex flex-col items-center justify-center"
+                >
+                  <Calendar className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 mb-1 sm:mb-2" />
+                  <span className="text-[10px] sm:text-xs md:text-sm">Calendario</span>
+                </Button>
+              </Card>
+              <Card className="p-2 sm:p-3 md:p-4">
+                <Button 
+                  variant="ghost" 
+                  className="h-auto w-full py-2 sm:py-3 md:py-4 flex flex-col items-center justify-center"
+                >
+                  <BarChart className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 mb-1 sm:mb-2" />
+                  <span className="text-[10px] sm:text-xs md:text-sm">Estadísticas</span>
+                </Button>
+              </Card>
+            </div>
+          
+            {/* Tareas recientes */}
+            <Card>
+              <CardHeader className="p-3 sm:p-4 md:p-6 pb-0 sm:pb-2 md:pb-3">
+                <CardTitle className="text-sm sm:text-base md:text-lg">Tareas recientes</CardTitle>
+                <CardDescription className="text-[10px] sm:text-xs md:text-sm">Actividades en curso</CardDescription>
+              </CardHeader>
+              <CardContent className="p-3 sm:p-4 md:p-6 pt-2 sm:pt-3 md:pt-4">
+                <div className="space-y-2 sm:space-y-3 md:space-y-4">
+                  {tareasRecientes.slice(0, 3).map((tarea) => (
+                    <div key={tarea.id} className="border rounded-md p-2 sm:p-3 md:p-4">
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        {tarea.estado === 'Completado' ? (
+                          <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-green-600 mt-0.5 shrink-0" />
+                        ) : tarea.estado === 'En proceso' ? (
+                          <Clock className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-amber-500 mt-0.5 shrink-0" />
+                        ) : (
+                          <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-400 mt-0.5 shrink-0" />
+                        )}
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <p className="text-xs sm:text-sm md:text-base font-medium">{tarea.titulo}</p>
+                            <Badge variant={
+                              tarea.estado === 'Completado' ? 'default' : 
+                              tarea.estado === 'En proceso' ? 'secondary' : 'outline'
+                            } className="text-[8px] sm:text-xs md:text-sm px-1 sm:px-2 py-0 h-4 sm:h-5 md:h-6 ml-1 sm:ml-2">
+                              {tarea.estado}
+                            </Badge>
+                          </div>
+                          <p className="text-[9px] sm:text-xs md:text-sm text-muted-foreground">Fecha: {tarea.fecha}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full mt-2 sm:mt-3 md:mt-4 text-[10px] sm:text-xs md:text-sm h-7 sm:h-8 md:h-9"
+                >
                   Ver todas
                 </Button>
-              </CardFooter>
-            </Card>
-          </div>
-        </TabsContent>
-        
-        {/* Expediente Digital */}
-        <TabsContent value="expediente">
-          <ExpedienteDigitalModule />
-        </TabsContent>
-        
-        {/* Nómina */}
-        <TabsContent value="nomina">
-          <div className="grid gap-3 sm:gap-6">
-            <Card>
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-base sm:text-lg">Gestión de Nómina</CardTitle>
-                <CardDescription className="text-xs sm:text-sm">
-                  Administración de la nómina institucional
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-center p-3 sm:py-8">
-                <Briefcase className="size-8 sm:size-12 mx-auto mb-3 sm:mb-4 text-muted-foreground opacity-50" />
-                <h3 className="text-base sm:text-lg font-medium">Módulo en desarrollo</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto mt-2">
-                  El módulo de gestión de nómina está actualmente en desarrollo. 
-                  Pronto podrá acceder a todas las funcionalidades de administración 
-                  de la nómina institucional.
-                </p>
               </CardContent>
-              <CardFooter className="justify-center gap-2 flex-wrap p-3 sm:p-6">
-                <Button variant="outline" size="sm" className="text-xs h-8">
-                  <Calendar className="h-3.5 w-3.5 mr-1.5 sm:h-4 sm:w-4 sm:mr-2" />
-                  Calendario
-                </Button>
-                <Button variant="outline" size="sm" className="text-xs h-8">
-                  <ListFilter className="h-3.5 w-3.5 mr-1.5 sm:h-4 sm:w-4 sm:mr-2" />
-                  Configuración
-                </Button>
-              </CardFooter>
             </Card>
-          </div>
-        </TabsContent>
-        
-        {/* Informes */}
-        <TabsContent value="informes">
-          <div className="grid gap-3 sm:gap-6">
-            <Card>
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-base sm:text-lg">Informes y Reportes</CardTitle>
-                <CardDescription className="text-xs sm:text-sm">
-                  Generación de informes y reportes
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-3 sm:p-6">
-                <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                  <Card>
-                    <CardHeader className="p-3 pb-1 sm:pb-2">
-                      <CardTitle className="text-xs sm:text-base">Plantilla de Personal</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-[10px] sm:text-sm p-3">
-                      Informe completo de la plantilla de personal incluyendo categorías 
-                      y tipos de contratación.
-                    </CardContent>
-                    <CardFooter className="p-3">
-                      <Button variant="ghost" size="sm" className="w-full text-xs">
-                        <FileText className="h-3.5 w-3.5 mr-1.5 sm:h-4 sm:w-4 sm:mr-2" />
+          </TabsContent>
+          
+          {/* Expediente Digital */}
+          <TabsContent value="expediente">
+            <ExpedienteDigitalModule />
+          </TabsContent>
+          
+          {/* Nómina */}
+          <TabsContent value="nomina">
+            <div className="space-y-2 sm:space-y-4 md:space-y-6">
+              <Card>
+                <CardHeader className="p-3 sm:p-4 md:p-6">
+                  <CardTitle className="text-base sm:text-lg md:text-xl">Gestión de Nómina</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm md:text-base">
+                    Administración de la nómina institucional
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="text-center p-3 sm:p-6 md:p-8">
+                  <Briefcase className="size-10 sm:size-12 md:size-16 mx-auto mb-2 sm:mb-4 text-muted-foreground opacity-50" />
+                  <h3 className="text-sm sm:text-base md:text-lg font-medium">Módulo en desarrollo</h3>
+                  <p className="text-xs sm:text-sm md:text-base text-muted-foreground mt-1 sm:mt-2 max-w-[250px] sm:max-w-[400px] md:max-w-[500px] mx-auto">
+                    El módulo de gestión de nómina está actualmente en desarrollo. 
+                    Pronto podrá acceder a todas las funcionalidades.
+                  </p>
+                </CardContent>
+                <CardFooter className="justify-center gap-2 sm:gap-3 md:gap-4 flex-wrap p-3 sm:p-4 md:p-6">
+                  <Button variant="outline" size="sm" className="text-xs sm:text-sm md:text-base h-8 sm:h-9 md:h-10">
+                    <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 mr-1.5 sm:mr-2" />
+                    Calendario
+                  </Button>
+                  <Button variant="outline" size="sm" className="text-xs sm:text-sm md:text-base h-8 sm:h-9 md:h-10">
+                    <ListFilter className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 mr-1.5 sm:mr-2" />
+                    Configuración
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+          </TabsContent>
+          
+          {/* Informes */}
+          <TabsContent value="informes">
+            <div className="space-y-2 sm:space-y-4 md:space-y-6">
+              <Card>
+                <CardHeader className="p-3 sm:p-4 md:p-6">
+                  <CardTitle className="text-base sm:text-lg md:text-xl">Informes y Reportes</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm md:text-base">
+                    Generación de informes y reportes
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-3 sm:p-4 md:p-6">
+                  <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                    <Card className="p-2 sm:p-3 md:p-4">
+                      <CardTitle className="text-xs sm:text-sm md:text-base">Plantilla de Personal</CardTitle>
+                      <CardDescription className="text-[9px] sm:text-xs md:text-sm my-1 sm:my-2">
+                        Informe completo de la plantilla de personal incluyendo categorías.
+                      </CardDescription>
+                      <Button variant="ghost" size="sm" className="w-full text-[10px] sm:text-xs md:text-sm h-6 sm:h-8 md:h-9 mt-1 sm:mt-2">
+                        <FileText className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4 mr-1 sm:mr-2" />
                         Generar
                       </Button>
-                    </CardFooter>
-                  </Card>
-                  
-                  <Card>
-                    <CardHeader className="p-3 pb-1 sm:pb-2">
-                      <CardTitle className="text-xs sm:text-base">Informe de Nómina</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-[10px] sm:text-sm p-3">
-                      Informe detallado de la nómina con desglose por tipo de empleado y percepciones.
-                    </CardContent>
-                    <CardFooter className="p-3">
-                      <Button variant="ghost" size="sm" className="w-full text-xs">
-                        <FileText className="h-3.5 w-3.5 mr-1.5 sm:h-4 sm:w-4 sm:mr-2" />
+                    </Card>
+                    
+                    <Card className="p-2 sm:p-3 md:p-4">
+                      <CardTitle className="text-xs sm:text-sm md:text-base">Informe de Nómina</CardTitle>
+                      <CardDescription className="text-[9px] sm:text-xs md:text-sm my-1 sm:my-2">
+                        Informe detallado de la nómina con desglose por tipo de empleado.
+                      </CardDescription>
+                      <Button variant="ghost" size="sm" className="w-full text-[10px] sm:text-xs md:text-sm h-6 sm:h-8 md:h-9 mt-1 sm:mt-2">
+                        <FileText className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4 mr-1 sm:mr-2" />
                         Generar
                       </Button>
-                    </CardFooter>
-                  </Card>
-                  
-                  <Card className="sm:col-span-2 lg:col-span-1">
-                    <CardHeader className="p-3 pb-1 sm:pb-2">
-                      <CardTitle className="text-xs sm:text-base">Análisis de Expedientes</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-[10px] sm:text-sm p-3">
-                      Informe de estado de los expedientes digitales, incluyendo completitud.
-                    </CardContent>
-                    <CardFooter className="p-3">
-                      <Button variant="ghost" size="sm" className="w-full text-xs">
-                        <FileText className="h-3.5 w-3.5 mr-1.5 sm:h-4 sm:w-4 sm:mr-2" />
+                    </Card>
+                    
+                    <Card className="p-2 sm:p-3 md:p-4">
+                      <CardTitle className="text-xs sm:text-sm md:text-base">Análisis de Expedientes</CardTitle>
+                      <CardDescription className="text-[9px] sm:text-xs md:text-sm my-1 sm:my-2">
+                        Informe de estado de los expedientes digitales.
+                      </CardDescription>
+                      <Button variant="ghost" size="sm" className="w-full text-[10px] sm:text-xs md:text-sm h-6 sm:h-8 md:h-9 mt-1 sm:mt-2">
+                        <FileText className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4 mr-1 sm:mr-2" />
                         Generar
                       </Button>
-                    </CardFooter>
-                  </Card>
-                </div>
-              </CardContent>
-              <CardFooter className="border-t justify-end p-3 sm:p-6">
-                <Button variant="outline" size="sm" className="text-xs h-8">
-                  <Search className="h-3.5 w-3.5 mr-1.5 sm:h-4 sm:w-4 sm:mr-2" />
-                  Ver todos
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
-        </TabsContent>
-      </Tabs>
+                    </Card>
+                  </div>
+                </CardContent>
+                <CardFooter className="border-t justify-end p-3 sm:p-4 md:p-6">
+                  <Button variant="outline" size="sm" className="text-xs sm:text-sm md:text-base h-7 sm:h-8 md:h-9">
+                    <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 mr-1.5 sm:mr-2" />
+                    Ver todos
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };
