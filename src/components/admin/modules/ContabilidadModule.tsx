@@ -1012,8 +1012,8 @@ const ContabilidadModule: React.FC = () => {
         </CardFooter>
       </Card>
       
-      {/* Componente de visualización de datos interactivo (versión escritorio) */}
-      <div className="hidden lg:block">
+      {/* Análisis Financiero con diferentes posiciones según el dispositivo */}
+      <div className="order-3 md:order-5">
         <AnalisisFinancieroChart />
       </div>
     </div>
